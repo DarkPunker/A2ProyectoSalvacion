@@ -1,0 +1,26 @@
+<div class="editor-page p-4">
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-10 offset-md-1 col-xs-12">
+        <form action="/links/editcarrera/{{link.idCarrera}}" method="POST">
+          <fieldset>
+            <fieldset class="form-group">
+              <input class="form-control form-control-lg" value="{{link.NombreCurso}}" type="text" valplaceholder="TITULO DE LA CARRERA" name="NombreCurso">
+            </fieldset>
+
+            <fieldset class="form-group">
+              <textarea class="form-control"  rows="8" placeholder="DESCRIBE BREVEMENTE"
+                name="DescripcionCurso">{{link.DescripcionCurso}}</textarea>
+            </fieldset>
+
+            <button class="btn btn-lg pull-xs-right btn-primary">
+              Modificar Carrera
+            </button>
+
+          </fieldset>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

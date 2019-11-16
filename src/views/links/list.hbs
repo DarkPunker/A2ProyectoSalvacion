@@ -1,0 +1,37 @@
+<div class="home-page">
+    <div class="banner text-center">
+        <div class="container">
+            <h1 class="logo-font">Administrador de tareas</h1>
+        </div>
+    </div>
+    <div class="container page text-center">
+        <div class="row">
+            {{#each links}}
+            <div class="col-md-10 mx-auto">
+                <a href="">
+                    <h2 class="header">{{NombreCurso}}</h2>
+                    <div class="card horizontal">
+                        <img class="user-img" src="">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p> {{DescripcionCurso}} </p>
+                                <a href="/links/delete/{{idCarrera}}" class="btn btn-danger">Eliminar</a>
+                                <a href="/links/editcarrera/{{idCarrera}}" class="btn btn-secondary">Editar</a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{else}}
+            <div class="col-md-4 mx-auto">
+                <div class="card card-body text-center">
+                    <p>No hay ninguna carrera creada </b>
+                    Para crear una presione el boton de nueva carrera
+                    </p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <a href="/links/addcarrera" class="btn btn-success btn-block">Nueva Carrera</a>
+    </div>
+</div>

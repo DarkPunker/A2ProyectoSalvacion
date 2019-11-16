@@ -1,0 +1,29 @@
+<div class="home-page">
+    <div class="banner text-center" style="background: #81F7D8">
+        <div class="container">
+            <h1 class="logo-font">desarrollo colectivo</h1>
+            <p>DESCUBRE LAS FORMAS DE DEFENDER SUS DERECHOS.</p>
+        </div>
+    </div>
+    <div class="container page text-center">
+        <div class="row">
+            {{#each links}}
+            <div class="col-md-10 mx-auto">
+                <a href="">
+                    <h2 class="header">{{NombreCurso}}</h2>
+                    <div class="card horizontal">
+                        <img class="user-img" src="">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p> {{DescripcionCurso}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+    
