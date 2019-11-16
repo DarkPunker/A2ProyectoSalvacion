@@ -1,7 +1,23 @@
-<nav class="navbar justify-content-between" style="background:#0B0B61; color:#FFFFFF">
-  <a class="navbar-brand">Desarrollo Colectivo</a>
-  <div class="form-inline">
-    <a class="nav-link" href="#">Iniciar Sesión</a>
-    <a class="nav-link" href="#">Registrar</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/links/indexcarrera">Desarrollo Colectivo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Carrera
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/links/list">Todas las Carreras</a>
+          <div class="dropdown-divider"></div>
+          {{!-- <a class="dropdown-item" href="/links/">Administrar Carreras</a> --}}
+        </div>
+      </li>
+      </ul>
+    </div>
   </div>
 </nav>
