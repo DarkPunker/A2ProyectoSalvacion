@@ -2,22 +2,24 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
-        <form action="/links/addcarrera" method="POST">
+        <form action="/links/addcurso" method="POST">
           <fieldset>
           	<fieldset class="form-group">
-              <select class="form-control form-control-lg" name="Carrera"></select>
+              <select class="form-control form-control-lg" name="curso"></select>
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="TITULO DE LA CARRERA" name="NombreCurso">
+              <input class="form-control form-control-lg" type="text" placeholder="TITULO DEL CURSO" name="NombreCurso">
             </fieldset>
 
             <fieldset class="form-group">
-              <textarea class="form-control" rows="8" placeholder="DESCRIBE BREVEMENTE"
-                name="DescripcionCurso"></textarea>
+             <input class="form-control form-control-lg" type="date" placeholder="Fecha Inicio" name="FechaInicio">
+            </fieldset>
+            <fieldset class="form-group">
+             <input class="form-control form-control-lg" type="date" placeholder="Fecha Fin" name="FechaFin">
             </fieldset>
 
             <button class="btn btn-lg pull-xs-right btn-primary">
-              Crear Carrera
+              Crear Curso
             </button>
 
           </fieldset>

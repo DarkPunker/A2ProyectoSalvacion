@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Persona` (
   `idPersona` VARCHAR(45) NOT NULL,
-  `Identificacion_idIdentificacion` INT NOT NULL,
+  `Identificacion_idIdentificacion` INT DEFAULT 1,
   `Nombre1` VARCHAR(45) NOT NULL,
   `Nombre2` VARCHAR(45) NULL,
   `Apellido1` VARCHAR(45) NOT NULL,
@@ -82,11 +82,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Usuario` (
   `idUsuario` VARCHAR(45) NOT NULL,
-  `Rol_idRol` INT NOT NULL,
+  `Rol_idRol` INT DEFAULT 1,
   `Persona_cedula` VARCHAR(45) NOT NULL,
-  `EstadoRol` TINYINT NULL,
+  `EstadoRol` TINYINT DEFAULT 1,
   `Correo` VARCHAR(45) NOT NULL,
-  `Contrasena` VARCHAR(45) NOT NULL,
+  `Contrasena` VARCHAR(255) NOT NULL,
   INDEX `fk_Tripulante_Rol1_idx` (`Rol_idRol` ASC) VISIBLE,
   INDEX `fk_Tripulante_Persona1_idx` (`Persona_cedula` ASC) VISIBLE,
   UNIQUE INDEX `Correo_UNIQUE` (`Correo` ASC) VISIBLE,
@@ -109,8 +109,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Carrera` (
   `idCarrera` INT NOT NULL AUTO_INCREMENT,
-  `NombreCurso` VARCHAR(45) NOT NULL,
-  `DescripcionCurso` VARCHAR(45) NOT NULL,
+  `NombreCurso` VARCHAR(60) NOT NULL,
+  `DescripcionCurso` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`idCarrera`))
 ENGINE = InnoDB;
 
@@ -147,7 +147,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Curso` (
   `idCurso` INT NOT NULL AUTO_INCREMENT,
-  `NombreSubCurso` VARCHAR(45) NOT NULL,
+  `NombreSubCurso` VARCHAR(60) NOT NULL,
   `FechaInicio` DATE NULL,
   `FechaFin` DATE NULL,
   `Curso_idCurso` INT NOT NULL,
@@ -166,7 +166,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Tema` (
   `idTema` INT NOT NULL AUTO_INCREMENT,
-  `NombreTema` VARCHAR(45) NOT NULL,
+  `NombreTema` VARCHAR(60) NOT NULL,
   `Unidad_idUnidad` INT NOT NULL,
   PRIMARY KEY (`idTema`),
   INDEX `fk_Tema_Unidad1_idx` (`Unidad_idUnidad` ASC) VISIBLE,
@@ -193,8 +193,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Multimedia` (
   `idMultimedia` INT NOT NULL AUTO_INCREMENT,
-  `NombreMultimedia` VARCHAR(45) NOT NULL,
-  `DireccionMultimedia` VARCHAR(45) NOT NULL,
+  `NombreMultimedia` VARCHAR(60) NOT NULL,
+  `DireccionMultimedia` VARCHAR(255) NOT NULL,
   `EstadoMultimedia` TINYINT NOT NULL,
   `Tema_idTema` INT NOT NULL,
   `TipoMultimedia_idTipoMultimedia` INT NOT NULL,
@@ -219,7 +219,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`TipoExamen` (
   `idTipoExamen` INT NOT NULL AUTO_INCREMENT,
-  `NombreTipoExamen` VARCHAR(45) NOT NULL,
+  `NombreTipoExamen` VARCHAR(60) NOT NULL,
   PRIMARY KEY (`idTipoExamen`))
 ENGINE = InnoDB;
 
@@ -229,7 +229,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Examen` (
   `idExamen` INT NOT NULL AUTO_INCREMENT,
-  `NombreExamen` VARCHAR(45) NOT NULL,
+  `NombreExamen` VARCHAR(60) NOT NULL,
   `TipoExamen_idTipoExamen` INT NOT NULL,
   PRIMARY KEY (`idExamen`),
   INDEX `fk_Examen_TipoExamen1_idx` (`TipoExamen_idTipoExamen` ASC) VISIBLE,
@@ -263,7 +263,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Opcion` (
   `idOpcion` INT NOT NULL AUTO_INCREMENT,
-  `Enunciado` VARCHAR(45) NOT NULL,
+  `Enunciado` VARCHAR(255) NOT NULL,
   `Correcta` TINYINT NOT NULL,
   `Pregunta_idPregunta` INT NOT NULL,
   PRIMARY KEY (`idOpcion`),
@@ -407,6 +407,13 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`view1` (`id` INT);
 DROP TABLE IF EXISTS `SoftwareEducativo`.`view1`;
 USE `SoftwareEducativo`;
 
+-- -----------------------------------------------------
+-- Default data 
+-- -----------------------------------------------------
+INSERT INTO identificacion VALUE (1,"cedula");
+INSERT INTO rol VALUE (1,"estudiante");
+-- INSERT INTO persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
+-- INSERT INTO usuario (idusuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678");
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

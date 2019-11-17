@@ -4,17 +4,17 @@
             <h1 class="logo-font">Administrador de tareas</h1>
         </div>
     </div>
-    <div class="container page text-center">
+    <div class="container page text-center card-body">
         <div class="row">
             {{#each links}}
-            <div class="col-md-10 mx-auto">
+            <div class="card-body  mb-3 mx-auto">
                 <a href="">
                     <h2 class="header">{{NombreCurso}}</h2>
                     <div class="card horizontal">
                         <img class="user-img" src="">
                         <div class="card-stacked">
                             <div class="card-content">
-                                <p> {{DescripcionCurso}} </p>
+                                <p class="card-text mb-3"> {{DescripcionCurso}} </p>
                                 <a href="/links/delete/{{idCarrera}}" class="btn btn-danger">Eliminar</a>
                                 <a href="/links/editcarrera/{{idCarrera}}" class="btn btn-secondary">Editar</a>
                             </div>
@@ -32,6 +32,6 @@
             </div>
             {{/each}}
         </div>
-        <a href="/links/addcarrera" class="btn btn-success btn-block">Nueva Carrera</a>
+        <a href="/links/addcarrera" class="btn btn-success btn-lg  mb-3">Nueva Carrera</a>
     </div>
 </div>
