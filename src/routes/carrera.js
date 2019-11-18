@@ -5,7 +5,7 @@ const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
 
 router.get('/addtema', (req, res) => {
-    res.render('links/addtema');
+    res.render('carrera/addtema');
 });
 
 router.post('/addtema', async (req, res) => {
@@ -17,22 +17,22 @@ router.post('/addtema', async (req, res) => {
     res.send('enviado');
 });
 
-router.get('/list', isLoggedIn, async (req, res) => {
+router.get('/gestionarcarrera', isLoggedIn, async (req, res) => {
     const links = await pool.query('SELECT * FROM carrera');
-    res.render('links/list', { links: links });
+    res.render('carrera/gestionarcarrera', { links: links });
 });
 
 router.get('/delete/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     await pool.query('DELETE FROM carrera WHERE idCarrera = ?', [idCarrera]);
     req.flash('success', 'Carrera Eliminada Correctamente');
-    res.redirect('/links/list');
+    res.redirect('/carrera/gestionarcarrera');
 });
 
 router.get('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     const links = await pool.query('SELECT * FROM carrera WHERE idCarrera = ?', [idCarrera])
-    res.render('links/editcarrera', { link: links[0] });
+    res.render('carrera/editcarrera', { link: links[0] });
 });
 
 router.post('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
@@ -44,11 +44,11 @@ router.post('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     };
     await pool.query('UPDATE carrera set ? WHERE idCarrera = ?', [newLink, idCarrera]);
     req.flash('success', 'Carrera Modificada Correctamente');
-    res.redirect('/links/list');
+    res.redirect('/carrera/gestionarcarrera');
 });
 
 router.get('/addcarrera', isLoggedIn, (req, res) => {
-    res.render('links/addcarrera');
+    res.render('carrera/addcarrera');
 });
 
 router.post('/addcarrera',isLoggedIn, async (req, res) => {
@@ -59,7 +59,7 @@ router.post('/addcarrera',isLoggedIn, async (req, res) => {
     };
     await pool.query('INSERT INTO carrera set ?', [newLink])
     req.flash('success', 'Carrera Guardada Correctamente');
-    res.redirect('/links/list');
+    res.redirect('/carrera/gestionarcarrera');
 });
 
 module.exports = router;

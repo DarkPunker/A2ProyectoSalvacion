@@ -32,7 +32,7 @@ router.get('/profile', isLoggedIn, (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.logOut();
-    res.redirect('/index');
+    res.redirect('/');
 });
 
 module.exports = router;
