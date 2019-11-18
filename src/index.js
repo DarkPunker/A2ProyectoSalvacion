@@ -20,7 +20,7 @@ app.engine('.hbs', exphbs({
     layoutsDir: path.join(app.get('views'), 'layouts'),
     partialsDir: path.join(app.get('views'), 'partials'),
     extname: '.hbs',
-    helpers: require('./lib/handelbars')
+    helpers: require('./lib/handlebars')
 }));
 app.set('view engine', '.hbs');
 
@@ -42,6 +42,7 @@ app.use(passport.session());
 app.use((req,res,next)=>{
     app.locals.success = req.flash('success');
     app.locals.message = req.flash('message');
+    app.locals.user = req.user;
     next();
 });
 
