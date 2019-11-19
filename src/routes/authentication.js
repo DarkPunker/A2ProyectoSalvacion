@@ -27,12 +27,6 @@ router.post('/signin', isNotLoggedIn, (req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/profile/profile', isLoggedIn, async (req, res) => {
-    const id = req.user.idUsuario;
-    const data = await pool.query('CALL usuarioPersonaTelefono (?)', [id]);
-    res.render('profile/profile', { data: data[0]});
-});
-
 router.get('/logout', (req, res) => {
     req.logOut();
     res.redirect('/');
