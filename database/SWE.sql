@@ -402,6 +402,29 @@ USE `SoftwareEducativo` ;
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`view1` (`id` INT);
 
 -- -----------------------------------------------------
+-- Procedure
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `usuarioPersonaTelefono`;
+DELIMITER $$
+CREATE PROCEDURE `usuarioPersonaTelefono` (IN inidUsuario VARCHAR(45))
+BEGIN
+SELECT usuario.idUsuario, usuario.Correo, persona.idPersona, 
+persona.Nombre1, persona.Nombre2, persona.Apellido1, persona.Apellido2,
+persona.FechaNacimiento, persona.Direccion_idBarrio, telefono.NumeroTelefono,
+CASE
+  WHEN persona.sexo != 0 THEN "Masculino"
+  ELSE "femenino"
+END AS sexo
+FROM usuario
+INNER JOIN persona
+ON persona.idPersona = usuario.Persona_cedula
+LEFT JOIN telefono
+ON persona.idPersona = telefono.Persona_idPersona
+WHERE usuario.idUsuario = inidUsuario;
+END $$
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- View `SoftwareEducativo`.`view1`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `SoftwareEducativo`.`view1`;

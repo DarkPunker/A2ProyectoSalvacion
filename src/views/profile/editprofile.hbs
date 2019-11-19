@@ -1,0 +1,69 @@
+<div class="editor-page p-4">
+    <div class="container page">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 col-xs-12">
+                <form action="/profile/editprofile/{{data.idUsuario}}" method="POST">
+                    <fieldset>
+                        {{#each data}}
+                        <div class="form-group">
+                            <label class="form-control">usuario: {{data.idUsuario}}</label>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.Correo}}" type="text" valplaceholder="CORREO" name="correo">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                    <div class="form-group">
+                        <label class="form-control">N identificacion: {{data.idPersona}}</label>
+                    </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.Nombre1}}" type="text" valplaceholder="PRIMER NOMBRE" name="Nombre1">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.Nombre2}}" type="text" valplaceholder="SEGUNDO NOMBRE" name="Nombre2">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.Apellido1}}" type="text" valplaceholder="PRIMER APELLIDO" name="Apellido1">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.Apellido2}}" type="text" valplaceholder="SEGUNDO APELLIDO" name="Apellido2">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.FechaNacimiento}}" type="text" valplaceholder="FECHA DE NACIMIENTO" name="FechaNacimiento">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.sexo}}" type="text" valplaceholder="SEXO" name="sexo">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.Direccion_idBarrio}}" type="text" valplaceholder="DIRECCION" name="direccion">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control form-control-lg" value="{{data.Telefono}}" type="text" valplaceholder="TELEFONO" name="telefono">
+                        </div>
+                    </fieldset>
+                    <a href="/profile/editprofile" class="btn btn-lg pull-xs-right btn-primary">
+                        Modificar Usuario
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

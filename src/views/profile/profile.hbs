@@ -1,0 +1,46 @@
+<div class="editor-page p-4">
+    <div class="container page">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 col-xs-12">
+                {{#each data}}
+                <div class="form-group">
+                    <label class="form-control">usuario: {{idUsuario}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">correo: {{Correo}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">N identificacion: {{idPersona}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Primer Nombre: {{Nombre1}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Segundo Nombre: {{Nombre2}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Primer Apellido: {{Apellido1}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Segundo Apellido: {{Apellido2}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Fecha de Nacimiento: {{FechaNacimiento}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Sexo: {{sexo}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Dirreccion: {{Direccion_idBarrio}}</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-control">Telefono: {{NumeroTelefono}}</label>
+                </div>
+                {{/each}}
+                <a href="/profile/editprofile" class="btn btn-lg pull-xs-right btn-primary">
+                    Modificar Usuario
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

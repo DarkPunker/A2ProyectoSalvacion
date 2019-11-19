@@ -5,7 +5,7 @@ const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
 const mysqlstore = require('express-mysql-session');
-const {database} = require('./keys');
+const { database } = require('./keys');
 const passport = require('passport');
 
 //initilazation
@@ -14,7 +14,7 @@ require('./lib/passport');
 
 //settings
 app.set('port', process.env.PORT || 4000);
-app.set('views', path.join(__dirname,'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     layoutsDir: path.join(app.get('views'), 'layouts'),
@@ -33,13 +33,13 @@ app.use(session({
 }));
 app.use(flash());
 app.use(morgan('dev'));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
 //global variables
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     app.locals.success = req.flash('success');
     app.locals.message = req.flash('message');
     app.locals.user = req.user;
@@ -49,12 +49,13 @@ app.use((req,res,next)=>{
 //routes
 app.use(require('./routes'));
 app.use(require('./routes/authentication'));
-app.use('/carrera',require('./routes/carrera'));
+/* app.use(require('./routes/profile')); */
+app.use('/carrera', require('./routes/carrera'));
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));
 
 //starting the server
-app.listen(app.get('port'),()=>{
-    console.log('Server on port',app.get('port'));
+app.listen(app.get('port'), () => {
+    console.log('Server on port', app.get('port'));
 });
