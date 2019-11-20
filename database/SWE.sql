@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Carrera` (
   `idCarrera` INT NOT NULL AUTO_INCREMENT,
   `NombreCurso` VARCHAR(60) NOT NULL,
   `DescripcionCurso` VARCHAR(255) NOT NULL,
+  UNIQUE INDEX `CarreraNombre_UNIQUE` (`NombreCurso` ASC) VISIBLE,
   PRIMARY KEY (`idCarrera`))
 ENGINE = InnoDB;
 
@@ -423,6 +424,38 @@ ON persona.idPersona = telefono.Persona_idPersona
 WHERE usuario.idUsuario = inidUsuario;
 END $$
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `addCarreraCursoModuloUnidad`;
+DELIMITER $$
+CREATE PROCEDURE `addCarreraCursoModuloUnidad` (
+  IN inNombreCarrera VARCHAR(60),
+  IN inDescripcionCarrera VARCHAR(255),
+  IN inNombreCurso VARCHAR(45),
+  IN inNombreModulo VARCHAR(45),
+  IN inNombreUnidad VARCHAR(60)
+  )
+BEGIN
+DECLARE varidCarrera INT;
+DECLARE varidCurso INT;
+DECLARE varidModulo INT;
+INSERT INTO carrera VALUE (NULL, inNombreCarrera, inDescripcionCarrera);
+SELECT carrera.idCarrera INTO varidCarrera FROM carrera WHERE carrera.NombreCurso = inNombreCarrera;
+INSERT INTO curso  VALUE (NULL, inNombreCurso, NULL, NULL, varidCarrera);
+SELECT curso.idCurso INTO varidCurso FROM curso WHERE curso.NombreSubCurso = inNombreCurso;
+INSERT INTO modulo VALUE (NULL, inNombreModulo);
+SELECT modulo.idModulo INTO varidModulo FROM modulo WHERE modulo.nombre = inNombreModulo;
+INSERT INTO Curso_has_Modulo VALUE (varidCurso, varidModulo, 1);
+INSERT INTO unidad VALUE (NULL, inNombreUnidad, varidModulo);
+END $$
+DELIMITER ;
+
+/* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
+
+/* delete from unidad;
+delete from curso_has_modulo;
+delete from modulo;
+delete from curso;
+delete from carrera; */
 
 -- -----------------------------------------------------
 -- View `SoftwareEducativo`.`view1`

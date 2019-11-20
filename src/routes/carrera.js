@@ -9,12 +9,7 @@ router.get('/addtema', (req, res) => {
 });
 
 router.post('/addtema', async (req, res) => {
-    const { title } = req.body;
-    const newLink = {
-        title
-    };
-    await pool.query('INSERT INTO tema set ?', [newLink])
-    res.send('enviado');
+
 });
 
 router.get('/gestionarcarrera', isLoggedIn, async (req, res) => {
@@ -51,13 +46,16 @@ router.get('/addcarrera', isLoggedIn, (req, res) => {
     res.render('carrera/addcarrera');
 });
 
-router.post('/addcarrera',isLoggedIn, async (req, res) => {
-    const { NombreCurso, DescripcionCurso } = req.body;
-    const newLink = {
+router.post('/addcarrera', isLoggedIn, async (req, res) => {
+    const { NombreCurso, DescripcionCurso, NombreSubCurso, Nombre, NombreUnidad } = req.body;
+    const newCarrera = {
         NombreCurso,
-        DescripcionCurso
+        DescripcionCurso,
+        NombreSubCurso,
+        Nombre,
+        NombreUnidad
     };
-    await pool.query('INSERT INTO carrera set ?', [newLink])
+    await pool.query('CALL addCarreraCursoModuloUnidad (?,?,?,?,?)', [newCarrera.NombreCurso, newCarrera.DescripcionCurso, newCarrera.NombreSubCurso, newCarrera.Nombre, newCarrera.NombreUnidad])
     req.flash('success', 'Carrera Guardada Correctamente');
     res.redirect('/carrera/gestionarcarrera');
 });
