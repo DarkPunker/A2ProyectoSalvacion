@@ -4,11 +4,39 @@ const router = express.Router();
 const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
 
-router.get('/addtema', (req, res) => {
+router.get('/addtema', isLoggedIn, (req, res) => {
     res.render('carrera/addtema');
 });
 
-router.post('/addtema', async (req, res) => {
+router.post('/addtema', isLoggedIn, async (req, res) => {
+
+});
+
+router.get('/addcurso', isLoggedIn, async (req, res) => {
+    const carrera = await pool.query('SELECT * FROM carrera');
+    const {strUser} = req.body;
+    console.log(strUser);
+    
+    res.render('carrera/addcurso', { carrera: carrera });
+});
+
+router.post('/addcurso/:idCarrera', isLoggedIn, async (req, res) => {
+
+});
+
+router.get('/addmodulo', isLoggedIn, (req, res) => {
+    res.render('carrera/addmodulo');
+});
+
+router.post('/addmodulo', isLoggedIn, async (req, res) => {
+
+});
+
+router.get('/addunidad', isLoggedIn, (req, res) => {
+    res.render('carrera/addunidad');
+});
+
+router.post('/addunidad', isLoggedIn, async (req, res) => {
 
 });
 
@@ -17,12 +45,12 @@ router.get('/gestionarcarrera', isLoggedIn, async (req, res) => {
     res.render('carrera/gestionarcarrera', { links: links });
 });
 
-router.get('/delete/:idCarrera', isLoggedIn, async (req, res) => {
+/* router.get('/delete/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     await pool.query('DELETE FROM carrera WHERE idCarrera = ?', [idCarrera]);
     req.flash('success', 'Carrera Eliminada Correctamente');
     res.redirect('/carrera/gestionarcarrera');
-});
+}); */
 
 router.get('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;

@@ -23,10 +23,10 @@ passport.use('local.signin', new LocalStrategy({
 }));
 
 passport.use('local.signup', new LocalStrategy({
-    usernameField: 'idusuario',
+    usernameField: 'idUsuario',
     passwordField: 'contrasena',
     passReqToCallback: true
-}, async (req, idusuario, contrasena, done) => {
+}, async (req, idUsuario, contrasena, done) => {
     const { idpersona, nombre1, apellido1, fechanacimiento, sexo } = req.body;
     const { correo } = req.body;
     const newPerson = {
@@ -37,14 +37,12 @@ passport.use('local.signup', new LocalStrategy({
         sexo
     }
     const newUser = {
-        idusuario,
-        Persona_cedula: idpersona,
+        idUsuario,
         contrasena,
         correo
     };
-    await pool.query('INSERT INTO persona SET ?', [newPerson]);
     newUser.contrasena = await helpers.encyptPassword(contrasena);
-    const result = await pool.query('INSERT INTO usuario SET ?', [newUser]);
+    await pool.query('CALL addPersonaUsuario (?,?,?,?,?,?,?,?)',[newUser.idUsuario, newUser.correo, newUser.contrasena, newPerson.idpersona, newPerson.nombre1, newPerson.apellido1, newPerson.fechanacimiento, newPerson.sexo]);
     done(null, newUser);
 
 }));
@@ -53,7 +51,7 @@ passport.serializeUser((user, done) => {
     done(null, user.idUsuario)
 });
 
-passport.deserializeUser(async (id, done) => {
-    const rows = await pool.query('SELECT * FROM usuario WHERE idusuario = ?', [id]);
+passport.deserializeUser(async (idUsuario, done) => {
+    const rows = await pool.query('SELECT * FROM usuario WHERE idUsuario = ?', [idUsuario]);
     done(null, rows[0]);
 });

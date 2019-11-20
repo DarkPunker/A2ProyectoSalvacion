@@ -5,7 +5,12 @@
         <form action="/links/addcurso" method="POST">
           <fieldset>
           	<fieldset class="form-group">
-              <select class="form-control form-control-lg" name="curso"></select>
+              <label for="" class="label label-default">Seleccione Carrera:</label>
+              <select class="form-control form-control-lg" name="carrera">
+                {{#each carrera}}
+                <option value="{{idCarrera}}">{{NombreCurso}}</option>
+                {{/each}}
+              </select>
             </fieldset>
             <fieldset class="form-group">
               <input class="form-control form-control-lg" type="text" placeholder="TITULO DEL CURSO" name="NombreCurso">

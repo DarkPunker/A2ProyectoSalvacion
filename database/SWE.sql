@@ -425,6 +425,24 @@ WHERE usuario.idUsuario = inidUsuario;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `addPersonaUsuario`;
+DELIMITER $$
+CREATE PROCEDURE `addPersonaUsuario` (
+  IN inidUsuario VARCHAR(45),
+  IN incorreo VARCHAR(45),
+  IN incontrasena VARCHAR(255),
+  IN inidPersona VARCHAR(45),
+  IN innombre1 VARCHAR(45),
+  IN inapellido1 VARCHAR(45),
+  IN infechaNacimiento DATE,
+  IN insexo TINYINT
+  )
+BEGIN
+INSERT INTO persona VALUE (inidPersona, NULL, innombre1, NULL, inapellido1, NULL, infechaNacimiento, insexo, NULL);
+INSERT INTO usuario VALUE (inidUsuario, NULL, inidPersona, NULL, incorreo, incontrasena);
+END $$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS `addCarreraCursoModuloUnidad`;
 DELIMITER $$
 CREATE PROCEDURE `addCarreraCursoModuloUnidad` (
@@ -455,7 +473,10 @@ DELIMITER ;
 delete from curso_has_modulo;
 delete from modulo;
 delete from curso;
-delete from carrera; */
+delete from carrera; 
+
+delete from usuario;
+delete from persona;*/
 
 -- -----------------------------------------------------
 -- View `SoftwareEducativo`.`view1`
