@@ -7,6 +7,8 @@ const session = require('express-session');
 const mysqlstore = require('express-mysql-session');
 const { database } = require('./keys');
 const passport = require('passport');
+const bodyParser = require('body-parser');
+
 
 //initilazation
 const app = express();
@@ -37,6 +39,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
 
 //global variables
 app.use((req, res, next) => {
@@ -49,7 +55,7 @@ app.use((req, res, next) => {
 //routes
 app.use(require('./routes'));
 app.use(require('./routes/authentication'));
-app.use('/profile' ,require('./routes/profile'));
+app.use('/profile', require('./routes/profile'));
 app.use('/carrera', require('./routes/carrera'));
 
 //public

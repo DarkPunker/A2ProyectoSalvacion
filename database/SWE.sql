@@ -122,6 +122,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Modulo` (
   `idModulo` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NOT NULL,
+  UNIQUE INDEX `ModuloNombre_UNIQUE` (`Nombre` ASC) VISIBLE,
   PRIMARY KEY (`idModulo`))
 ENGINE = InnoDB;
 
@@ -134,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Unidad` (
   `NombreUnidad` VARCHAR(45) NOT NULL,
   `Modulo_idModulo` INT NOT NULL,
   PRIMARY KEY (`idUnidad`),
+  UNIQUE INDEX `UnidadNombre_UNIQUE` (`NombreUnidad` ASC) VISIBLE,
   INDEX `fk_Unidad_Modulo1_idx` (`Modulo_idModulo` ASC) VISIBLE,
   CONSTRAINT `fk_Unidad_Modulo1`
     FOREIGN KEY (`Modulo_idModulo`)
@@ -152,6 +154,7 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Curso` (
   `FechaInicio` DATE NULL,
   `FechaFin` DATE NULL,
   `Curso_idCurso` INT NOT NULL,
+  UNIQUE INDEX `CursoNombre_UNIQUE` (`NombreSubCurso` ASC) VISIBLE,
   PRIMARY KEY (`idCurso`),
   INDEX `fk_Subcurso_Curso1_idx` (`Curso_idCurso` ASC) VISIBLE,
   CONSTRAINT `fk_Subcurso_Curso1`
@@ -170,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Tema` (
   `NombreTema` VARCHAR(60) NOT NULL,
   `Unidad_idUnidad` INT NOT NULL,
   PRIMARY KEY (`idTema`),
+  UNIQUE INDEX `TemaNombre_UNIQUE` (`NombreTema` ASC) VISIBLE,
   INDEX `fk_Tema_Unidad1_idx` (`Unidad_idUnidad` ASC) VISIBLE,
   CONSTRAINT `fk_Tema_Unidad1`
     FOREIGN KEY (`Unidad_idUnidad`)
@@ -464,6 +468,52 @@ INSERT INTO modulo VALUE (NULL, inNombreModulo);
 SELECT modulo.idModulo INTO varidModulo FROM modulo WHERE modulo.nombre = inNombreModulo;
 INSERT INTO Curso_has_Modulo VALUE (varidCurso, varidModulo, 1);
 INSERT INTO unidad VALUE (NULL, inNombreUnidad, varidModulo);
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `addModulo`;
+DELIMITER $$
+CREATE PROCEDURE `addModulo` (
+  IN inidCurso INT,
+  IN inNombreModulo VARCHAR(45)
+  )
+BEGIN
+DECLARE varidModulo INT;
+INSERT INTO modulo VALUE (NULL, inNombreModulo);
+SELECT modulo.idModulo INTO varidModulo FROM modulo WHERE modulo.nombre = inNombreModulo;
+INSERT INTO Curso_has_Modulo VALUE (inidCurso, varidModulo, 1);
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `seeModulo`;
+DELIMITER $$
+CREATE PROCEDURE `seeModulo` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT modulo.idModulo, modulo.Nombre 
+FROM Curso_has_Modulo
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `seeModuloidCarreraidCurso`;
+DELIMITER $$
+CREATE PROCEDURE `seeModuloidCarreraidCurso` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT modulo.idModulo, modulo.Nombre, carrera.idCarrera, curso.idCurso 
+FROM carrera
+INNER JOIN curso
+ON carrera.idCarrera = curso.Curso_idCurso
+INNER JOIN Curso_has_Modulo
+ON curso.idCurso = Curso_has_Modulo.Curso_idCurso
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
 

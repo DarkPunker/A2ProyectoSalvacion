@@ -2,20 +2,53 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
-        <form action="/links/addunidad" method="POST">
+        <form action="/carrera/addunidad" method="POST">
           <fieldset>
-          	<fieldset class="form-group">
-              <select class="form-control form-control-lg" name="unidad"></select>
+            <fieldset class="form-group">
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Seleccione Carrera
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {{#each carrera}}
+                  <a class="dropdown-item" href="/carrera/addunidad/{{idCarrera}}"
+                    class="btn btn-secondary">{{NombreCurso}}</a>
+                  {{/each}}
+                </div>
+              </div>
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="TITULO DE LA UNIDAD" name="NombreUnidad">
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Seleccione Curso
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {{#each curso}}
+                  <a class="dropdown-item" href="/carrera/addunidad/{{Curso_idCurso}}/{{idCurso}}"
+                    class="btn btn-secondary">{{NombreSubCurso}}</a>
+                  {{/each}}
+                </div>
+              </div>
             </fieldset>
-
-          
-
-            <button class="btn btn-lg pull-xs-right btn-primary">
-              Crear Unidad
-            </button>
+            <fieldset class="form-group">
+              <select class="form-control" id="selmodulo" name="selmodulo">
+                <option selected>
+                  Seleccione Modulo
+                </option>
+                {{#each modulo}}
+                <option value="{{idModulo}}">{{Nombre}}</option>
+                {{/each}}
+              </select>
+            </fieldset>
+          </fieldset>
+          <fieldset class="form-group">
+            <input class="form-control form-control-lg" type="text" placeholder="TITULO DE LA UNIDAD" name="NombreUnidad">
+          </fieldset>
+          <button class="btn btn-lg pull-xs-right btn-primary">
+            Crear Unidad
+          </button>
 
           </fieldset>
         </form>

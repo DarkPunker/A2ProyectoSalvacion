@@ -2,34 +2,39 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
-        <form action="/links/add" method="POST">
+        <form action="/carrera/addmodulo" method="POST">
           <fieldset>
             <fieldset class="form-group">
-              <label class="label label-default">Carrera:</label>
-              <select name="" id="" class="form-control form-control-lg">
-                
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Seleccione Carrera
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {{#each carrera}}
+                  <a class="dropdown-item" href="/carrera/addmodulo/{{idCarrera}}"
+                    class="btn btn-secondary">{{NombreCurso}}</a>
+                  {{/each}}
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <select class="form-control" id="selcurso" name="selcurso">
+                <option selected>
+                  Seleccione Curso
+                </option>
+                {{#each curso}}
+                <option value="{{idCurso}}">{{NombreSubCurso}}</option>
+                {{/each}}
               </select>
             </fieldset>
-            <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" placeholder="TITULO DEL TEMA" name="title">
-            </fieldset>
-
-            <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="url" placeholder="URL DEL VIDEO" name="videourl">
-            </fieldset>
-
-            <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="url" placeholder="URL DE LA IMAGEN" name="imageurl">
-            </fieldset>
-
-            <fieldset class="form-group">
-              <textarea class="form-control" rows="8" placeholder="DESCRIBE EL TEMA BREVEMENTE"
-                name="description"></textarea>
-            </fieldset>
-
-            <button class="btn btn-lg pull-xs-right btn-primary">
-              Crear Tema
-            </button>
+          </fieldset>
+          <fieldset class="form-group">
+            <input class="form-control form-control-lg" type="text" placeholder="TITULO DEL MODULO" name="Nombre">
+          </fieldset>
+          <button class="btn btn-lg pull-xs-right btn-primary">
+            Crear Modulo
+          </button>
 
           </fieldset>
         </form>

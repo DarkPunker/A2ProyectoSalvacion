@@ -2,25 +2,25 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
-        <form action="/links/addcurso" method="POST">
+        <form action="/carrera/addcurso" method="POST">
           <fieldset>
-          	<fieldset class="form-group">
-              <label for="" class="label label-default">Seleccione Carrera:</label>
-              <select class="form-control form-control-lg" name="carrera">
-                {{#each carrera}}
-                <option value="{{idCarrera}}">{{NombreCurso}}</option>
-                {{/each}}
-              </select>
-            </fieldset>
+              <fieldset class="form-group">
+                <label for="" class="label label-default">Seleccione Carrera:</label>
+                <select class="form-control form-control-lg" id="carrera" name="carrera" >
+                  {{#each carrera}}
+                  <option value="{{idCarrera}}" onclick="GET">{{NombreCurso}}</option>
+                  {{/each}}
+                </select>
+              </fieldset>
             <fieldset class="form-group">
               <input class="form-control form-control-lg" type="text" placeholder="TITULO DEL CURSO" name="NombreCurso">
             </fieldset>
 
             <fieldset class="form-group">
-             <input class="form-control form-control-lg" type="date" placeholder="Fecha Inicio" name="FechaInicio">
+              <input class="form-control form-control-lg" type="date" placeholder="Fecha Inicio" name="FechaInicio">
             </fieldset>
             <fieldset class="form-group">
-             <input class="form-control form-control-lg" type="date" placeholder="Fecha Fin" name="FechaFin">
+              <input class="form-control form-control-lg" type="date" placeholder="Fecha Fin" name="FechaFin">
             </fieldset>
 
             <button class="btn btn-lg pull-xs-right btn-primary">
