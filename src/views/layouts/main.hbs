@@ -13,19 +13,26 @@
     {{!-- boostrapt 4 --}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     {{!-- font awesome --}}
     <script src="https://kit.fontawesome.com/22b2ec863f.js" crossorigin="anonymous"></script>
+    {{!-- Themify icons --}}
+    <link rel="stylesheet" href="/themify/themify-icons.css">
+
+    {{!-- Waves css --}}
+    <link rel="stylesheet" href="/plugins/css/waves.min.css">
 </head>
 
 <body>
 
 
     {{> navigation }}
-
+    
     {{> message}}
 
     {{{ body }}}
-
+    
     {{> footer}}
 
     {{!-- scrips --}}
@@ -44,6 +51,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    {{!-- <script src="/js/jquery-3.2.1.slim.min.js"></script> --}}
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/plugins/js/jquery.slimscroll.min.js"></script>
+    <script src="/plugins/js/waves.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+            Waves.init();
+            Waves.attach('.wave-effect', ['waves-button']);
+            Waves.attach('.wave-effect-float', ['waves-button', 'waves-float']);
+        });
+        $(function() {
+            $('.slimescroll-id').slimScroll({
+                height: '100vh'
+            });
+        });
+    </script>
 </body>
 
 
