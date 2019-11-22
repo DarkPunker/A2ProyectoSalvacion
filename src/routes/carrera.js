@@ -20,10 +20,8 @@ router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {
     for (i = 0; i < pregunta[0].length; i++) {
         a[i] = pregunta[0][i].idOpcion;
     }
-    console.log(a);
+    /* const { a } = req.body */
     
-    const { } = req.body
-
     res.send('enviado')
 
 

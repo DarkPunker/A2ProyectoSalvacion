@@ -639,6 +639,9 @@ INSERT INTO opcion VALUE (null,"esta no es",0,3); */
 -- ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia;
 
 -- INSERT INTO multimedia value (null,"prueba addTema","marcha 21","https://www.youtube.com/embed/in0Zd5eWJSE",1,1,3);
+-- INSERT INTO multimedia value (null,"prueba carrera","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/Contexto%20en%20la%20Constitucion.png",1,1,3);
+-- INSERT INTO multimedia value (null,"carrera numero 2","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20DERECHOS%20PROTEGE.png",1,1,3);
+-- INSERT INTO multimedia value (null,"sfghjlñ","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20ES%20ACCION%20DE%20TUTELA.png",1,1,3);
 -- INSERT INTO persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
 -- INSERT INTO usuario (idusuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678");
 

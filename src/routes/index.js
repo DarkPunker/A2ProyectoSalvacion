@@ -3,7 +3,9 @@ const router = express.Router();
 const pool = require('../database');
 
 router.get('/', async(req,res)=>{
-    const links = await pool.query('SELECT * FROM carrera');
+    const links = await pool.query('SELECT * FROM carrera INNER JOIN multimedia ON carrera.NombreCurso = multimedia.NombreMultimedia');
+    console.log(links);
+    
     res.render('index', { links: links });
 });
 
