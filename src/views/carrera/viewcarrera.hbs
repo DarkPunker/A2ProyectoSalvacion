@@ -1,0 +1,55 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                {{#if carrera}}
+                <div class="banner text-center">
+                    <div class="container">
+                        <h1 class="logo-font">Carreras</h1>
+                    </div>
+                </div>
+                {{else}}
+                <div class="banner text-center">
+                    <div class="container">
+                        <h1 class="logo-font">Curso</h1>
+                    </div>
+                </div>
+                {{/if}}
+                <div class="container page text-center card-body">
+                    <div class="row h-100">
+                        {{#each carrera}}
+                        <div class="card card-block col-sm-12 my-auto p-4">
+                            <a href="/carrera/viewcarrera/{{idCarrera}}">
+                                <h2 class="header">{{NombreCurso}}</h2>
+                                <div class="card">
+                                    <img class="user-img" src="">
+                                    <div class="card-stacked">
+                                        <div class="card-content">
+                                            <p class="card-text mb-3"> {{DescripcionCurso}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {{/each}}
+                        {{#each curso}}
+                        <div class="card-body  mb-3 mx-auto">
+                            <a href="/carrera/viewclase/{{idCurso}}">
+                                <h2 class="header">{{NombreSubCurso}}</h2>
+                                {{!-- <div class="card horizontal">
+                                    <img class="user-img" src="">
+                                    <div class="card-stacked">
+                                        <div class="card-content">
+                                            <p class="card-text mb-3"> {{DescripcionCurso}} </p>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                            </a>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

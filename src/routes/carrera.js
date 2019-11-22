@@ -3,7 +3,24 @@ const router = express.Router();
 
 
 const pool = require('../database');
-const { isLoggedIn } = require('../lib/auth');
+const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
+
+router.get('/viewclase/:idCurso', isLoggedInUser, async (req, res)=>{
+    const { idCurso } = req.params;
+    const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
+    res.render('carrera/viewclase', {data: data[0]});
+});
+
+router.get('/viewcarrera', isLoggedIn, async (req, res) => {
+    const carrera = await pool.query('SELECT * FROM carrera');
+    res.render('carrera/viewcarrera', { carrera: carrera });
+});
+
+router.get('/viewcarrera/:idCarrera', isLoggedIn, async (req, res) => {
+    const { idCarrera } = req.params;
+    const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera);
+    res.render('carrera/viewcarrera', { curso: curso });
+});
 
 router.get('/addtema', isLoggedIn, async (req, res) => {
     const carrera = await pool.query('SELECT * FROM carrera');

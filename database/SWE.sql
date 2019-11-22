@@ -443,7 +443,7 @@ CREATE PROCEDURE `addPersonaUsuario` (
   )
 BEGIN
 INSERT INTO persona VALUE (inidPersona, NULL, innombre1, NULL, inapellido1, NULL, infechaNacimiento, insexo, NULL);
-INSERT INTO usuario VALUE (inidUsuario, NULL, inidPersona, NULL, incorreo, incontrasena);
+INSERT INTO usuario (idUsuario, Persona_cedula, Correo, Contrasena )VALUE (inidUsuario, inidPersona, incorreo, incontrasena);
 END $$
 DELIMITER ;
 
@@ -517,6 +517,24 @@ WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `seeModuloUnidadTema`;
+DELIMITER $$
+CREATE PROCEDURE `seeModuloUnidadTema` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT modulo.Nombre, unidad.NombreUnidad, tema.idTema, tema.NombreTema
+FROM Curso_has_Modulo
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN tema
+ON unidad.idUnidad = tema.Unidad_idUnidad
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
+END $$
+DELIMITER ;
+
 /* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
 
 /* delete from unidad;
@@ -539,6 +557,8 @@ USE `SoftwareEducativo`;
 -- -----------------------------------------------------
 INSERT INTO identificacion VALUE (1,"cedula");
 INSERT INTO rol VALUE (1,"estudiante");
+INSERT INTO rol VALUE (2,"administrador");
+INSERT INTO rol VALUE (3,"docente");
 -- INSERT INTO persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
 -- INSERT INTO usuario (idusuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678");
 
