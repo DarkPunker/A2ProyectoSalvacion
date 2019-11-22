@@ -200,6 +200,8 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Multimedia` (
   `idMultimedia` INT NOT NULL AUTO_INCREMENT,
   `NombreMultimedia` VARCHAR(60) NOT NULL,
   `DireccionMultimedia` TEXT NOT NULL,
+  `DireccionVideo` VARCHAR(255),
+  `DireccionImagen` VARCHAR(255),
   `EstadoMultimedia` TINYINT NOT NULL,
   `Tema_idTema` INT NOT NULL,
   `TipoMultimedia_idTipoMultimedia` INT NOT NULL,
@@ -588,6 +590,14 @@ ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
 WHERE Curso_has_Modulo.Curso_idCurso = 3
 GROUP BY Unidad.idUnidad */
 
+SELECT *
+from carrera
+inner join curso
+on carrera.idCarrera = curso.Curso_idCurso
+inner join curso_has_modulo
+on curso.idCurso = curso_has_modulo.Curso_idCurso
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
 /* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
 
 /* delete from unidad;
@@ -635,15 +645,17 @@ INSERT INTO opcion VALUE (null,"esta si es",1,3);
 INSERT INTO opcion VALUE (null,"esta no es",0,3);
 INSERT INTO opcion VALUE (null,"esta no es",0,3);
 INSERT INTO opcion VALUE (null,"esta no es",0,3); */
--- ALTER TABLE multimedia
--- ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia;
+/* ALTER TABLE multimedia
+ ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia; */
 
--- INSERT INTO multimedia value (null,"prueba addTema","marcha 21","https://www.youtube.com/embed/in0Zd5eWJSE",1,1,3);
--- INSERT INTO multimedia value (null,"prueba carrera","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/Contexto%20en%20la%20Constitucion.png",1,1,3);
--- INSERT INTO multimedia value (null,"carrera numero 2","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20DERECHOS%20PROTEGE.png",1,1,3);
--- INSERT INTO multimedia value (null,"sfghjlñ","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20ES%20ACCION%20DE%20TUTELA.png",1,1,3);
--- INSERT INTO persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
--- INSERT INTO usuario (idusuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678");
+/* UPDATE usuario SET Rol_idRol=2 WHERE idUsuario = "default"; */
+
+/* INSERT INTO multimedia value (null,"prueba addTema","marcha 21","https://www.youtube.com/embed/in0Zd5eWJSE",1,1,3); */
+/* INSERT INTO multimedia value (null,"prueba carrera","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/Contexto%20en%20la%20Constitucion.png",1,1,3);
+INSERT INTO multimedia value (null,"carrera numero 2","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20DERECHOS%20PROTEGE.png",1,1,3);
+INSERT INTO multimedia value (null,"sfghjlñ","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20ES%20ACCION%20DE%20TUTELA.png",1,1,3); */
+/* INSERT INTO persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
+INSERT INTO usuario (idusuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678"); */
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -44,12 +44,12 @@ router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
     res.render('carrera/viewclase', { data: data[0], multimedia, curso: curso[0] });
 });
 
-router.get('/viewcarrera', isLoggedIn, async (req, res) => {
+router.get('/viewcarrera', isLoggedInUser, async (req, res) => {
     const carrera = await pool.query('SELECT * FROM carrera');
     res.render('carrera/viewcarrera', { carrera: carrera });
 });
 
-router.get('/viewcarrera/:idCarrera', isLoggedIn, async (req, res) => {
+router.get('/viewcarrera/:idCarrera', isLoggedInUser, async (req, res) => {
     const { idCarrera } = req.params;
     const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera);
     res.render('carrera/viewcarrera', { curso: curso });
@@ -183,11 +183,11 @@ router.get('/delete/:idCarrera', isLoggedIn, async (req, res) => {
     res.redirect('/carrera/gestionarcarrera');
 });
 
-/* router.get('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
+router.get('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     const links = await pool.query('SELECT * FROM carrera WHERE idCarrera = ?', [idCarrera])
     res.render('carrera/editcarrera', { link: links[0] });
-}); */
+});
 
 router.post('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
