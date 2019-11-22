@@ -1,36 +1,45 @@
-<div class="page-content">
-    <!-- Your content goes here -->
-    <div class="row" style="align-items: center">
-        <form action="/signup" method="post" class="col s12">
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="text" class="validate" name="idUsuario" placeholder="username">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="email" class="validate" name="correo" placeholder="email">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="password" class="validate" name="contrasena" placeholder="password">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="text" class="validate" name="idpersona" placeholder="numero de identificacion">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="text" class="validate" name="nombre1" placeholder="primer nombre">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="text" class="validate" name="apellido1" placeholder="primer apellido">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="text" class="validate" name="fechanacimiento" placeholder="fecha de nacimiento">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield">
-                <input type="text" class="validate" name="sexo" placeholder="sexo">
-            </div>
-            <button>
-                Registrar
-            </button>
-        </form>
+<div class="container">
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header">Registrar</div>
+        <div class="card-body">
+            <form action="/signup" method="post" class="col s12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre de Usuario</label>
+                    <input type="text" class="form-control" name="idUsuario" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Correo</label>
+                    <input type="email" class="form-control" name="correo" placeholder="email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Contraseña</label>
+                    <input type="password" class="form-control" name="contrasena" placeholder="password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Numero de Identifiacion</label>
+                    <input type="text" class="form-control" name="idpersona" placeholder="numero de identificacion">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Primer Nombre</label>
+                    <input type="text" class="form-control" name="nombre1" placeholder="primer nombre">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Primer Apellido</label>
+                    <input type="text" class="form-control" name="apellido1" placeholder="primer apellido">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" name="fechanacimiento" placeholder="fecha de nacimiento">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Genero</label>
+                    <select class="custom-select" id="sexo" name="sexo">
+                        <option value="0">Femenino</option>
+                        <option value="1">Masculino</option>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-primary btn-block" name="submit" value="Registrar">
+            </form>
+        </div>
     </div>
-
 </div>
-

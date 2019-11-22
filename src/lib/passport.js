@@ -27,8 +27,9 @@ passport.use('local.signup', new LocalStrategy({
     passwordField: 'contrasena',
     passReqToCallback: true
 }, async (req, idUsuario, contrasena, done) => {
-    const { idpersona, nombre1, apellido1, fechanacimiento, sexo } = req.body;
+    const { idpersona, nombre1, apellido1, fechanacimiento } = req.body;
     const { correo } = req.body;
+    const sexo = req.body.sexo;
     const newPerson = {
         idpersona,
         nombre1,
