@@ -535,6 +535,48 @@ WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `seePreguntas`;
+DELIMITER $$
+CREATE PROCEDURE `seePreguntas` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT *
+FROM Curso_has_Modulo
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN tema
+ON unidad.idUnidad = tema.Unidad_idUnidad
+INNER JOIN pregunta
+ON tema.idTema = pregunta.Tema_idTema
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `seeOpciones`;
+DELIMITER $$
+CREATE PROCEDURE `seeOpciones` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT *
+FROM Curso_has_Modulo
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN tema
+ON unidad.idUnidad = tema.Unidad_idUnidad
+INNER JOIN pregunta
+ON tema.idTema = pregunta.Tema_idTema
+INNER JOIN opcion
+ON pregunta.idPregunta = opcion.Pregunta_idPregunta
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
+END $$
+DELIMITER ;
+
 /* SELECT *
 FROM tema
 INNER JOIN unidad
@@ -574,7 +616,29 @@ INSERT INTO TipoMultimedia VALUE (1,"video");
 INSERT INTO TipoMultimedia VALUE (2,"imagen");
 INSERT INTO TipoMultimedia VALUE (3,"texto");
 INSERT INTO TipoMultimedia VALUE (4,"audio");
--- INSERT INTO multimedia value (null,"prueba addTema","asdklghsdghakfgasjklghkdaghkl",1,1,3);
+
+/* INSERT INTO pregunta VALUE (null,"prueba pregunta",3);
+INSERT INTO pregunta VALUE (null,"prueba pregunta tema 1",2);
+INSERT INTO pregunta VALUE (null,"prueba pregunta tema 2",1);
+
+INSERT INTO opcion VALUE (null,"esta no es",0,1);
+INSERT INTO opcion VALUE (null,"esta no es",0,1);
+INSERT INTO opcion VALUE (null,"esta si es",1,1);
+INSERT INTO opcion VALUE (null,"esta no es",0,1);
+
+INSERT INTO opcion VALUE (null,"esta no es",0,2);
+INSERT INTO opcion VALUE (null,"esta si es",1,2);
+INSERT INTO opcion VALUE (null,"esta no es",0,2);
+INSERT INTO opcion VALUE (null,"esta no es",0,2);
+
+INSERT INTO opcion VALUE (null,"esta si es",1,3);
+INSERT INTO opcion VALUE (null,"esta no es",0,3);
+INSERT INTO opcion VALUE (null,"esta no es",0,3);
+INSERT INTO opcion VALUE (null,"esta no es",0,3); */
+-- ALTER TABLE multimedia
+-- ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia;
+
+-- INSERT INTO multimedia value (null,"prueba addTema","marcha 21","https://www.youtube.com/embed/in0Zd5eWJSE",1,1,3);
 -- INSERT INTO persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
 -- INSERT INTO usuario (idusuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678");
 

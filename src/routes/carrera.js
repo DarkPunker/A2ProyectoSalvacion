@@ -5,28 +5,45 @@ const router = express.Router();
 const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
-router.get('/exam/:idCurso', isLoggedInUser, async (req, res)=>{
+router.get('/exam/:idCurso', isLoggedInUser, async (req, res) => {
     const { idCurso } = req.params;
-    console.log(idCurso);
-    
-    /* res.render('carrera/exam'); */
+    const pregunta = await pool.query('CALL seeOpciones (?)', idCurso);
+    /* console.log(pregunta[0]); */
+
+    res.render('carrera/exam', { pregunta: pregunta[0] });
 });
 
-router.get('/viewclase/:idCurso', isLoggedInUser, async (req, res)=>{
+router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {
+    const { idCurso } = req.params;
+    const pregunta = await pool.query('CALL seeOpciones (?)', idCurso);
+    var a = [];
+    for (i = 0; i < pregunta[0].length; i++) {
+        a[i] = pregunta[0][i].idOpcion;
+    }
+    console.log(a);
+    
+    const { } = req.body
+
+    res.send('enviado')
+
+
+});
+
+router.get('/viewclase/:idCurso', isLoggedInUser, async (req, res) => {
     const { idCurso } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
-    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?',idCurso);
-    res.render('carrera/viewclase', {data: data[0],  curso: curso[0]});
+    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
+    res.render('carrera/viewclase', { data: data[0], curso: curso[0] });
 });
 
-router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res)=>{
+router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
     const { idCurso, idTema } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
     const multimedia = await pool.query('SELECT * FROM tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
-    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?',idCurso);
+    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
     console.log(curso);
-    
-    res.render('carrera/viewclase', {data: data[0], multimedia,  curso: curso[0] });
+
+    res.render('carrera/viewclase', { data: data[0], multimedia, curso: curso[0] });
 });
 
 router.get('/viewcarrera', isLoggedIn, async (req, res) => {
@@ -70,7 +87,7 @@ router.get('/addtema/:idCarrera/:idCurso/:idModulo', isLoggedIn, async (req, res
 });
 
 router.post('/addtema', isLoggedIn, async (req, res) => {
-    const { NombreTema} = req.body;
+    const { NombreTema } = req.body;
     const Unidad_idUnidad = parseInt(req.body.selunidad);
     const newTema = {
         NombreTema,

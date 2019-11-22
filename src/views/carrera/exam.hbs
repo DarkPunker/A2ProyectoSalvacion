@@ -1,0 +1,35 @@
+<main class="mdl-layout__content" style="padding: 5%">
+    <h2>Evaluacion de </h2>
+    <form action=" " method="post" class="form-group">
+        <div id="contenido">
+            <div class="pregunta">
+                <div class="pregunta">
+
+                    {{#each pregunta}}
+                    <div>
+                        <h4 class="form-group" type="text" placeholder="Pregunta" name="175" style="width: 300px">
+                            {{Pregunta}}</h4>
+                        <div style="margin: 30px">
+                            <p class="form-group" type="radio" value="a" name="175"></p>
+                            <input type="radio" value="" name="{{idOpcion}}" /> <span>'a)' {{Enunciado}}</span>
+                            {{!-- <p class="form-group" placeholder="Primera Pregunta" type="text" value="" name="175"></p>
+                            <br /><br /><input type="radio" value="b" name="175" />
+                            <span>'b)' </span>
+                            <p class="form-group" placeholder="Segunda Pregunta" type="text" value="" name="175"></p>
+                            <br /><br /><input type="radio" value="c" name="175" />
+                            <span>'c)' </span>
+                            <p class="form-group" placeholder="Tercera Pregunta" type="text" value="" name="175"></p>
+                            <br /><br /><input type="radio" value="d" name="175" />
+                            <span>'d)' </span>
+                            <p class="form-group" placeholder="Cuarta Pregunta" type="text" value="" name="175"></p>
+                            <br /><br /> --}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Respuesta</button>
+        </div>
+    </form>
+</main>
