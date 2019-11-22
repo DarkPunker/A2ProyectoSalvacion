@@ -3,48 +3,56 @@
         onmouseleave="document.getElementById('chartdiv').style.width = '1%';document.getElementById('chartdiv2').style.width = '99%';"
         onmouseenter="document.getElementById('chartdiv').style.width = '30%';document.getElementById('chartdiv2').style.width = '60%';"
         style="width:1%; float: left; margin: 0%; padding: 0%; text-align: center; ">
-        {{#each data}}
+
         <div class="accordion" id="accordionExample">
             <div class="card">
+                {{#each data}}
                 <div class="card-header" id="headingOne" style="background: #021f38; color: #E8EDF2;">
                     <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
+                        <a class="btn btn-link"
+                            href="/carrera/viewclase/{{Curso_idCurso}}/{{idTema}}">{{NombreTema}}</a>
+                        {{!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
                             aria-expanded="true" aria-controls="{{Nombre}}">
                             {{Nombre}}
-                        </button>
+                        </button> --}}
                     </h2>
                 </div>
+                {{/each}}
+                <div class="card-header" id="headingOne" style="background: #021f38; color: #E8EDF2;">
+                    <h2 class="mb-0">
+                        <a class="btn btn-link"
+                            href="/carrera/exam/{{curso.idCurso}}">Evaluacion</a>
+                        {{!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
+                            aria-expanded="true" aria-controls="{{Nombre}}">
+                            {{Nombre}}
+                        </button> --}}
+                    </h2>
+                </div>
+                {{!-- <div id="{{Nombre}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 
-                <div id="{{Nombre}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
+                        <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="{{idTema }}"
+                            id="{{NombreUnidad}}">
+                            <li><a href="#">{{idTema}}</a>
 
-                        <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="{{NombreUnidad }}"
-                            id="{{NombreUnidad }}">
-                           {{!--  <li>
-                                <a href="#pageSubmenu2" class="accordion-toggle wave-effect" data-toggle="collapse"
-                                    aria-expanded="false">{{NombreUnidad }}xxx</a></li> --}}
-
-                            <li><a href="#">{{idTema}}</a></li>
+                            </li>
                         </ul>
-                        </li>
+
                         <li>
                             <a href="#pageSubmenu3" class="accordion-toggle wave-effect" data-toggle="collapse"
                                 aria-expanded="false"> {{NombreTema }}</a>
-                          
                         </li>
                         <li>
                             <a href="#pageSubmenu4" class="accordion-toggle wave-effect" data-toggle="collapse"
                                 aria-expanded="false">{{idTema}} </a>
-
-
                         </li>
 
-                        </ul>
                     </div>
-                </div>
+
+                </div> --}}
             </div>
         </div>
-        {{/each}}
+
 
 
     </div>
@@ -52,24 +60,25 @@
 
 
     <div id="chartdiv2" style="width:90%; float: right;padding: 30px;">
-        {{#each data}}
+
         <main class="mdl-layout__content">
             <div class="page-content" style="margin: 1%; ">
                 <!-- Your content goes here -->
+                {{#each multimedia}}
                 <div class="row">
-                    <H1> 1 {{Nombre}}</H1>
-                    <p>La tematica es muy facíl de ver y realizar, sim embargo el siguiente video muestra como funciona.
-                        2 {{NombreTema}}
-
-                        {{NombreUnidad}}3
+                    <H1></H1>
+                    <p> {{DireccionMultimedia}}
                     </p>
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/CdcNinx1NXI" frameborder="0"
+                    {{#if DireccionVideo}}
+                    <iframe width="100%" height="315" src="{{DireccionVideo}}" frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>{{idTema }}4
+                        allowfullscreen></iframe>
+                    {{/if}}    
                 </div>
+                {{/each}}
+                
 
-
-
+                {{!-- 
 
 
 
@@ -84,9 +93,9 @@
                         SIGUIENTE
                     </button>
 
-                </div>
+                </div> --}}
         </main>
-        {{/each}}
+
     </div>
 </div>
 

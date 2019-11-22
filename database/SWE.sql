@@ -199,7 +199,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Multimedia` (
   `idMultimedia` INT NOT NULL AUTO_INCREMENT,
   `NombreMultimedia` VARCHAR(60) NOT NULL,
-  `DireccionMultimedia` VARCHAR(255) NOT NULL,
+  `DireccionMultimedia` TEXT NOT NULL,
   `EstadoMultimedia` TINYINT NOT NULL,
   `Tema_idTema` INT NOT NULL,
   `TipoMultimedia_idTipoMultimedia` INT NOT NULL,
@@ -523,17 +523,28 @@ CREATE PROCEDURE `seeModuloUnidadTema` (
   IN inidCurso INT
 )
 BEGIN
-SELECT modulo.Nombre, unidad.NombreUnidad, tema.idTema, tema.NombreTema
-FROM Curso_has_Modulo
-INNER JOIN modulo
-ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+SELECT *
+FROM tema
 INNER JOIN unidad
-ON modulo.idModulo = unidad.Modulo_idModulo
-INNER JOIN tema
 ON unidad.idUnidad = tema.Unidad_idUnidad
+INNER JOIN modulo
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN Curso_has_Modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
 WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
+
+/* SELECT *
+FROM tema
+INNER JOIN unidad
+ON unidad.idUnidad = tema.Unidad_idUnidad
+INNER JOIN modulo
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN Curso_has_Modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+WHERE Curso_has_Modulo.Curso_idCurso = 3
+GROUP BY Unidad.idUnidad */
 
 /* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
 
@@ -559,6 +570,11 @@ INSERT INTO identificacion VALUE (1,"cedula");
 INSERT INTO rol VALUE (1,"estudiante");
 INSERT INTO rol VALUE (2,"administrador");
 INSERT INTO rol VALUE (3,"docente");
+INSERT INTO TipoMultimedia VALUE (1,"video");
+INSERT INTO TipoMultimedia VALUE (2,"imagen");
+INSERT INTO TipoMultimedia VALUE (3,"texto");
+INSERT INTO TipoMultimedia VALUE (4,"audio");
+-- INSERT INTO multimedia value (null,"prueba addTema","asdklghsdghakfgasjklghkdaghkl",1,1,3);
 -- INSERT INTO persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
 -- INSERT INTO usuario (idusuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678");
 

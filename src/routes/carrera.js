@@ -5,10 +5,28 @@ const router = express.Router();
 const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
+router.get('/exam/:idCurso', isLoggedInUser, async (req, res)=>{
+    const { idCurso } = req.params;
+    console.log(idCurso);
+    
+    /* res.render('carrera/exam'); */
+});
+
 router.get('/viewclase/:idCurso', isLoggedInUser, async (req, res)=>{
     const { idCurso } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
-    res.render('carrera/viewclase', {data: data[0]});
+    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?',idCurso);
+    res.render('carrera/viewclase', {data: data[0],  curso: curso[0]});
+});
+
+router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res)=>{
+    const { idCurso, idTema } = req.params;
+    const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
+    const multimedia = await pool.query('SELECT * FROM tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
+    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?',idCurso);
+    console.log(curso);
+    
+    res.render('carrera/viewclase', {data: data[0], multimedia,  curso: curso[0] });
 });
 
 router.get('/viewcarrera', isLoggedIn, async (req, res) => {
