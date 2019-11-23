@@ -1,15 +1,16 @@
 <div class="container content-area">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel">
         <form action="/carrera/editcarrera/{{link.idCarrera}}" method="POST">
           <fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" value="{{link.NombreCurso}}" type="text" valplaceholder="TITULO DE LA CARRERA" name="NombreCurso">
+              <input class="form-control form-control-lg" value="{{link.NombreCurso}}" type="text"
+                valplaceholder="TITULO DE LA CARRERA" name="NombreCurso">
             </fieldset>
 
             <fieldset class="form-group">
-              <textarea class="form-control"  rows="8" placeholder="DESCRIBE BREVEMENTE"
+              <textarea class="form-control" rows="8" placeholder="DESCRIBE BREVEMENTE"
                 name="DescripcionCurso">{{link.DescripcionCurso}}</textarea>
             </fieldset>
 

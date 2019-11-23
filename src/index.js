@@ -57,6 +57,10 @@ app.use(require('./routes'));
 app.use(require('./routes/authentication'));
 app.use('/profile', require('./routes/profile'));
 app.use('/carrera', require('./routes/carrera'));
+app.use('/curso', require('./routes/curso'));
+app.use('/modulo', require('./routes/modulo'));
+app.use('/unidad', require('./routes/unidad'));
+app.use('/tema', require('./routes/tema'));
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));

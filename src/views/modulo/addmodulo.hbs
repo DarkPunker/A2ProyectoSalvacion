@@ -7,7 +7,7 @@
             <h1 class="logo-font">Agregar Modulo</h1>
           </div>
         </div>
-        <form action="/carrera/addmodulo" method="POST">
+        <form action="/modulo/addmodulo" method="POST">
           <fieldset>
             <fieldset class="form-group">
               <div class="dropdown">
@@ -17,7 +17,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   {{#each carrera}}
-                  <a class="dropdown-item" href="/carrera/addmodulo/{{idCarrera}}"
+                  <a class="dropdown-item" href="/modulo/addmodulo/{{idCarrera}}"
                     class="btn btn-secondary">{{NombreCurso}}</a>
                   {{/each}}
                 </div>

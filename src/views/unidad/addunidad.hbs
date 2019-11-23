@@ -4,10 +4,10 @@
       <div class="panel">
         <div class="banner text-center">
           <div class="container">
-            <h1 class="logo-font">Agregar Tema</h1>
+            <h1 class="logo-font">Agregar Unidad</h1>
           </div>
         </div>
-        <form action="/carrera/addtema" method="POST">
+        <form action="/unidad/addunidad" method="POST">
           <fieldset>
             <fieldset class="form-group">
               <div class="dropdown">
@@ -17,7 +17,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   {{#each carrera}}
-                  <a class="dropdown-item" href="/carrera/addtema/{{idCarrera}}"
+                  <a class="dropdown-item" href="/unidad/addunidad/{{idCarrera}}"
                     class="btn btn-secondary">{{NombreCurso}}</a>
                   {{/each}}
                 </div>
@@ -31,42 +31,29 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   {{#each curso}}
-                  <a class="dropdown-item" href="/carrera/addtema/{{Curso_idCurso}}/{{idCurso}}"
+                  <a class="dropdown-item" href="/unidad/addunidad/{{Curso_idCurso}}/{{idCurso}}"
                     class="btn btn-secondary">{{NombreSubCurso}}</a>
                   {{/each}}
                 </div>
               </div>
             </fieldset>
             <fieldset class="form-group">
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Seleccione Modulo
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  {{#each modulo}}
-                  <a class="dropdown-item" href="/carrera/addtema/{{idCarrera}}/{{idCurso}}/{{idModulo}}"
-                    class="btn btn-secondary">{{Nombre}}</a>
-                  {{/each}}
-                </div>
-              </div>
-            </fieldset>
-            <fieldset class="form-group">
-              <select class="form-control" id="selunidad" name="selunidad">
+              <select class="form-control" id="selmodulo" name="selmodulo">
                 <option selected>
-                  Seleccione Unidad
+                  Seleccione Modulo
                 </option>
-                {{#each unidad}}
-                <option value="{{idUnidad}}">{{NombreUnidad}}</option>
+                {{#each modulo}}
+                <option value="{{idModulo}}">{{Nombre}}</option>
                 {{/each}}
               </select>
             </fieldset>
           </fieldset>
           <fieldset class="form-group">
-            <input class="form-control form-control-lg" type="text" placeholder="TITULO DEL TEMA" name="NombreTema">
+            <input class="form-control form-control-lg" type="text" placeholder="TITULO DE LA UNIDAD"
+              name="NombreUnidad">
           </fieldset>
           <button class="btn btn-lg pull-xs-right btn-primary">
-            Crear Tema
+            Crear Unidad
           </button>
 
           </fieldset>

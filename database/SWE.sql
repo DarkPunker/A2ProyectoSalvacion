@@ -590,14 +590,14 @@ ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
 WHERE Curso_has_Modulo.Curso_idCurso = 3
 GROUP BY Unidad.idUnidad */
 
-SELECT *
+/* SELECT *
 from carrera
 inner join curso
 on carrera.idCarrera = curso.Curso_idCurso
 inner join curso_has_modulo
 on curso.idCurso = curso_has_modulo.Curso_idCurso
 INNER JOIN modulo
-ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo */
 /* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
 
 /* delete from unidad;
@@ -614,6 +614,21 @@ delete from persona;*/
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `SoftwareEducativo`.`view1`;
 USE `SoftwareEducativo`;
+
+-- -----------------------------------------------------
+-- View
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `seeAllModuloCursoCarrera`;
+CREATE VIEW `seeAllModuloCursoCarrera` AS
+SELECT carrera.NombreCurso, curso.NombreSubCurso, modulo.Nombre, modulo.idModulo
+FROM carrera
+INNER JOIN curso
+ON carrera.idCarrera = curso.Curso_idCurso
+INNER JOIN Curso_has_Modulo
+ON curso.idCurso = Curso_has_Modulo.Curso_idCurso
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+;
 
 -- -----------------------------------------------------
 -- Default data 
