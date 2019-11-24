@@ -62,6 +62,7 @@ app.use('/modulo', require('./routes/modulo'));
 app.use('/unidad', require('./routes/unidad'));
 app.use('/tema', require('./routes/tema'));
 app.use('/clase', require('./routes/clase'));
+app.use('/multimedia', require('./routes/multimedia'));
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));

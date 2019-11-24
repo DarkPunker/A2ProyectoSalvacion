@@ -620,6 +620,28 @@ ORDER BY tema.idTema ASC;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `seeTemaCountMultimedia`;
+DELIMITER $$
+CREATE PROCEDURE `seeTemaCountMultimedia` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT tema.idTema, tema.NombreTema, COUNT(multimedia.idMultimedia)AS Cantidad
+FROM Curso_has_Modulo
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN tema
+ON unidad.idUnidad = tema.Unidad_idUnidad
+LEFT JOIN multimedia
+ON tema.idTema = multimedia.Tema_idTema
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso
+GROUP BY tema.idTema
+ORDER BY tema.idTema ASC;
+END $$
+DELIMITER ;
+
 
 -- -----------------------------------------------------
 -- View `SoftwareEducativo`.`view1`

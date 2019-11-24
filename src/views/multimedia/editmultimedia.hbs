@@ -1,0 +1,56 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <form action="/multimedia/editmultimedia/{{multimedia.idMultimedia}}" method="POST">
+                    <fieldset class="form-group">
+                        <fieldset>
+                            <p class="h4">Nombre Multimedia</p>
+                            <input class="form-control form-control-lg" type="text" placeholder="DIGITE NOMBRE"
+                                name="NombreMultimedia" value="{{multimedia.NombreMultimedia}}">
+                        </fieldset>
+                        <fieldset>
+                            <p class="h4">Descripcion del material multimedia</p>
+                            <textarea class="form-control" rows="5" type="text"
+                                placeholder="DIGITE DESCRIPCION"
+                                name="DireccionMultimedia">{{multimedia.DireccionMultimedia}}</textarea>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <select class="form-control" id="selunidad" name="selmultimedia">
+                                <option selected>
+                                    Seleccione el Tipo de Multimedia
+                                </option>
+                                {{#each tipomultimedia}}
+                                <option value="{{idTipoMultimedia}}">{{TipoMultimedia}}</option>
+                                {{/each}}
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <p class="h4">Direccion del Archivo Multimedia, en caso que el tipo no sea texto dejar en
+                                blanco</p>
+                            {{#if multimedia.DireccionVideo}}
+                            <input class="form-control form-control-lg" type="url"
+                                placeholder="DIGITE URL DEl MULTIMEDIA" name="Direccion"
+                                value="{{multimedia.DireccionVideo}}">
+                            {{else}}
+                            {{#if multimedia.DireccionImagen}}
+                            <input class="form-control form-control-lg" type="url"
+                                placeholder="DIGITE URL DEl MULTIMEDIA" name="Direccion"
+                                value="{{multimedia.DireccionImagen}}">
+                            {{else}}
+                            <input class="form-control form-control-lg" type="url"
+                                placeholder="DIGITE URL DEl MULTIMEDIA" name="Direccion"
+                                value="">
+                                {{/if}}
+                            {{/if}}
+                        </fieldset>
+                    </fieldset>
+                    <button class="btn btn-lg pull-xs-right btn-primary">
+                        Guardar Multimedia
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

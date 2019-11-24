@@ -38,6 +38,8 @@ router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
     const { idCurso, idTema } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
     const multimedia = await pool.query('SELECT * FROM tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
+    console.log(multimedia);
+    
     const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
     res.render('clase/viewclase', { data: data[0], multimedia, curso: curso[0] });
 });

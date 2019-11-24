@@ -140,4 +140,5 @@ router.post('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
     req.flash('success', 'Pregunta Guardada Correctamente');
     res.redirect('/tema/gestionarexamen');
 });
+
 module.exports = router;

@@ -1,0 +1,64 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="banner text-center">
+                    <div class="container">
+                        <h1 class="logo-font">Administrador de Multimedia de Tema</h1>
+                    </div>
+                </div>
+                <fieldset>
+                    <fieldset class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle btn-lg btn-block" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Seleccione Carrera
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {{#each carrera}}
+                                <a class="dropdown-item" href="/multimedia/gestionarmultimedia/{{idCarrera}}"
+                                    class="btn btn-secondary">{{NombreCurso}}</a>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle btn-lg btn-block" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Seleccione Curso
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {{#each curso}}
+                                <a class="dropdown-item" href="/multimedia/gestionarmultimedia/{{Curso_idCurso}}/{{idCurso}}"
+                                    class="btn btn-secondary">{{NombreSubCurso}}</a>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group ">
+                        <p class="card-title mb-2 h4">Temas</p>
+                    </fieldset>
+                    <fieldset class="form-group ">
+                        {{#each tema}}
+                        <div class="card p-4">
+                            <div class="card-body">
+                                <p class="card-title mb-2 h5">{{NombreTema}}</p>
+                                <p class="card-title text-muted  mb-2 h6">Cantidad en Multimedia: {{Cantidad}}</p>
+                                <div class="text-right">
+                                    <a href="/multimedia/vermultimedia/{{idTema}}" class="btn btn-primary active" role="button" aria-pressed="true">Ver
+                                        Multimedia</a>
+                                    <a href="/multimedia/addmultimedia/{{idTema}}" class="btn btn-success active" role="button" aria-pressed="true">Agregar
+                                        Multimedia</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </fieldset>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

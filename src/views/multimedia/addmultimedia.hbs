@@ -1,0 +1,41 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <form action="/multimedia/addmultimedia/{{tema.idTema}}" method="POST">
+                    <fieldset class="form-group">
+                        <fieldset>
+                            <p class="h4">Nombre Multimedia</p>
+                            <input class="form-control form-control-lg" value="" type="text" placeholder="DIGITE NOMBRE"
+                                name="NombreMultimedia">
+                        </fieldset>
+                        <fieldset>
+                            <p class="h4">Descripcion del material multimedia</p>
+                            <textarea class="form-control" rows="5" value="" type="text"
+                                placeholder="DIGITE DESCRIPCION" name="DireccionMultimedia"></textarea>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <select class="form-control" id="selunidad" name="selmultimedia">
+                                <option selected>
+                                    Seleccione el Tipo de Multimedia
+                                </option>
+                                {{#each tipomultimedia}}
+                                <option value="{{idTipoMultimedia}}">{{TipoMultimedia}}</option>
+                                {{/each}}
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <p class="h4">Direccion del Archivo Multimedia, en caso que el tipo no sea texto dejar en blanco</p>
+                            <input class="form-control form-control-lg" value="" type="url"
+                                placeholder="DIGITE URL DEl MULTIMEDIA" name="Direccion">
+                        </fieldset>
+                    </fieldset>
+                    <button class="btn btn-lg pull-xs-right btn-primary">
+                        Guardar Multimedia
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
