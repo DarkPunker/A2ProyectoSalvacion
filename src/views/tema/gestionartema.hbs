@@ -4,7 +4,7 @@
             <div class="panel">
                 <div class="banner text-center">
                     <div class="container">
-                        <h1 class="logo-font">Administrador de Unidades</h1>
+                        <h1 class="logo-font">Administrador de Temas</h1>
                     </div>
                 </div>
                 <div class="container page text-center card-body">
@@ -22,7 +22,8 @@
                                                     <p class="card-title h4">{{NombreSubCurso}}</p>
                                                     <p class="card-title h5">{{Nombre}}</p>
                                                     <p class="card-title h6">{{NombreUnidad}}</p>
-                                                    <a href="/unidad/editunidad/{{idUnidad}}"
+                                                    <p>{{NombreTema}}</p>
+                                                    <a href="/tema/edittema/{{idTema}}"
                                                         class="btn btn-secondary">Editar</a>
                                                 </div>
                                             </div>
@@ -42,7 +43,7 @@
                     </div>
                     {{/each}}
                 </div>
-                <a href="/unidad/addunidad" class="btn btn-success btn-lg  mb-3">Nueva Unidad</a>
+                <a href="/tema/addtema" class="btn btn-success btn-lg  mb-3">Nueva Tema</a>
             </div>
         </div>
     </div>

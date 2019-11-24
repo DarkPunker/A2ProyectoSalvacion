@@ -537,6 +537,8 @@ WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
 
+
+
 DROP PROCEDURE IF EXISTS `seePreguntas`;
 DELIMITER $$
 CREATE PROCEDURE `seePreguntas` (
@@ -579,35 +581,45 @@ WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
 
-/* SELECT *
-FROM tema
-INNER JOIN unidad
-ON unidad.idUnidad = tema.Unidad_idUnidad
+DROP PROCEDURE IF EXISTS `seeTemaCountPreguntas`;
+DELIMITER $$
+CREATE PROCEDURE `seeTemaCountPreguntas` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT tema.idTema, tema.NombreTema, COUNT(pregunta.idPregunta)AS Cantidad
+FROM Curso_has_Modulo
 INNER JOIN modulo
-ON modulo.idModulo = unidad.Modulo_idModulo
-INNER JOIN Curso_has_Modulo
 ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
-WHERE Curso_has_Modulo.Curso_idCurso = 3
-GROUP BY Unidad.idUnidad */
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN tema
+ON unidad.idUnidad = tema.Unidad_idUnidad
+LEFT JOIN pregunta
+ON tema.idTema = pregunta.Tema_idTema
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso
+GROUP BY tema.idTema
+ORDER BY tema.idTema ASC;
+END $$
+DELIMITER ;
 
-/* SELECT *
-from carrera
-inner join curso
-on carrera.idCarrera = curso.Curso_idCurso
-inner join curso_has_modulo
-on curso.idCurso = curso_has_modulo.Curso_idCurso
-INNER JOIN modulo
-ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo */
-/* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
+DROP PROCEDURE IF EXISTS `seeTemaPreguntasRespuestas`;
+DELIMITER $$
+CREATE PROCEDURE `seeTemaPreguntasRespuestas` (
+  IN inidTema INT
+)
+BEGIN
+SELECT * 
+FROM tema
+INNER JOIN pregunta
+ON tema.idTema = pregunta.Tema_idTema
+INNER JOIN opcion
+ON pregunta.idPregunta = opcion.Pregunta_idPregunta
+WHERE tema.idTema = inidTema
+ORDER BY tema.idTema ASC;
+END $$
+DELIMITER ;
 
-/* delete from unidad;
-delete from curso_has_modulo;
-delete from modulo;
-delete from curso;
-delete from carrera; 
-
-delete from usuario;
-delete from persona;*/
 
 -- -----------------------------------------------------
 -- View `SoftwareEducativo`.`view1`
@@ -630,6 +642,38 @@ INNER JOIN modulo
 ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
 ;
 
+DROP VIEW IF EXISTS `seeAllUnidadModuloCursoCarrera`;
+CREATE VIEW `seeAllUnidadModuloCursoCarrera` AS
+SELECT carrera.NombreCurso, curso.NombreSubCurso, 
+modulo.Nombre, unidad.idUnidad, unidad.NombreUnidad
+FROM carrera
+INNER JOIN curso
+ON carrera.idCarrera = curso.Curso_idCurso
+INNER JOIN Curso_has_Modulo
+ON curso.idCurso = Curso_has_Modulo.Curso_idCurso
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+;
+
+DROP VIEW IF EXISTS `seeAllTemaUnidadModuloCursoCarrera`;
+CREATE VIEW `seeAllTemaUnidadModuloCursoCarrera` AS
+SELECT carrera.NombreCurso, curso.NombreSubCurso, 
+modulo.Nombre, unidad.NombreUnidad, tema.idTema,
+tema.NombreTema
+FROM carrera
+INNER JOIN curso
+ON carrera.idCarrera = curso.Curso_idCurso
+INNER JOIN Curso_has_Modulo
+ON curso.idCurso = Curso_has_Modulo.Curso_idCurso
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN  tema
+ON unidad.idUnidad = tema.Unidad_idUnidad;
+;
 -- -----------------------------------------------------
 -- Default data 
 -- -----------------------------------------------------
@@ -660,6 +704,37 @@ INSERT INTO opcion VALUE (null,"esta si es",1,3);
 INSERT INTO opcion VALUE (null,"esta no es",0,3);
 INSERT INTO opcion VALUE (null,"esta no es",0,3);
 INSERT INTO opcion VALUE (null,"esta no es",0,3); */
+
+/* SELECT *
+FROM tema
+INNER JOIN unidad
+ON unidad.idUnidad = tema.Unidad_idUnidad
+INNER JOIN modulo
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN Curso_has_Modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+WHERE Curso_has_Modulo.Curso_idCurso = 3
+GROUP BY Unidad.idUnidad */
+
+/* SELECT *
+from carrera
+inner join curso
+on carrera.idCarrera = curso.Curso_idCurso
+inner join curso_has_modulo
+on curso.idCurso = curso_has_modulo.Curso_idCurso
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo */
+/* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
+
+/* delete from unidad;
+delete from curso_has_modulo;
+delete from modulo;
+delete from curso;
+delete from carrera; 
+
+delete from usuario;
+delete from persona;*/
+
 /* ALTER TABLE multimedia
  ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia; */
 

@@ -62,22 +62,29 @@
 
       <li class="active">
         <a href="#homeSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-          <i class="ti-home m-r-10"></i> Navegador
+          <i class="ti-home m-r-10"></i>Inicio 
         </a>
         <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">
-          <li><a href="/carrera/viewcarrera">Visualizar Carreras</a></li>
-          <li><a href="#">Home 2</a></li>
+          <li><a href="/clase/viewcarrera"><i class="ti-book m-r-10"></i>Clases</a></li>
+          <li><a href="#"><i class="ti-pencil-alt m-r-10"></i>Mis Examenes</a></li>
           <li><a href="#">Home 3</a></li>
         </ul>
       </li>
       <li>
         {{!-- <a href="#" class="wave-effect">About</a> --}}
         <a href="#pageSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse"
-          aria-expanded="false">Administrar Carreras</a>
+          aria-expanded="false">Administrar Todo</a>
         <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="#accordion" id="accordion2">
-          <li><a href="/carrera/gestionarcarrera">Gestionar Carrera</a></li>
-          <li><a href="/carrera/addcarrera">Agregar Carrera</a></li>
-          <li><a href="/carrera/gestionarcarrera">Editar Carrera</a></li>
+          <li>
+            <a href="#pageSubmenu1" class="accordion-toggle wave-effect" data-toggle="collapse"
+              aria-expanded="false">Administrar Carreras</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu1" data-parent="#accordion1">
+
+              <li><a href="/carrera/gestionarcarrera">Gestionar Carrera</a></li>
+              <li><a href="/carrera/addcarrera">Agregar Carrera</a></li>
+              <li><a href="/carrera/gestionarcarrera">Editar Carrera</a></li>
+            </ul>
+          </li>
           <li>
             <a href="#pageSubmenu2" class="accordion-toggle wave-effect" data-toggle="collapse"
               aria-expanded="false">Administrar Cursos</a>
@@ -114,6 +121,10 @@
               <li><a href="/tema/gestionartema">Editar Tema</a></li>
             </ul>
           </li>
+          <li>
+            <a href="/tema/gestionarexamen" class="collapse list-unstyled">
+              <i class="ti-pencil-alt m-r-10"></i>Administrar Examenes</a>
+          </li>
           {{!-- <li>
             <a href="#pageSubmenu3" class="accordion-toggle wave-effect" data-toggle="collapse"
               aria-expanded="false">Even more</a>
@@ -131,9 +142,6 @@
       <li>
         <a href="#" class=" wave-effect">Contact</a>
       </li> --}}
-      <li>
-        <a href="/signin"><i class="fa fa-power-off"></i> Cerrar Sesión</a>
-      </li>
     </ul>
   </nav>
 

@@ -30,16 +30,12 @@ router.post('/addmodulo', isLoggedIn, async (req, res) => {
 
 router.get('/gestionarmodulo', isLoggedIn, async (req, res) => {
     const links = await pool.query('SELECT * FROM seeAllModuloCursoCarrera');
-    console.log(links);
-    
     res.render('modulo/gestionarmodulo', { links: links });
 });
 
 router.get('/editmodulo/:idModulo', isLoggedIn, async (req, res) => {
     const { idModulo } = req.params;
     const links = await pool.query('SELECT * FROM modulo WHERE idModulo = ?', [idModulo])
-    console.log(links);
-    
     res.render('modulo/editmodulo', { link: links[0] });
 });
 

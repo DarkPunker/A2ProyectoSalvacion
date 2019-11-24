@@ -4,12 +4,12 @@
             <div class="panel">
                 <div class="banner text-center">
                     <div class="container">
-                        <h1 class="logo-font">Administrador Modulos</h1>
+                        <h1 class="logo-font">Administrador de Modulos</h1>
                     </div>
                 </div>
                 <div class="container page text-center card-body">
+                    {{#each links}}
                     <div class="row">
-                        {{#each links}}
                         <div class="card-body  mb-3 mx-auto">
                             <h2 class="header">{{NombreCurso}}</h2>
                             <div class="card horizontal">
@@ -18,36 +18,32 @@
                                     <div class="card-content">
                                         <div class="card" style="width: 18rem;">
                                             <div class="card">
-                                                <div class="card-body">
-                                                    <h4 class="card-title">{{NombreSubCurso}}</h4>
-                                                        <h5 class="card-title">{{Nombre}}</h5>
-                                                        <a href="/modulo/editmodulo/{{idModulo}}"
-                                                            class="btn btn-secondary">Editar</a>
-                                                    </div>
+                                                <div class="card-body text-left">
+                                                    <p class="card-title h4">{{NombreSubCurso}}</p>
+                                                    <p class="card-title h5">{{Nombre}}</p>
+                                                    <a href="/modulo/editmodulo/{{idModulo}}"
+                                                        class="btn btn-secondary">Editar</a>
                                                 </div>
-                                            </div>
-                                            <div class="card-body">
-
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {{else}}
-                        <div class="col-md-4 mx-auto">
-                            <div class="card card-body text-center">
-                                <p>No hay ninguna carrera creada </b>
-                                    Para crear una ingrese a Administrar Carreras y despues a agregar carrera
-                                </p>
-                            </div>
-                        </div>
-                        {{/each}}
                     </div>
-                    <a href="/curso/addcurso" class="btn btn-success btn-lg  mb-3">Nuevo Curso</a>
+                    {{else}}
+                    <div class="col-md-4 mx-auto">
+                        <div class="card card-body text-center">
+                            <p>No hay ninguna carrera creada </b>
+                                Para crear una ingrese a Administrar Carreras y despues a agregar carrera
+                            </p>
+                        </div>
+                    </div>
+                    {{/each}}
                 </div>
+                <a href="/modulo/addmodulo" class="btn btn-success btn-lg  mb-3">Nuevo Modulo</a>
             </div>
         </div>
     </div>
 </div>
+

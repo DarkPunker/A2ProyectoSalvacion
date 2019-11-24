@@ -1,0 +1,25 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                {{#each pregunta}}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            <p class="card-title mb-2 h5">{{Pregunta}}</p>
+                        </div>
+                        <div class="text-right">
+                            <a href="/tema/editpregunta/{{idPregunta}}" class="btn btn-success active " role="button"
+                                aria-pressed="true">Editar
+                                Pregunta</a>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{Enunciado}}</li>
+                    </ul>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

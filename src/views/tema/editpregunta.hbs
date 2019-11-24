@@ -1,0 +1,33 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/tema/editpregunta/{{pregunta.idPregunta}}" method="POST">
+                            <fieldset>
+                                <fieldset class="form-group">
+                                    <p class="h4">Pregunta:</p>
+                                    <input class="form-control form-control-lg" value="{{pregunta.Pregunta}}"
+                                        type="text" placeholder="PREGUNTA" name="Pregunta">
+                                </fieldset>
+                                <p class="h4">Opciones:</p>
+                                {{#each opcion}}
+                                <fieldset class="form-group">
+                                    {{#if Correcta}}<p class="h6">Respuesta Correcta</p>{{else}}<p class="h6">Respuesta Incorrecta</p>{{/if}}
+                                    <input class="form-control form-control-lg" value="{{Enunciado}}" type="text"
+                                        placeholder="OPCION" name="Enunciado">
+
+                                </fieldset>
+                                {{/each}}
+                                <button class="btn btn-lg pull-xs-right btn-primary">
+                                    Guardar Pregunta
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

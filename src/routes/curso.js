@@ -30,8 +30,6 @@ router.post('/addcurso', isLoggedIn, async (req, res) => {
 router.get('/editcurso/:idCurso', isLoggedIn, async (req, res) => {
     const { idCurso } = req.params;
     const links = await pool.query('SELECT * FROM curso WHERE idCurso = ?', [idCurso])
-    console.log(links);
-    
     res.render('curso/editcurso', { link: links[0] });
 });
 

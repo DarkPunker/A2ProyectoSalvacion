@@ -1,0 +1,53 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <form action="/tema/addpregunta/{{tema.idTema}}" method="POST">
+                    <fieldset class="form-group">
+                        <fieldset>
+                            <p class="h4">Pregunta:</p>
+                            <input class="form-control form-control-lg" value="" type="text"
+                                placeholder="DIGITE PREGUNTA" name="Pregunta">
+                        </fieldset>
+                        <fieldset>
+                            <p class="h4">Opciones:</p>
+                            <p class="h6">Seleccione la opcion correcta</p>
+                            <div id="padre" class="form-group"></div>
+                        </fieldset>
+                        <fieldset>
+                            <button type="button" class="btn pull-xs-right btn btn-success"
+                                onclick="myFunction()">Agregar
+                                Opcion</button>
+                        </fieldset>
+                    </fieldset>
+                    <button class="btn btn-lg pull-xs-right btn-primary">
+                        Crear Pregunta
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var i = 0;
+    function myFunction() {
+        i++;
+        var padre = document.getElementById("padre");
+        var input = document.createElement("input");
+        var inputcheck = document.createElement("input");
+        inputcheck.setAttribute("type", "radio");
+        inputcheck.setAttribute("class", "checkbox");
+        inputcheck.setAttribute("name", "Correcta");
+        inputcheck.setAttribute("value", i);
+        input.setAttribute("type", "text");
+        input.setAttribute("class", "form-control form-control-lg");
+        input.setAttribute("placeholder", "DIGITE OPCION");
+        input.setAttribute("name", "Enunciado");
+        padre.appendChild(inputcheck);
+        padre.appendChild(input);
+        
+    }
+
+
+</script>

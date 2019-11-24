@@ -4,12 +4,12 @@
             <div class="panel">
                 <div class="banner text-center">
                     <div class="container">
-                        <h1 class="logo-font">Administrador de Carreras</h1>
+                        <h1 class="logo-font">Administrador de Cursos</h1>
                     </div>
                 </div>
                 <div class="container page text-center card-body">
+                    {{#each links}}
                     <div class="row">
-                        {{#each links}}
                         <div class="card-body  mb-3 mx-auto">
                             <h2 class="header">{{NombreCurso}}</h2>
                             <div class="card horizontal">
@@ -37,8 +37,8 @@
                         </div>
                         {{/each}}
                     </div>
-                    <a href="/curso/addcurso" class="btn btn-success btn-lg  mb-3">Nuevo Curso</a>
                 </div>
+                <a href="/curso/addcurso" class="btn btn-success btn-lg  mb-3">Nuevo Curso</a>
             </div>
         </div>
     </div>

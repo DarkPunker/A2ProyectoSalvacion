@@ -35,4 +35,26 @@ router.post('/addunidad', isLoggedIn, async (req, res) => {
     res.redirect('/unidad/gestionarunidad');
 });
 
+router.get('/gestionarunidad', isLoggedIn, async (req, res) => {
+    const links = await pool.query('SELECT * FROM seeAllUnidadModuloCursoCarrera');
+    res.render('unidad/gestionarunidad', { links: links });
+});
+
+router.get('/editunidad/:idUnidad', isLoggedIn, async (req, res) => {
+    const { idUnidad } = req.params;
+    const links = await pool.query('SELECT * FROM unidad WHERE idUnidad = ?', [idUnidad])
+    res.render('unidad/editunidad', { link: links[0] });
+});
+
+router.post('/editunidad/:idUnidad', isLoggedIn, async (req, res) => {
+    const { idUnidad } = req.params;
+    const { NombreUnidad } = req.body;
+    const newLink = {
+        NombreUnidad,
+    };
+    await pool.query('UPDATE unidad set ? WHERE idUnidad = ?', [newLink, idUnidad]);
+    req.flash('success', 'Unidad Modificado Correctamente');
+    res.redirect('/unidad/gestionarunidad');
+});
+
 module.exports = router;
