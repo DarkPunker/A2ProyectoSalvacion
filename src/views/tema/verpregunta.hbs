@@ -5,18 +5,22 @@
                 {{#each pregunta}}
                 <div class="card">
                     <div class="card-body">
-                        <div class="">
-                            <p class="card-title mb-2 h5">{{Pregunta}}</p>
-                        </div>
-                        <div class="text-right">
-                            <a href="/tema/editpregunta/{{idPregunta}}" class="btn btn-success active " role="button"
-                                aria-pressed="true">Editar
-                                Pregunta</a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="card-title mb-2 h5">{{Pregunta}}</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a href="/tema/editpregunta/{{idPregunta}}" class="btn btn-success active "
+                                    role="button" aria-pressed="true">Editar
+                                    Pregunta</a>
+                            </div>
                         </div>
                     </div>
+                    {{#each respuestas}}
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{Enunciado}}</li>
+                        <li class="list-group-item">{{respuesta}}</li>
                     </ul>
+                    {{/each}}
                 </div>
                 {{/each}}
             </div>

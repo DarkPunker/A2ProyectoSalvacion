@@ -8,9 +8,24 @@ const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 router.get('/exam/:idCurso', isLoggedInUser, async (req, res) => {
     const { idCurso } = req.params;
     const pregunta = await pool.query('CALL seeOpciones (?)', idCurso);
-    /* console.log(pregunta[0]); */
+    console.log(pregunta);
+    
+    var resp = pregunta[0].map(function (item) {
+        
+        var respuesta = item.respuestas.split("-");
 
-    res.render('clase/exam', { pregunta: pregunta[0] });
+        var jsonRes = []
+        for (var index = 0; index < respuesta.length; index++) {
+            var datos = respuesta[index].split(":")
+            jsonRes.push({idPregunta: item.idPregunta ,id: datos[0], respuesta: datos[1]})
+        }
+        
+        return {...item, respuestas: jsonRes}
+    })
+    console.log(resp);
+    
+    
+    res.render('clase/exam', { pregunta: resp });
 });
 
 router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {

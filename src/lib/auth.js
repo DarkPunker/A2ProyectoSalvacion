@@ -7,7 +7,14 @@ module.exports = {
     },
 
     isLoggedIn(req, res, next) {
-        if (req.user.Rol_idRol == 2  && req.isAuthenticated()) {
+        if ((req.user.Rol_idRol == 2 || req.user.Rol_idRol == 3) && req.isAuthenticated()) {
+            return next();
+        }
+        return res.redirect('/');
+    },
+
+    isLoggedInAdmin(req, res, next) {
+        if (req.user.Rol_idRol == 2 && req.isAuthenticated()) {
             return next();
         }
         return res.redirect('/');

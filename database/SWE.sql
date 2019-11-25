@@ -566,7 +566,7 @@ CREATE PROCEDURE `seeOpciones` (
   IN inidCurso INT
 )
 BEGIN
-SELECT *
+SELECT idPregunta, Pregunta, Correcta, GROUP_CONCAT(idOpcion, ':', Enunciado separator '-') as respuestas
 FROM Curso_has_Modulo
 INNER JOIN modulo
 ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
@@ -578,7 +578,8 @@ INNER JOIN pregunta
 ON tema.idTema = pregunta.Tema_idTema
 INNER JOIN opcion
 ON pregunta.idPregunta = opcion.Pregunta_idPregunta
-WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso
+GROUP BY pregunta.idPregunta;
 END $$
 DELIMITER ;
 
@@ -618,6 +619,21 @@ INNER JOIN opcion
 ON pregunta.idPregunta = opcion.Pregunta_idPregunta
 WHERE tema.idTema = inidTema
 ORDER BY tema.idTema ASC;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `seePreguntasRespuestasNuevo`;
+DELIMITER $$
+CREATE PROCEDURE `seePreguntasRespuestasNuevo` (
+  IN inidTema INT
+)
+BEGIN
+SELECT idPregunta, Pregunta, idOpcion, Correcta, GROUP_CONCAT(idOpcion, ':', Enunciado separator '-') as respuestas
+FROM pregunta
+INNER JOIN opcion
+ON pregunta.idPregunta = opcion.Pregunta_idPregunta
+WHERE pregunta.Tema_idTema = inidTema
+GROUP BY pregunta.idPregunta;
 END $$
 DELIMITER ;
 

@@ -98,8 +98,21 @@ router.get('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
 
 router.get('/verpregunta/:idTema', isLoggedIn, async (req, res) => {
     const { idTema } = req.params;
-    const pregunta = await pool.query('CALL seeTemaPreguntasRespuestas (?)', idTema);
-    res.render('tema/verpregunta', { pregunta: pregunta[0] });
+    const pregunta = await pool.query('CALL seePreguntasRespuestasNuevo (?)', idTema);
+    
+    var resp = pregunta[0].map(function (item) {
+        
+        var respuesta = item.respuestas.split("-");
+
+        var jsonRes = []
+        for (var index = 0; index < respuesta.length; index++) {
+            var datos = respuesta[index].split(":")
+            jsonRes.push({id: datos[0], respuesta: datos[1]})
+        }
+        
+        return {...item, respuestas: jsonRes}
+    })
+    res.render('tema/verpregunta', { pregunta: resp });
 });
 
 router.get('/editpregunta/:idPregunta', isLoggedIn, async (req, res) => {
@@ -124,17 +137,17 @@ router.post('/editpregunta/:idPregunta', isLoggedIn, async (req, res) => {
 
 router.post('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
     const { Pregunta, Enunciado, Correcta } = req.body
-    const {idTema} = req.params;
+    const { idTema } = req.params;
     await pool.query('INSERT INTO pregunta (Pregunta, Tema_idTema) VALUE  (?,?)', [Pregunta, idTema]);
     const id = await pool.query('SELECT * FROM pregunta WHERE Pregunta = ?', Pregunta);
     console.log(id);
-    
+
     const idpregunta = id[0].idPregunta;
     for (var i = 1; i <= Enunciado.length; i++) {
         if (Correcta == i) {
-            await pool.query('INSERT INTO opcion (Enunciado,Correcta,Pregunta_idPregunta) VALUE (?,?,?)',[Enunciado[i-1],1,idpregunta]);
-        }else{
-            await pool.query('INSERT INTO opcion (Enunciado,Correcta,Pregunta_idPregunta) VALUE (?,?,?)',[Enunciado[i-1],0,idpregunta]);
+            await pool.query('INSERT INTO opcion (Enunciado,Correcta,Pregunta_idPregunta) VALUE (?,?,?)', [Enunciado[i - 1], 1, idpregunta]);
+        } else {
+            await pool.query('INSERT INTO opcion (Enunciado,Correcta,Pregunta_idPregunta) VALUE (?,?,?)', [Enunciado[i - 1], 0, idpregunta]);
         }
     }
     req.flash('success', 'Pregunta Guardada Correctamente');
