@@ -9,8 +9,7 @@
                 {{#each data}}
                 <div class="card-header" id="headingOne" style="background: #021f38; color: #E8EDF2;">
                     <h2 class="mb-0">
-                        <a class="btn btn-link"
-                            href="/clase/viewclase/{{Curso_idCurso}}/{{idTema}}">{{NombreTema}}</a>
+                        <a class="btn btn-link" href="/clase/viewclase/{{Curso_idCurso}}/{{idTema}}">{{NombreTema}}</a>
                         {{!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
                             aria-expanded="true" aria-controls="{{Nombre}}">
                             {{Nombre}}
@@ -20,8 +19,7 @@
                 {{/each}}
                 <div class="card-header" id="headingOne" style="background: #021f38; color: #E8EDF2;">
                     <h2 class="mb-0">
-                        <a class="btn btn-link"
-                            href="/clase/exam/{{curso.idCurso}}">Evaluacion</a>
+                        <a class="btn btn-link" href="/clase/exam/{{curso.idCurso}}">Evaluacion</a>
                         {{!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
                             aria-expanded="true" aria-controls="{{Nombre}}">
                             {{Nombre}}
@@ -65,18 +63,23 @@
             <div class="page-content" style="margin: 1%; ">
                 <!-- Your content goes here -->
                 {{#each multimedia}}
-                <div class="row">
-                    <H1></H1>
-                    <p> {{DireccionMultimedia}}
-                    </p>
-                    {{#if DireccionVideo}}
-                    <iframe width="100%" height="315" src="{{DireccionVideo}}" frameborder="0"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                    {{/if}}    
+                <div class="card">
+                    <div class="card-header">
+                        <p class="h4">{{NombreMultimedia}}</p>
+                    </div>
+                    <div class="card-body">
+                        <p> {{DireccionMultimedia}}
+                            {{#if DireccionVideo}}
+                            <iframe width="100%" height="315" src="{{DireccionVideo}}" frameborder="0"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                            {{/if}}
+                    </div>
+                    <br>
+
                 </div>
                 {{/each}}
-                
+
 
                 {{!-- 
 

@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Multimedia` (
   `DireccionMultimedia` TEXT NOT NULL,
   `DireccionVideo` VARCHAR(255),
   `DireccionImagen` VARCHAR(255),
-  `EstadoMultimedia` TINYINT NOT NULL,
+  `EstadoMultimedia` TINYINT NOT NULL DEFAULT 1,
   `Tema_idTema` INT NOT NULL,
   `TipoMultimedia_idTipoMultimedia` INT NOT NULL,
   PRIMARY KEY (`idMultimedia`),
