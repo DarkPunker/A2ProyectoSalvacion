@@ -62,7 +62,7 @@
 
       <li class="active">
         <a href="#homeSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
-          <i class="ti-home m-r-10"></i>Inicio 
+          <i class="ti-home m-r-10"></i>Inicio
         </a>
         <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">
           <li><a href="/clase/viewcarrera"><i class="ti-book m-r-10"></i>Clases</a></li>
@@ -70,10 +70,11 @@
           <li><a href="#">Home 3</a></li>
         </ul>
       </li>
+      {{#ifCond user.Rol_idRol '>' 1}}
       <li>
         {{!-- <a href="#" class="wave-effect">About</a> --}}
         <a href="#pageSubmenu" class="accordion-toggle wave-effect" data-toggle="collapse"
-          aria-expanded="false">Administrar Todo</a>
+          aria-expanded="false">Administrar</a>
         <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="#accordion" id="accordion2">
           <li>
             <a href="#pageSubmenu1" class="accordion-toggle wave-effect" data-toggle="collapse"
@@ -137,12 +138,20 @@
           </li> --}}
         </ul>
       </li>
-      {{!-- <li>
-        <a href="#" class=" wave-effect">Portfolio</a>
-      </li>
+      {{/ifCond}}
+      {{#ifCond user.Rol_idRol '==' 2}}
       <li>
-        <a href="#" class=" wave-effect">Contact</a>
-      </li> --}}
+        <a href="#pageSubmenu6" class="accordion-toggle wave-effect" data-toggle="collapse"
+          aria-expanded="false">Administrar Pagina</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu6" data-parent="#accordion6">
+
+          <li><a href="/carrera/gestionarcarrera">Gestionar Carrera</a></li>
+          <li><a href="/carrera/addcarrera">Agregar Carrera</a></li>
+          <li><a href="/carrera/gestionarcarrera">Editar Carrera</a></li>
+        </ul>
+      </li>
+    </ul>
+    {{/ifCond}}
     </ul>
   </nav>
 
