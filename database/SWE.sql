@@ -583,6 +583,28 @@ GROUP BY pregunta.idPregunta;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `seeOpcionesComparacion`;
+DELIMITER $$
+CREATE PROCEDURE `seeOpcionesComparacion` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT idPregunta, Pregunta, idOpcion, Enunciado, Correcta
+FROM Curso_has_Modulo
+INNER JOIN modulo
+ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
+INNER JOIN unidad
+ON modulo.idModulo = unidad.Modulo_idModulo
+INNER JOIN tema
+ON unidad.idUnidad = tema.Unidad_idUnidad
+INNER JOIN pregunta
+ON tema.idTema = pregunta.Tema_idTema
+INNER JOIN opcion
+ON pregunta.idPregunta = opcion.Pregunta_idPregunta
+WHERE Curso_has_Modulo.Curso_idCurso = inidCurso AND opcion.Correcta = 1;
+END $$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS `seeTemaCountPreguntas`;
 DELIMITER $$
 CREATE PROCEDURE `seeTemaCountPreguntas` (
@@ -724,6 +746,7 @@ INSERT INTO TipoMultimedia VALUE (1,"video");
 INSERT INTO TipoMultimedia VALUE (2,"imagen");
 INSERT INTO TipoMultimedia VALUE (3,"texto");
 INSERT INTO TipoMultimedia VALUE (4,"audio");
+INSERT INTO TipoExamen (NombreTipoExamen) VALUE ("Curso");
 
 /* INSERT INTO pregunta VALUE (null,"prueba pregunta",3);
 INSERT INTO pregunta VALUE (null,"prueba pregunta tema 1",2);
@@ -765,7 +788,12 @@ INNER JOIN modulo
 ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo */
 /* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
 
-/* delete from unidad;
+/* 
+delete from opcion;
+delete from pregunta;
+delete from multimedia;
+delete from tema;
+delete from unidad;
 delete from curso_has_modulo;
 delete from modulo;
 delete from curso;
@@ -776,7 +804,7 @@ delete from persona;*/
 
 /* ALTER TABLE multimedia
  ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia; */
-
+ 
 /* UPDATE usuario SET Rol_idRol=2 WHERE idUsuario = "default"; */
 
 /* INSERT INTO multimedia value (null,"prueba addTema","marcha 21","https://www.youtube.com/embed/in0Zd5eWJSE",1,1,3); */
