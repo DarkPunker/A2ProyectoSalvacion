@@ -462,16 +462,17 @@ BEGIN
 DECLARE varidCarrera INT;
 DECLARE varidCurso INT;
 DECLARE varidModulo INT;
-INSERT INTO carrera VALUE (NULL, inNombreCarrera, inDescripcionCarrera);
+INSERT INTO carrera (NombreCurso, DescripcionCurso) VALUE ( inNombreCarrera, inDescripcionCarrera);
 SELECT carrera.idCarrera INTO varidCarrera FROM carrera WHERE carrera.NombreCurso = inNombreCarrera;
-INSERT INTO curso  VALUE (NULL, inNombreCurso, NULL, NULL, varidCarrera);
+INSERT INTO curso (NombreSubCurso, Curso_idCurso) VALUE ( inNombreCurso,  varidCarrera);
 SELECT curso.idCurso INTO varidCurso FROM curso WHERE curso.NombreSubCurso = inNombreCurso;
-INSERT INTO modulo VALUE (NULL, inNombreModulo);
+INSERT INTO modulo (Nombre) VALUE ( inNombreModulo);
 SELECT modulo.idModulo INTO varidModulo FROM modulo WHERE modulo.nombre = inNombreModulo;
 INSERT INTO Curso_has_Modulo VALUE (varidCurso, varidModulo, 1);
-INSERT INTO unidad VALUE (NULL, inNombreUnidad, varidModulo);
+INSERT INTO unidad (NombreUnidad, Modulo_idModulo) VALUE ( inNombreUnidad, varidModulo);
 END $$
 DELIMITER ;
+
 
 DROP PROCEDURE IF EXISTS `addModulo`;
 DELIMITER $$
