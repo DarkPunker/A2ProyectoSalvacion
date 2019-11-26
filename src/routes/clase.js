@@ -27,7 +27,7 @@ router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {
     const { idCurso } = req.params;
     const pregunta = await pool.query('CALL seeOpcionesComparacion (?)', idCurso);
     const r = req.body;
-    var punto = 5/pregunta[0].length;
+    var punto = 5 / pregunta[0].length;
     var notafinal = 0;
 
     for (var index = 0; index < pregunta[0].length; index++) {
@@ -35,16 +35,16 @@ router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {
         var correcta = pregunta[0][index].idOpcion
 
         if (r[pre] == correcta) {
-            notafinal+=punto;
+            notafinal += punto;
 
         }
 
-        
-        
+
+
 
     }
     console.log(notafinal);
-    
+
     res.send('enviado')
 
 
@@ -74,17 +74,15 @@ router.get('/viewcarrera', isLoggedInUser, async (req, res) => {
 
 router.get('/viewcarrera/:idCarrera', isLoggedInUser, async (req, res) => {
     const { idCarrera } = req.params;
-    const registro = await pool.query('SELECT * FROM UsuarioInscripcionCarrera WHERE Carrera_idCarrera = ?', idCarrera);
+    const newregistro = {
+        Usuario_idUsuario: req.user.idUsuario,
+        Carrera_idCarrera: idCarrera
+    }
+    const registro = await pool.query('SELECT * FROM UsuarioInscripcionCarrera WHERE Usuario_idUsuario = ? AND Carrera_idCarrera = ?', [req.user.idUsuario, idCarrera]);
+    if (registro.length == 0) {
+        await pool.query('INSERT INTO UsuarioInscripcionCarrera (Usuario_idUsuario, Carrera_idCarrera) VALUE (?,?)', [newregistro.Usuario_idUsuario, newregistro.Carrera_idCarrera])
+    }
     const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera);
-    /* var conf = true;
-    console.log(user.idUsuario);
-    
-    for (var index = 0; index < registro[0].length; index++) {
-        if (registro[0][index].Usuario_idUsuario == user.idUsuario) {
-            conf = false;
-        }
-        
-    } */
     res.render('clase/viewcarrera', { curso: curso });
 });
 
