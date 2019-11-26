@@ -222,29 +222,12 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `SoftwareEducativo`.`TipoExamen`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`TipoExamen` (
-  `idTipoExamen` INT NOT NULL AUTO_INCREMENT,
-  `NombreTipoExamen` VARCHAR(60) NOT NULL,
-  PRIMARY KEY (`idTipoExamen`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `SoftwareEducativo`.`Examen`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Examen` (
   `idExamen` INT NOT NULL AUTO_INCREMENT,
-  `NombreExamen` VARCHAR(60) NOT NULL,
-  `TipoExamen_idTipoExamen` INT NOT NULL,
-  PRIMARY KEY (`idExamen`),
-  INDEX `fk_Examen_TipoExamen1_idx` (`TipoExamen_idTipoExamen` ASC) VISIBLE,
-  CONSTRAINT `fk_Examen_TipoExamen1`
-    FOREIGN KEY (`TipoExamen_idTipoExamen`)
-    REFERENCES `SoftwareEducativo`.`TipoExamen` (`idTipoExamen`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `NombreExamen` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idExamen`))
 ENGINE = InnoDB;
 
 
@@ -335,7 +318,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`UsuarioPresentaExamen` (
   `idExamenPresentado` INT NOT NULL AUTO_INCREMENT,
   `Examen_idExamen` INT NOT NULL,
-  `Calificacion` DOUBLE NOT NULL,
+  `Calificacion` DOUBLE NOT NULL DEFAULT 1,
   `HoraInicio` timestamp NOT NULL DEFAULT current_timestamp,
   `HoraFin` DATETIME NULL,
   `UsuarioInscripcionCarrera_Usuario_idUsuario` VARCHAR(45) NOT NULL,
@@ -383,7 +366,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`UsuarioVeTema` (
   `Tema_idTema` INT NOT NULL,
-  `estado` TINYINT NOT NULL,
+  `fechaVista` timestamp NOT NULL DEFAULT current_timestamp,
   `UsuarioInscripcionCarrera_Usuario_idUsuario` VARCHAR(45) NOT NULL,
   `UsuarioInscripcionCarrera_Carrera_idCarrera` INT NOT NULL,
   PRIMARY KEY (`Tema_idTema`, `UsuarioInscripcionCarrera_Usuario_idUsuario`, `UsuarioInscripcionCarrera_Carrera_idCarrera`),
@@ -397,6 +380,29 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`UsuarioVeTema` (
   CONSTRAINT `fk_UsuarioVeTema_UsuarioInscripcionCarrera1`
     FOREIGN KEY (`UsuarioInscripcionCarrera_Usuario_idUsuario` , `UsuarioInscripcionCarrera_Carrera_idCarrera`)
     REFERENCES `SoftwareEducativo`.`UsuarioInscripcionCarrera` (`Usuario_idUsuario` , `Carrera_idCarrera`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `SoftwareEducativo`.`Curso_has_Examen`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Curso_has_Examen` (
+  `Curso_idCurso` INT NOT NULL,
+  `Examen_idExamen` INT NOT NULL,
+  `Estado` TINYINT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`Curso_idCurso`, `Examen_idExamen`),
+  INDEX `fk_Curso_has_Examen_Examen1_idx` (`Examen_idExamen` ASC) VISIBLE,
+  INDEX `fk_Curso_has_Examen_Curso1_idx` (`Curso_idCurso` ASC) VISIBLE,
+  CONSTRAINT `fk_Curso_has_Examen_Curso1`
+    FOREIGN KEY (`Curso_idCurso`)
+    REFERENCES `SoftwareEducativo`.`Curso` (`idCurso`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Curso_has_Examen_Examen1`
+    FOREIGN KEY (`Examen_idExamen`)
+    REFERENCES `SoftwareEducativo`.`Examen` (`idExamen`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

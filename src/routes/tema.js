@@ -66,19 +66,19 @@ router.post('/edittema/:idUnidad', isLoggedIn, async (req, res) => {
     res.redirect('/tema/gestionartema');
 });
 
-router.get('/gestionarexamen', isLoggedIn, async (req, res) => {
+router.get('/gestionarpregunta', isLoggedIn, async (req, res) => {
     const carrera = await pool.query('SELECT * from carrera');
-    res.render('tema/gestionarexamen', { carrera });
+    res.render('tema/gestionarpregunta', { carrera });
 });
 
-router.get('/gestionarexamen/:idCarrera', isLoggedIn, async (req, res) => {
+router.get('/gestionarpregunta/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     const carrera = await pool.query('SELECT * FROM carrera');
     const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera)
-    res.render('tema/gestionarexamen', { carrera, curso });
+    res.render('tema/gestionarpregunta', { carrera, curso });
 });
 
-router.get('/gestionarexamen/:idCarrera/:idCurso', isLoggedIn, async (req, res) => {
+router.get('/gestionarpregunta/:idCarrera/:idCurso', isLoggedIn, async (req, res) => {
     const { idCarrera, idCurso } = req.params;
     const ids = {
         idCarrera,
@@ -87,7 +87,7 @@ router.get('/gestionarexamen/:idCarrera/:idCurso', isLoggedIn, async (req, res) 
     const carrera = await pool.query('SELECT * FROM carrera');
     const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera);
     const tema = await pool.query('CALL seeTemaCountPreguntas (?)', idCurso);
-    res.render('tema/gestionarexamen', { carrera, curso, tema: tema[0], ids });
+    res.render('tema/gestionarpregunta', { carrera, curso, tema: tema[0], ids });
 });
 
 router.get('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
@@ -132,7 +132,7 @@ router.post('/editpregunta/:idPregunta', isLoggedIn, async (req, res) => {
         await pool.query('UPDATE opcion SET Enunciado = ? WHERE idOpcion = ?', [Enunciado[i], preguntaold[i].idOpcion])
     }
     req.flash('success', 'Pregunta Modificado Correctamente');
-    res.redirect('/tema/gestionarexamen');
+    res.redirect('/tema/gestionarpregunta');
 });
 
 router.post('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
@@ -151,7 +151,32 @@ router.post('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
         }
     }
     req.flash('success', 'Pregunta Guardada Correctamente');
-    res.redirect('/tema/gestionarexamen');
+    res.redirect('/tema/gestionarpregunta');
 });
+
+router.get('/gestionarexamen', isLoggedIn, async (req, res) => {
+    const carrera = await pool.query('SELECT * from carrera');
+    res.render('tema/gestionarpregunta', { carrera });
+});
+
+router.get('/gestionarexamen/:idCarrera', isLoggedIn, async (req, res) => {
+    const { idCarrera } = req.params;
+    const carrera = await pool.query('SELECT * FROM carrera');
+    const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera)
+    res.render('tema/gestionarexamen', { carrera, curso });
+});
+
+router.get('/gestionarexamen/:idCarrera/:idCurso', isLoggedIn, async (req, res) => {
+    const { idCarrera, idCurso } = req.params;
+    const ids = {
+        idCarrera,
+        idCurso
+    };
+    const carrera = await pool.query('SELECT * FROM carrera');
+    const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera);
+    const tema = await pool.query('SELECT * FROM Examen INNER JOIN Curso_has_Examen ON idExamne = Examen_idExamen WHERE Curso_idCurso', idCurso);
+    res.render('tema/gestionarexamen', { carrera, curso, tema: tema[0], ids });
+});
+
 
 module.exports = router;

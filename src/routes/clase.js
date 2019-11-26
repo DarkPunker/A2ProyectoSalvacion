@@ -61,9 +61,14 @@ router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
     const { idCurso, idTema } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
     const multimedia = await pool.query('SELECT * FROM tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
-    console.log(multimedia);
-
     const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
+    
+    const registro = await pool.query('SELECT * FROM UsuarioVeTema WHERE Tema_idTema = ? AND UsuarioInscripcionCarrera_Usuario_idUsuario = ? AND UsuarioInscripcionCarrera_Carrera_idCarrera = ?', [idTema, req.user.idUsuario, curso[0].Curso_idCurso]);
+    
+    if (registro.length == 0) {
+        await pool.query('INSERT INTO UsuarioVeTema (Tema_idTema, UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioInscripcionCarrera_Carrera_idCarrera) VALUE (?,?,?)', [idTema, req.user.idUsuario, curso[0].Curso_idCurso])
+    }    
+
     res.render('clase/viewclase', { data: data[0], multimedia, curso: curso[0] });
 });
 
