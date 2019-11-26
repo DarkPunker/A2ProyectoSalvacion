@@ -1,0 +1,45 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <form action="/tema/addexamen" method="POST">
+                    <fieldset class="form-group">
+                        <fieldset class="form-group">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle btn-lg btn-block" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Seleccione Carrera
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {{#each carrera}}
+                                    <a class="dropdown-item" href="/tema/addexamen/{{idCarrera}}"
+                                        class="btn btn-secondary">{{NombreCurso}}</a>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <select class="form-control" id="selunidad" name="selcurso">
+                                <option selected>
+                                    Seleccione Unidad
+                                </option>
+                                {{#each curso}}
+                                <option value="{{idCurso}}">{{NombreSubCurso}}</option>
+                                {{/each}}
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <p class="h4">Nombre Del Examen:</p>
+                            <input class="form-control form-control-lg" type="text" placeholder="Nombre del examen" name="NombreExamen">
+                        </fieldset>
+                    </fieldset>
+                    <button class="btn btn-lg pull-xs-right btn-primary">
+                        Crear Examen
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

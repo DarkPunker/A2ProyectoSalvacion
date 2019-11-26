@@ -1,0 +1,32 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="banner text-center">
+                    <div class="container">
+                        <h1 class="logo-font">Examenes</h1>
+                    </div>
+                </div>
+                <div class="container page text-center card-body">
+                    <div class="row h-100">
+                        {{#each examen}}
+                        <div class="card card-block col-sm-12 my-auto p-4">
+                                <h2 class="header">{{NombreExamen}}</h2>
+                                <div class="card">
+                                    <div class="card-stacked">
+                                        <div class="card-content">
+                                            <p class="card-text mb-3">Calificacion: {{Calificacion}} </p>
+                                            <p class="card-text mb-3">Hora de Inicio: {{HoraInicio}} </p>
+                                            <p class="card-text mb-3">Hora de Fin: {{HoraFin}} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

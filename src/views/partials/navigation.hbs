@@ -66,8 +66,7 @@
         </a>
         <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">
           <li><a href="/clase/viewcarrera"><i class="ti-book m-r-10"></i>Clases</a></li>
-          <li><a href="#"><i class="ti-pencil-alt m-r-10"></i>Mis Examenes</a></li>
-          <li><a href="#">Home 3</a></li>
+          <li><a href="/clase/viewexamen"><i class="ti-pencil-alt m-r-10"></i>Mis Examenes</a></li>
         </ul>
       </li>
       {{#ifCond user.Rol_idRol '>' 1}}
@@ -143,7 +142,7 @@
         </ul>
       </li>
       {{/ifCond}}
-      {{#ifCond user.Rol_idRol '==' 2}}
+      {{!-- {{#ifCond user.Rol_idRol '==' 2}}
       <li>
         <a href="#pageSubmenu6" class="accordion-toggle wave-effect" data-toggle="collapse"
           aria-expanded="false">Administrar Pagina</a>
@@ -153,7 +152,7 @@
         </ul>
       </li>
     </ul>
-    {{/ifCond}}
+    {{/ifCond}} --}}
     </ul>
   </nav>
 

@@ -5,9 +5,18 @@ const router = express.Router();
 const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
-router.get('/exam/:idCurso', isLoggedInUser, async (req, res) => {
-    const { idCurso } = req.params;
-    const pregunta = await pool.query('CALL seeOpciones (?)', idCurso);
+router.get('/viewexamen', isLoggedInUser, async (req, res) => {
+    const examen = await pool.query('SELECT * FROM Examen INNER JOIN UsuarioPresentaExamen ON idExamen = Examen_idExamen WHERE UsuarioInscripcionCarrera_Usuario_idUsuario = ?', [req.user.idUsuario]);
+    console.log(examen);
+    
+    res.render('clase/viewexamen', {examen});
+});
+
+router.get('/exam/:idExamen', isLoggedInUser, async (req, res) => {
+    const { idExamen } = req.params;
+    const Curso_idCurso = await pool.query('SELECT Curso.Curso_idCurso FROM Curso_has_Examen INNER JOIN Curso ON Curso_has_Examen.Curso_idCUrso = Curso.idCurso WHERE Examen_idExamen = ?', idExamen);
+    const idCarrera = Curso_idCurso[0].Curso_idCurso;
+    const pregunta = await pool.query('CALL ExamPreguntasOpciones (?)', idExamen);
     var resp = pregunta[0].map(function (item) {
 
         var respuesta = item.respuestas.split("-");
@@ -20,12 +29,15 @@ router.get('/exam/:idCurso', isLoggedInUser, async (req, res) => {
 
         return { ...item, respuestas: jsonRes }
     })
-    res.render('clase/exam', { pregunta: resp, idCurso });
+    const registro = await pool.query('INSERT INTO UsuarioPresentaExamen (Examen_idExamen, UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioInscripcionCarrera_Carrera_idCarrera) VALUE (?,?,?)', [idExamen, req.user.idUsuario, idCarrera]);
+    const idExamenPresentado = registro.insertId;
+
+    res.render('clase/exam', { pregunta: resp, idExamen, idExamenPresentado });
 });
 
-router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {
-    const { idCurso } = req.params;
-    const pregunta = await pool.query('CALL seeOpcionesComparacion (?)', idCurso);
+router.post('/exam/:idExamen/:idExamenPresentado', isLoggedInUser, async (req, res) => {
+    const { idExamen, idExamenPresentado } = req.params;
+    const pregunta = await pool.query('CALL seeOpcionesComparacion (?)', idExamen);
     const r = req.body;
     var punto = 5 / pregunta[0].length;
     var notafinal = 0;
@@ -38,12 +50,14 @@ router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {
             notafinal += punto;
 
         }
-
-
-
-
     }
-    console.log(notafinal);
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time;
+    
+
+    await pool.query('UPDATE UsuarioPresentaExamen SET Calificacion = ?, HoraFin = ? WHERE idExamenPresentado = ?', [notafinal ,dateTime, idExamenPresentado]);
 
     res.send('enviado')
 
@@ -53,8 +67,10 @@ router.post('/exam/:idCurso', isLoggedInUser, async (req, res) => {
 router.get('/viewclase/:idCurso', isLoggedInUser, async (req, res) => {
     const { idCurso } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
-    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
-    res.render('clase/viewclase', { data: data[0], curso: curso[0] });
+    const evaluacion = await pool.query('SELECT * FROM examen INNER JOIN Curso_has_Examen ON idExamen = Examen_idExamen WHERE Curso_idCurso = ?', idCurso);
+    console.log(evaluacion);
+
+    res.render('clase/viewclase', { data: data[0], evaluacion });
 });
 
 router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
@@ -62,12 +78,12 @@ router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
     const multimedia = await pool.query('SELECT * FROM tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
     const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
-    
+
     const registro = await pool.query('SELECT * FROM UsuarioVeTema WHERE Tema_idTema = ? AND UsuarioInscripcionCarrera_Usuario_idUsuario = ? AND UsuarioInscripcionCarrera_Carrera_idCarrera = ?', [idTema, req.user.idUsuario, curso[0].Curso_idCurso]);
-    
+
     if (registro.length == 0) {
         await pool.query('INSERT INTO UsuarioVeTema (Tema_idTema, UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioInscripcionCarrera_Carrera_idCarrera) VALUE (?,?,?)', [idTema, req.user.idUsuario, curso[0].Curso_idCurso])
-    }    
+    }
 
     res.render('clase/viewclase', { data: data[0], multimedia, curso: curso[0] });
 });

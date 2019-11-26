@@ -4,7 +4,7 @@
             <div class="panel">
                 <div class="banner text-center">
                     <div class="container">
-                        <h1 class="logo-font">Administrador de Preguntas</h1>
+                        <h1 class="logo-font">Administrador de Examen</h1>
                     </div>
                 </div>
                 <fieldset>
@@ -17,7 +17,7 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 {{#each carrera}}
-                                <a class="dropdown-item" href="/tema/gestionarpregunta/{{idCarrera}}"
+                                <a class="dropdown-item" href="/tema/gestionarexamen/{{idCarrera}}"
                                     class="btn btn-secondary">{{NombreCurso}}</a>
                                 {{/each}}
                             </div>
@@ -32,30 +32,33 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 {{#each curso}}
-                                <a class="dropdown-item" href="/tema/gestionarpregunta/{{Curso_idCurso}}/{{idCurso}}"
+                                <a class="dropdown-item" href="/tema/gestionarexamen/{{Curso_idCurso}}/{{idCurso}}"
                                     class="btn btn-secondary">{{NombreSubCurso}}</a>
                                 {{/each}}
                             </div>
                         </div>
                     </fieldset>
                     <fieldset class="form-group ">
-                        <p class="card-title mb-2 h4">Temas</p>
+                        <p class="card-title mb-2 h4">Examenes</p>
                     </fieldset>
                     <fieldset class="form-group ">
-                        {{#each tema}}
+                        {{#each examen}}
                         <div class="card p-4">
                             <div class="card-body">
-                                <p class="card-title mb-2 h5">{{NombreTema}}</p>
+                                <p class="card-title mb-2 h5">{{NombreExamen}}</p>
                                 <p class="card-title text-muted  mb-2 h6">Cantidad de Preguntas: {{Cantidad}}</p>
                                 <div class="text-right">
-                                    <a href="/tema/verpregunta/{{idTema}}" class="btn btn-primary active" role="button" aria-pressed="true">Ver
-                                        Preguntas</a>
-                                    <a href="/tema/addpregunta/{{idTema}}" class="btn btn-success active" role="button" aria-pressed="true">Agregar
+                                    {{!-- <a href="/tema/verpregunta/{{idTema}}" class="btn btn-primary active" role="button" aria-pressed="true">Ver
+                                        Preguntas</a> --}}
+                                    {{#ifCond Cantidad '==' 0}}
+                                    <a href="/tema/addpreguntaexamen/{{idExamen}}" class="btn btn-success active" role="button" aria-pressed="true">Agregar
                                         Pregunta</a>
+                                    {{/ifCond}}
                                 </div>
                             </div>
                         </div>
                         {{/each}}
+                        <a href="/tema/addexamen" class="btn btn-success btn-lg  mb-3">Nueva Examen</a>
                     </fieldset>
                 </fieldset>
             </div>

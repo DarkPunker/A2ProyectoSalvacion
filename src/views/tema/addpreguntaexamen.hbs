@@ -1,0 +1,38 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <form action="/tema/addpreguntaexamen/{{idExamen}}" method="POST">
+                    {{#each pregunta}}
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="card-title mb-2 h5">{{Pregunta}}</p>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{idPregunta}}"
+                                            name="add">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            Agregar
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{#each respuestas}}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{respuesta}}</li>
+                        </ul>
+                        {{/each}}
+                    </div>
+                    {{/each}}
+                    <button class="btn btn-lg pull-xs-right btn-primary">
+                        Guardar Preguntas
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

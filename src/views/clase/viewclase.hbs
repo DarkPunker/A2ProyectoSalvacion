@@ -17,15 +17,17 @@
                     </h2>
                 </div>
                 {{/each}}
+                {{#each evaluacion}}
                 <div class="card-header" id="headingOne" style="background: #021f38; color: #E8EDF2;">
                     <h2 class="mb-0">
-                        <a class="btn btn-link" href="/clase/exam/{{curso.idCurso}}">Evaluacion</a>
+                        <a class="btn btn-link" href="/clase/exam/{{idExamen}}">{{NombreExamen}}</a>
                         {{!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
                             aria-expanded="true" aria-controls="{{Nombre}}">
                             {{Nombre}}
                         </button> --}}
                     </h2>
                 </div>
+                {{/each}}
                 {{!-- <div id="{{Nombre}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 
                     <div class="card-body">

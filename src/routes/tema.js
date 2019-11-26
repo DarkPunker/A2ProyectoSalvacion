@@ -99,18 +99,18 @@ router.get('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
 router.get('/verpregunta/:idTema', isLoggedIn, async (req, res) => {
     const { idTema } = req.params;
     const pregunta = await pool.query('CALL seePreguntasRespuestasNuevo (?)', idTema);
-    
+
     var resp = pregunta[0].map(function (item) {
-        
+
         var respuesta = item.respuestas.split("-");
 
         var jsonRes = []
         for (var index = 0; index < respuesta.length; index++) {
             var datos = respuesta[index].split(":")
-            jsonRes.push({id: datos[0], respuesta: datos[1]})
+            jsonRes.push({ id: datos[0], respuesta: datos[1] })
         }
-        
-        return {...item, respuestas: jsonRes}
+
+        return { ...item, respuestas: jsonRes }
     })
     res.render('tema/verpregunta', { pregunta: resp });
 });
@@ -140,8 +140,6 @@ router.post('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
     const { idTema } = req.params;
     await pool.query('INSERT INTO pregunta (Pregunta, Tema_idTema) VALUE  (?,?)', [Pregunta, idTema]);
     const id = await pool.query('SELECT * FROM pregunta WHERE Pregunta = ?', Pregunta);
-    console.log(id);
-
     const idpregunta = id[0].idPregunta;
     for (var i = 1; i <= Enunciado.length; i++) {
         if (Correcta == i) {
@@ -156,7 +154,7 @@ router.post('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
 
 router.get('/gestionarexamen', isLoggedIn, async (req, res) => {
     const carrera = await pool.query('SELECT * from carrera');
-    res.render('tema/gestionarpregunta', { carrera });
+    res.render('tema/gestionarexamen', { carrera });
 });
 
 router.get('/gestionarexamen/:idCarrera', isLoggedIn, async (req, res) => {
@@ -174,9 +172,64 @@ router.get('/gestionarexamen/:idCarrera/:idCurso', isLoggedIn, async (req, res) 
     };
     const carrera = await pool.query('SELECT * FROM carrera');
     const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera);
-    const tema = await pool.query('SELECT * FROM Examen INNER JOIN Curso_has_Examen ON idExamne = Examen_idExamen WHERE Curso_idCurso', idCurso);
-    res.render('tema/gestionarexamen', { carrera, curso, tema: tema[0], ids });
+    const examen = await pool.query('CALL seeExamCountPreguntas (?)', idCurso);
+    res.render('tema/gestionarexamen', { carrera, curso, examen: examen[0], ids });
 });
 
+router.get('/addexamen', isLoggedIn, async (req, res) => {
+    const carrera = await pool.query('SELECT * FROM carrera');
+    res.render('tema/addexamen', { carrera: carrera });
+});
 
+router.get('/addexamen/:idCarrera', isLoggedIn, async (req, res) => {
+    const { idCarrera } = req.params;
+    const carrera = await pool.query('SELECT * FROM carrera');
+    const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera)
+    res.render('tema/addexamen', { carrera, curso });
+});
+
+router.post('/addexamen', isLoggedIn, async (req, res) => {
+    const { NombreExamen } = req.body;
+    const idCurso = parseInt(req.body.selcurso);
+    await pool.query('INSERT INTO examen (NombreExamen) VALUE (?)', NombreExamen);
+    const registro = await pool.query('SELECT idExamen FROM examen WHERE NombreExamen = ?', NombreExamen);
+    const newExam = {
+        Curso_idCurso: idCurso,
+        Examen_idExamen: registro[0].idExamen
+    }
+    await pool.query('INSERT INTO Curso_has_Examen set ?', [newExam]);
+    req.flash('success', 'Examen Guardado Correctamente');
+    res.redirect('/tema/gestionarexamen');
+});
+
+router.get('/addpreguntaexamen/:idExamen', isLoggedIn, async (req, res) => {
+    const { idExamen } = req.params;
+    const idCurso = await pool.query('SELECT Curso_idCurso FROM Curso_has_Examen WHERE Examen_idExamen = ?', idExamen);
+    const pregunta = await pool.query('CALL seeOpciones (?)', idCurso[0].Curso_idCurso);
+    var resp = pregunta[0].map(function (item) {
+
+        var respuesta = item.respuestas.split("-");
+
+        var jsonRes = []
+        for (var index = 0; index < respuesta.length; index++) {
+            var datos = respuesta[index].split(":")
+            jsonRes.push({ idPregunta: item.idPregunta, id: datos[0], respuesta: datos[1] })
+        }
+
+        return { ...item, respuestas: jsonRes }
+    })
+    console.log(resp);
+
+    res.render('tema/addpreguntaexamen', { pregunta: resp, idExamen });
+});
+
+router.post('/addpreguntaexamen/:idExamen', isLoggedIn, (req, res) => {
+    const { idExamen } = req.params;
+    const add = req.body.add;
+    for (var i = 0; i < add.length; i++) {
+        pool.query('INSERT INTO Examen_has_Pregunta VALUE (?,?)', [idExamen, add[i]])
+    }
+    req.flash('success', 'Preguntas Guardadas Correctamente');
+    res.redirect('/tema/gestionarexamen');
+});
 module.exports = router;

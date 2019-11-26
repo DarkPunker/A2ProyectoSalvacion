@@ -589,25 +589,64 @@ GROUP BY pregunta.idPregunta;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `ExamPreguntasOpciones`;
+DELIMITER $$
+CREATE PROCEDURE `ExamPreguntasOpciones` (
+  IN inidExamen INT
+)
+BEGIN
+SELECT idPregunta, Pregunta, Correcta, GROUP_CONCAT(idOpcion, ':', Enunciado separator '-') as respuestas
+FROM Curso_has_Examen 
+INNER JOIN Examen
+ON Examen.idExamen = Curso_has_Examen.Examen_idExamen
+INNER JOIN Examen_has_Pregunta
+ON Examen.idExamen = Examen_has_Pregunta.Examen_idExamen
+INNER JOIN Pregunta
+ON Pregunta.idPregunta = Examen_has_Pregunta.Pregunta_idPregunta
+INNER JOIN Opcion
+ON Pregunta.idPregunta = Opcion.Pregunta_idPregunta
+WHERE Examen.idExamen = inidExamen
+GROUP BY Pregunta.idPregunta;
+END $$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS `seeOpcionesComparacion`;
 DELIMITER $$
 CREATE PROCEDURE `seeOpcionesComparacion` (
-  IN inidCurso INT
+  IN inidExamen INT
 )
 BEGIN
 SELECT idPregunta, Pregunta, idOpcion, Enunciado, Correcta
-FROM Curso_has_Modulo
-INNER JOIN modulo
-ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
-INNER JOIN unidad
-ON modulo.idModulo = unidad.Modulo_idModulo
-INNER JOIN tema
-ON unidad.idUnidad = tema.Unidad_idUnidad
-INNER JOIN pregunta
-ON tema.idTema = pregunta.Tema_idTema
-INNER JOIN opcion
-ON pregunta.idPregunta = opcion.Pregunta_idPregunta
-WHERE Curso_has_Modulo.Curso_idCurso = inidCurso AND opcion.Correcta = 1;
+FROM Curso_has_Examen 
+INNER JOIN Examen
+ON Examen.idExamen = Curso_has_Examen.Examen_idExamen
+INNER JOIN Examen_has_Pregunta
+ON Examen.idExamen = Examen_has_Pregunta.Examen_idExamen
+INNER JOIN Pregunta
+ON Pregunta.idPregunta = Examen_has_Pregunta.Pregunta_idPregunta
+INNER JOIN Opcion
+ON Pregunta.idPregunta = Opcion.Pregunta_idPregunta
+WHERE Examen.idExamen = inidExamen AND opcion.Correcta = 1;
+END $$
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS `seeExamCountPreguntas`;
+DELIMITER $$
+CREATE PROCEDURE `seeExamCountPreguntas` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT Examen.idExamen, Examen.NombreExamen, COUNT(Examen_has_Pregunta.Pregunta_idPreguta)AS Cantidad
+FROM Curso_has_Examen 
+INNER JOIN Examen
+ON Examen.idExamen = Curso_has_Examen.Examen_idExamen 
+LEFT JOIN Examen_has_Pregunta
+ON Examen.idExamen = Examen_has_Pregunta.Examen_idExamen
+WHERE Curso_idCurso = inidCurso
+GROUP BY Examen.idExamen
+ORDER BY Examen.idExamen ASC;
 END $$
 DELIMITER ;
 
