@@ -59,7 +59,7 @@ router.post('/exam/:idExamen/:idExamenPresentado', isLoggedInUser, async (req, r
 
     await pool.query('UPDATE UsuarioPresentaExamen SET Calificacion = ?, HoraFin = ? WHERE idExamenPresentado = ?', [notafinal ,dateTime, idExamenPresentado]);
 
-    res.send('enviado')
+    res.redirect('/clase/viewexamen');
 
 
 });
@@ -78,14 +78,14 @@ router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
     const multimedia = await pool.query('SELECT * FROM tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
     const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
-
+    const evaluacion = await pool.query('SELECT * FROM examen INNER JOIN Curso_has_Examen ON idExamen = Examen_idExamen WHERE Curso_idCurso = ?', idCurso);
     const registro = await pool.query('SELECT * FROM UsuarioVeTema WHERE Tema_idTema = ? AND UsuarioInscripcionCarrera_Usuario_idUsuario = ? AND UsuarioInscripcionCarrera_Carrera_idCarrera = ?', [idTema, req.user.idUsuario, curso[0].Curso_idCurso]);
 
     if (registro.length == 0) {
         await pool.query('INSERT INTO UsuarioVeTema (Tema_idTema, UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioInscripcionCarrera_Carrera_idCarrera) VALUE (?,?,?)', [idTema, req.user.idUsuario, curso[0].Curso_idCurso])
     }
 
-    res.render('clase/viewclase', { data: data[0], multimedia, curso: curso[0] });
+    res.render('clase/viewclase', { data: data[0], multimedia, curso: curso[0],  evaluacion });
 });
 
 router.get('/viewcarrera', isLoggedInUser, async (req, res) => {
