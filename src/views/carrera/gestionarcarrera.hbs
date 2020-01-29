@@ -8,22 +8,19 @@
                     </div>
                 </div>
                 <div class="container page text-center card-body">
-                    {{#each links}}
-                    <div class="row">
-                        <div class="card-body  mb-3 mx-auto">
-                            <a href="">
-                                <h2 class="header">{{NombreCurso}}</h2>
-                                <div class="card horizontal">
-                                    <img class="user-img" src="">
-                                    <div class="card-stacked">
-                                        <div class="card-content">
-                                            <p class="card-text mb-3"> {{DescripcionCurso}} </p>
-                                            <a href="/carrera/editcarrera/{{idCarrera}}"
-                                                class="btn btn-secondary">Editar</a>
-                                        </div>
+                    <div class="row h-100">
+                        {{#each links}}
+                        <div class="card card-block col-sm-12 my-auto p-4">
+                            <h2 class="header">{{NombreCurso}}</h2>
+                            <div class="card">
+                                <div class="card-stacked">
+                                    <div class="card-content">
+                                        <p class="card-text mb-3"> {{DescripcionCurso}} </p>
+                                        <a href="/carrera/editcarrera/{{idCarrera}}"
+                                            class="btn btn-secondary">Editar</a>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                         {{else}}
                         <div class="col-md-4 mx-auto">
@@ -35,8 +32,8 @@
                         </div>
                         {{/each}}
                     </div>
-                    <a href="/carrera/addcarrera" class="btn btn-success btn-lg  mb-3">Nueva Carrera</a>
                 </div>
+                <a href="/carrera/addcarrera" class="btn btn-success btn-lg  mb-3">Nueva Carrera</a>
             </div>
         </div>
     </div>
