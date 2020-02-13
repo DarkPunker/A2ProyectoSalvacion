@@ -6,9 +6,11 @@ const {database} = require('./keys');
 
 const pool = mysql.createPool(database);
 
-mongoose.connect('mongodb://localhost:27017/softwareeducativo',{
-    user: "admin",
-    pass: "1234",
+/* pass: "VqSnGDhs1FKcLtXD" */
+
+mongoose.connect('mongodb+srv://admin:VqSnGDhs1FKcLtXD@softwareeducativojson-tzliv.mongodb.net/test?retryWrites=true&w=majority',{
+    /* user: "admin", */
+    /* pass: "1234", */
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
