@@ -27,15 +27,18 @@
                     </fieldset>
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" value="{{data.Apellido2}}" type="text"
-                           placeholder="SEGUNDO APELLIDO" name="Apellido2">
+                            placeholder="SEGUNDO APELLIDO" name="Apellido2">
                     </fieldset>
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" value="{{data.FechaNacimiento}}" type="text"
                             placeholder="FECHA DE NACIMIENTO" name="FechaNacimiento">
                     </fieldset>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" value="{{data.sexo}}" type="text"
-                            placeholder="SEXO" name="sexo">
+                        <label for="exampleInputEmail1">Genero</label>
+                        <select class="custom-select" id="sexo" name="sexo">
+                            <option value="0">Femenino</option>
+                            <option value="1">Masculino</option>
+                        </select>
                     </fieldset>
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" value="{{data.Direccion_idBarrio}}" type="text"
@@ -45,9 +48,7 @@
                         <input class="form-control form-control-lg" value="{{data.NumeroTelefono}}" type="text"
                             placeholder="TELEFONO" name="telefono">
                     </fieldset>
-                    <a href="/profile/profile" class="btn btn-lg pull-xs-right btn-primary">
-                        Guardar
-                    </a>
+                    <input type="submit" class="btn btn-lg pull-xs-right btn-primary" name="submit" value="Guardar">
                 </form>
             </div>
         </div>

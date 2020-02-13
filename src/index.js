@@ -8,6 +8,7 @@ const mysqlstore = require('express-mysql-session');
 const { database } = require('./keys');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 
 
 //initilazation
@@ -38,6 +39,7 @@ app.use(session({
 app.use(flash());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,6 +67,7 @@ app.use('/unidad', require('./routes/unidad'));
 app.use('/tema', require('./routes/tema'));
 app.use('/clase', require('./routes/clase'));
 app.use('/multimedia', require('./routes/multimedia'));
+app.use('/admin', require('./routes/admin'));
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));

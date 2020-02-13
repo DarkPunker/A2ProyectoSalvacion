@@ -412,7 +412,7 @@ USE `SoftwareEducativo` ;
 -- -----------------------------------------------------
 -- Placeholder table for view `SoftwareEducativo`.`view1`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`view1` (`id` INT);
+-- CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`view1` (`id` INT);
 
 -- -----------------------------------------------------
 -- Procedure
@@ -469,11 +469,11 @@ DECLARE varidCarrera INT;
 DECLARE varidCurso INT;
 DECLARE varidModulo INT;
 INSERT INTO carrera (NombreCurso, DescripcionCurso) VALUE ( inNombreCarrera, inDescripcionCarrera);
-SELECT carrera.idCarrera INTO varidCarrera FROM carrera WHERE carrera.NombreCurso = inNombreCarrera;
+SELECT LAST_INSERT_ID() INTO varidCarrera;
 INSERT INTO curso (NombreSubCurso, Curso_idCurso) VALUE ( inNombreCurso,  varidCarrera);
-SELECT curso.idCurso INTO varidCurso FROM curso WHERE curso.NombreSubCurso = inNombreCurso;
+SELECT LAST_INSERT_ID() INTO varidCurso;
 INSERT INTO modulo (Nombre) VALUE ( inNombreModulo);
-SELECT modulo.idModulo INTO varidModulo FROM modulo WHERE modulo.nombre = inNombreModulo;
+SELECT LAST_INSERT_ID() INTO varidModulo;
 INSERT INTO Curso_has_Modulo VALUE (varidCurso, varidModulo, 1);
 INSERT INTO unidad (NombreUnidad, Modulo_idModulo) VALUE ( inNombreUnidad, varidModulo);
 END $$
@@ -489,7 +489,7 @@ CREATE PROCEDURE `addModulo` (
 BEGIN
 DECLARE varidModulo INT;
 INSERT INTO modulo VALUE (NULL, inNombreModulo);
-SELECT modulo.idModulo INTO varidModulo FROM modulo WHERE modulo.nombre = inNombreModulo;
+SELECT LAST_INSERT_ID() INTO varidModulo;
 INSERT INTO Curso_has_Modulo VALUE (inidCurso, varidModulo, 1);
 END $$
 DELIMITER ;
@@ -638,7 +638,7 @@ CREATE PROCEDURE `seeExamCountPreguntas` (
   IN inidCurso INT
 )
 BEGIN
-SELECT Examen.idExamen, Examen.NombreExamen, COUNT(Examen_has_Pregunta.Pregunta_idPreguta)AS Cantidad
+SELECT Examen.idExamen, Examen.NombreExamen, COUNT(Examen_has_Pregunta.Pregunta_idPregunta)AS Cantidad
 FROM Curso_has_Examen 
 INNER JOIN Examen
 ON Examen.idExamen = Curso_has_Examen.Examen_idExamen 
@@ -726,11 +726,34 @@ ORDER BY tema.idTema ASC;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `seeUserRol`;
+DELIMITER $$
+CREATE PROCEDURE `seeUserRol` (
+  IN inidUsuario VARCHAR(45)
+)
+BEGIN
+SELECT usuario.idUsuario AS nombre, usuario.Rol_idRol AS rol, 
+usuario.Persona_cedula AS identificacion, usuario.EstadoRol AS estado, 
+usuario.Correo AS correo
+FROM usuario
+WHERE usuario.idUsuario = inidUsuario;
+END $$
+DELIMITER ;
 
--- -----------------------------------------------------
--- View `SoftwareEducativo`.`view1`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `SoftwareEducativo`.`view1`;
+DROP PROCEDURE IF EXISTS `editUserAdmin`;
+DELIMITER $$
+CREATE PROCEDURE `editUserAdmin` (
+  IN inidUser VARCHAR (45),
+  IN inrol INT,
+  IN inestado TINYINT
+)
+BEGIN
+UPDATE usuario 
+SET Rol_idRol = inrol, EstadoRol = inestado 
+WHERE usuario.idUsuario = inidUser;
+END $$
+DELIMITER ;
+
 USE `SoftwareEducativo`;
 
 -- -----------------------------------------------------
@@ -778,20 +801,33 @@ ON modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
 INNER JOIN unidad
 ON modulo.idModulo = unidad.Modulo_idModulo
 INNER JOIN  tema
-ON unidad.idUnidad = tema.Unidad_idUnidad;
+ON unidad.idUnidad = tema.Unidad_idUnidad
 ;
+
+DROP VIEW IF EXISTS `seeAllUsers`;
+CREATE VIEW `seeAllUsers` AS
+SELECT usuario.idUsuario AS nombre, usuario.Persona_cedula AS identificacion, 
+usuario.Correo AS correo, rol.NombreRol AS rol,
+CASE
+  WHEN usuario.EstadoRol != 0 THEN "Activo"
+  ELSE "Inactivo"
+END AS estado
+FROM usuario
+INNER JOIN rol
+ON rol.idRol = usuario.Rol_idRol
+;
+
 -- -----------------------------------------------------
 -- Default data 
 -- -----------------------------------------------------
-INSERT INTO identificacion VALUE (1,"cedula");
+/* INSERT INTO identificacion VALUE (1,"cedula");
 INSERT INTO rol VALUE (1,"estudiante");
 INSERT INTO rol VALUE (2,"administrador");
 INSERT INTO rol VALUE (3,"docente");
 INSERT INTO TipoMultimedia VALUE (1,"video");
 INSERT INTO TipoMultimedia VALUE (2,"imagen");
 INSERT INTO TipoMultimedia VALUE (3,"texto");
-INSERT INTO TipoMultimedia VALUE (4,"audio");
-INSERT INTO TipoExamen (NombreTipoExamen) VALUE ("Curso");
+INSERT INTO TipoMultimedia VALUE (4,"audio"); */
 
 /* INSERT INTO pregunta VALUE (null,"prueba pregunta",3);
 INSERT INTO pregunta VALUE (null,"prueba pregunta tema 1",2);

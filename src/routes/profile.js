@@ -14,19 +14,14 @@ router.get('/profile', isLoggedInUser, async (req, res) => {
 router.get('/editprofile/:idUsuario', isLoggedInUser, async (req, res) => {
     const { idUsuario } = req.params;
     const data = await pool.query('CALL usuarioPersonaTelefono (?)', [idUsuario]);
-    res.render('profile/editprofile', { data: data[0] });
+    res.render('profile/editprofile', { data: data[0][0] });
 });
 
-/* router.post('/editprofile/:idprofile', isLoggedIn, async (req, res) => {
-    const { idCarrera } = req.params;
-    const { NombreCurso, DescripcionCurso } = req.body;
-    const newLink = {
-        NombreCurso,
-        DescripcionCurso
-    };
-    await pool.query('UPDATE carrera set ? WHERE idCarrera = ?', [newLink, idCarrera]);
-    req.flash('success', 'Carrera Modificada Correctamente');
-    res.redirect('/carrera/gestionarcarrera');
-}); */
+router.post('/editprofile/:idUsuario', isLoggedIn, async (req, res) => {
+    console.log(req.body);
+    
+    res.send('profile/editprofile');
+
+});
 
 module.exports = router;

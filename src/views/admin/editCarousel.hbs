@@ -1,0 +1,39 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                {{!--  --}}
+                <form action="/admin/editCarousel/{{carousel._id}}" method="POST">
+                    <fieldset>
+                        <div class="card">
+                            <img class="card-img-top" style="height: 200px;" src={{carousel.direccion}}
+                                alt="Card image cap">
+                            <div class="card-body">
+                                <fieldset>
+                                    <p>Url *</p>
+                                    <input class="form-control form-control-lg" type="url" placeholder="DIGITE DIRECCION"
+                                        name="direccion" value="{{carousel.direccion}}">
+                                </fieldset>
+                                <fieldset>
+                                    <p>Nombre</p>
+                                    <input class="form-control form-control-lg" type="text" placeholder="DIGITE NOMBRE"
+                                        name="nombre" value="{{carousel.nombre}}">
+                                </fieldset>
+                                <fieldset>
+                                    <p>Descripcion</p>
+                                    <textarea class="form-control" rows="5" type="text" placeholder="DIGITE DESCRIPCION"
+                                        name="descripcion">{{carousel.descripcion}}
+                                    </textarea>
+                                </fieldset>
+                                <button class="btn btn-success">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                {{!--  --}}
+            </div>
+        </div>
+    </div>
+</div>

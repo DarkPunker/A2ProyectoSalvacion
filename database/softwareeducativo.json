@@ -1,0 +1,26 @@
+/* use softwareeducativo ----crear una base de datos */
+/* db ----ver si esto dentro de la base de datos*/
+db.createUser(
+    {
+        nombre: "admin",
+        pwd: "1234",
+        roles: ["readWrite", "dbAdmin"]
+    }
+);
+
+db.carousels.insert([
+{
+    nombre: '',
+    direccion: 'https://conexioncapital.co/wp-content/uploads/2018/07/%C2%BFQUE%CC%81-ES-UNA-ACCIO%CC%81N-DE-CUMPLIMIENTO-.jpg',
+    descripcion: ''
+},{
+    nombre: 'Derechos Constitucionales',
+    direccion: 'https://i.ytimg.com/vi/bBrzvtrDno0/maxresdefault.jpg',
+    descripcion: 'Son aquellos incluidos en la norma constitutiva y organizativa de un Estado generalmente denominada Constitución que se consideran como esenciales en el sistema político y que están especialmente vinculados a la dignidad humana'
+},{
+    nombre: '',
+    direccion: 'https://secretariageneral.gov.co/sites/default/files/Noticias/imagen_tutela-01.jpg',
+    descripcion: 'La acción de tutela es como se denomina un mecanismo previsto en el artículo 86 de la Constitución Política de Colombia, que busca proteger los Derechos constitucionales de los individuos "cuando cualquiera de éstos resulten vulnerados o amenazados por la acción o la omisión de cualquier autoridad pública'
+}
+]
+)

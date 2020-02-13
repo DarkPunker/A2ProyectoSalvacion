@@ -1,0 +1,38 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="banner text-center">
+                    <div class="container">
+                        <h1 class="logo-font">Administrador de Usuarios</h1>
+                    </div>
+                </div>
+                {{#each users}}
+                <div class="media p-2">
+                    <img src="https://placehold.it/200x200" class="mr-3" alt="UserImage">
+                    <div class="media-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Usuario: {{nombre}}</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <p class="card-text">Numero de Identificacion: {{identificacion}}</p>
+                                        <p class="card-text">Correo: {{correo}}</p>
+                                        <p class="card-text">Rol: {{rol}}</p>
+                                    </div>
+                                    <div class="col-sm">
+                                        <p class="card-text">Estado: {{estado}}</p>
+                                        <a href="/admin/editUser/{{nombre}}" class="btn btn-info">Editar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

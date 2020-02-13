@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../database');
+const Carousel = require('../models/carousel');
 
-router.get('/', async(req,res)=>{
-    const links = await pool.query('SELECT * FROM carrera INNER JOIN multimedia ON carrera.NombreCurso = multimedia.NombreMultimedia');
-   res.render('index', { links: links });
+router.get('/', async (req, res) => {
+    const carousel = await Carousel.find();
+    res.render('index', {carousel});
 });
 
 module.exports = router;

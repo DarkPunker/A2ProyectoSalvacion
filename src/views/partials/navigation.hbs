@@ -55,7 +55,7 @@
             <div class="dropdown-divider"></div>
             <li><a href="/profile/editprofile/{{user.idUsuario}}"><i class="ti-settings"></i> Configuracion</a></li>
             <div class="dropdown-divider"></div>
-            <li><a href="/signin"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
+            <li><a href="/logout"><i class="fa fa-power-off"></i> Cerrar Sesión</a></li>
           </ul>
         </div>
       </div>
@@ -130,29 +130,20 @@
               <li><a href="/tema/gestionarexamen">Gestionar Examen</a></li>
             </ul>
           </li>
-          {{!-- <li>
-            <a href="#pageSubmenu3" class="accordion-toggle wave-effect" data-toggle="collapse"
-              aria-expanded="false">Even more</a>
-            <ul class="collapse list-unstyled" id="pageSubmenu3" data-parent="#accordion2">
-              <li><a href="#">Page 7</a></li>
-              <li><a href="#">Page 8</a></li>
-              <li><a href="#">Page 9</a></li>
-            </ul>
-          </li> --}}
         </ul>
       </li>
       {{/ifCond}}
-      {{!-- {{#ifCond user.Rol_idRol '==' 2}}
-      <li>
-        <a href="#pageSubmenu6" class="accordion-toggle wave-effect" data-toggle="collapse"
-          aria-expanded="false">Administrar Pagina</a>
-        <ul class="collapse list-unstyled" id="pageSubmenu6" data-parent="#accordion6">
-          <li><a href="/carrera/gestionarcarrera">Gestionar Usuario</a></li>
-          <li><a href="/carrera/addcarrera">Gestionar Multimedia</a></li>
+      {{#ifCond user.Rol_idRol '==' 2}}
+      <li class="active">
+        <a href="#admUsuario" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+          <i class="ti-user m-r-10"></i>Adm Usuarios
+        </a>
+        <ul class="collapse list-unstyled" id="admUsuario" data-parent="#accordion">
+          <li><a href="/admin/gestionarUsuario"><i class="ti-settings m-r-10"></i>Gestionar Usuarios</a></li>
+          <li><a href="/admin/gestionarCarousel"><i class="ti-layout-slider-alt m-r-10"></i>Gestionar Carousel</a></li>
         </ul>
       </li>
-    </ul>
-    {{/ifCond}} --}}
+      {{/ifCond}}
     </ul>
   </nav>
 

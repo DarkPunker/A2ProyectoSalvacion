@@ -7,34 +7,26 @@
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img height="600" width="900" class="d-block w-100"
-                src="https://conexioncapital.co/wp-content/uploads/2018/07/%C2%BFQUE%CC%81-ES-UNA-ACCIO%CC%81N-DE-CUMPLIMIENTO-.jpg"
+                src="https://i.ytimg.com/vi/bBrzvtrDno0/maxresdefault.jpg"
                 alt="Second slide">
             <div class="carousel-caption d-none d-md-block">
-            </div>
-        </div>
-        <div class="carousel-item">
-
-            <img height="600" width="900" class="d-block w-100"
-                src="https://i.ytimg.com/vi/bBrzvtrDno0/maxresdefault.jpg" alt="First slide">
-            <div class="carousel-caption d-none d-md-block">
-                <h5 style="color:#fff;background:#000">Derechos Constitucionales</h5>
+                <h5 style="color:#fff;background:#000"></h5>
                 <p style=" color:#fff ; background:#000">Son aquellos incluidos en la norma constitutiva y organizativa
                     de un Estado generalmente denominada Constitución que se consideran como esenciales en el sistema
                     político y que están especialmente vinculados a la dignidad humana</p>
             </div>
         </div>
+        {{#each carousel}}
         <div class="carousel-item">
             <img height="600" width="900" class="d-block w-100"
-                src="https://secretariageneral.gov.co/sites/default/files/Noticias/imagen_tutela-01.jpg"
-                alt="Third slide">
+                src={{direccion}}
+                alt="Second slide">
             <div class="carousel-caption d-none d-md-block">
-                <p  style="color:#000;">La acción de tutela es como se denomina un mecanismo previsto en
-                    el artículo 86 de la
-                    Constitución Política de Colombia, que busca proteger los Derechos constitucionales de los
-                    individuos "cuando cualquiera de éstos resulten vulnerados o amenazados por la acción o la
-                    omisión de cualquier autoridad pública</p>
+                <h5 style="color:#fff;background:#000">{{nombre}}</h5>
+                <p style=" color:#fff ; background:#000">{{descripcion}}</p>
             </div>
         </div>
+        {{/each}}
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -45,25 +37,6 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-
-<div class="card-deck" style="max-width: 100%; max-width: 100%;padding: 2rem;
-  margin-bottom: 2rem;">
-    {{#each links}}
-    <div class="card">
-
-        <img src="{{DireccionImagen}}" class="card-img-top" alt="...">
-
-        <div class="card-body">
-            <h5 class="card-title">{{NombreCurso}}</h5>
-            <p class="card-text">{{DescripcionCurso}}</p>
-        </div>
-        <div class="card-footer">
-            <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
-    </div>
-    {{/each}}
-</div>
-
 
 <div class="card mb-3" style="max-width: 100%;padding: 2rem;  margin-bottom: 2rem;">
     <div class="row no-gutters">

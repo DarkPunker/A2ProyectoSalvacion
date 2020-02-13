@@ -1,0 +1,23 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="banner text-center">
+                    <div class="container">
+                        <h1 class="logo-font">Administrador del Carousel</h1>
+                    </div>
+                </div>
+                {{#each carousel}}
+                <div class="card">
+                    <img class="card-img-top" style="height: 200px;" src={{direccion}} alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{nombre}}</h5>
+                        <p class="card-text">{{descripcion}}</p>
+                        <a href="/admin/editCarousel/{{_id}}" class="btn btn-primary">Editar</a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
