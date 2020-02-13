@@ -6,8 +6,6 @@ const {database} = require('./keys');
 
 const pool = mysql.createPool(database);
 
-/* pass: "VqSnGDhs1FKcLtXD" */
-
 mongoose.connect('mongodb+srv://admin:VqSnGDhs1FKcLtXD@softwareeducativojson-tzliv.mongodb.net/test?retryWrites=true&w=majority',{
     /* user: "admin", */
     /* pass: "1234", */
