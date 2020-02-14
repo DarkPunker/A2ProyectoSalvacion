@@ -6,7 +6,7 @@ const {database} = require('./keys');
 
 const pool = mysql.createPool(database);
 
-mongoose.connect('mongodb+srv://admin:VqSnGDhs1FKcLtXD@softwareeducativojson-tzliv.mongodb.net/test?retryWrites=true&w=majority',{
+mongoose.connect('mongodb://admin:1234@softwareeducativojson-shard-00-00-tzliv.mongodb.net:27017,softwareeducativojson-shard-00-01-tzliv.mongodb.net:27017,softwareeducativojson-shard-00-02-tzliv.mongodb.net:27017/test?replicaSet=SoftwareEducativoJson-shard-0&ssl=true&authSource=admin',{
     /* user: "admin", */
     /* pass: "1234", */
     useCreateIndex: true,
