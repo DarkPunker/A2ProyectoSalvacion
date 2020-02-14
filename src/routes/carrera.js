@@ -30,7 +30,7 @@ router.post('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
         NombreCurso,
         DescripcionCurso
     };
-    await pool.query('UPDATE carrera set ? WHERE idCarrera = ?', [newLink, idCarrera]);
+    await pool.query('CALL modificarCarrera (?,?,?)', [idCarrera, newLink]);
     req.flash('success', 'Carrera Modificada Correctamente');
     res.redirect('/carrera/gestionarcarrera');
 });
