@@ -44,8 +44,8 @@ passport.use('local.signup', new LocalStrategy({
         contrasena,
         correo
     };
-    const rows = await pool.query('SELECT * FROM usuario WHERE idusuario = ?', [idUsuario]);
-    const person = await pool.query('SELECT * FROM persona WHERE idpersona = ?', [idpersona]);
+    const rows = await pool.query('SELECT * FROM Usuario WHERE idUsuario = ?', [idUsuario]);
+    const person = await pool.query('SELECT * FROM Persona WHERE idPersona = ?', [idpersona]);
     if (idpersona.length == 0) {
         done(null, false, req.flash('message', 'Numero de identificacion es un campo obligatorio'));
     } else if (nombre1.length == 0) {
@@ -70,6 +70,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (idUsuario, done) => {
-    const rows = await pool.query('SELECT * FROM usuario WHERE idUsuario = ?', [idUsuario]);
+    const rows = await pool.query('SELECT * FROM Usuario WHERE idUsuario = ?', [idUsuario]);
     done(null, rows[0]);
 });
