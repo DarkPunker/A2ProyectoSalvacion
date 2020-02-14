@@ -6,20 +6,20 @@ const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
 router.get('/gestionarcarrera', isLoggedIn, async (req, res) => {
-    const links = await pool.query('SELECT * FROM carrera');
+    const links = await pool.query('SELECT * FROM Carrera');
     res.render('carrera/gestionarcarrera', { links: links });
 });
 
 router.get('/delete/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
-    await pool.query('DELETE FROM carrera WHERE idCarrera = ?', [idCarrera]);
+    await pool.query('DELETE FROM Carrera WHERE idCarrera = ?', [idCarrera]);
     req.flash('success', 'Carrera Eliminada Correctamente');
     res.redirect('/carrera/gestionarcarrera');
 });
 
 router.get('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
-    const links = await pool.query('SELECT * FROM carrera WHERE idCarrera = ?', [idCarrera])
+    const links = await pool.query('CALL seeCarreraForId (?)', [idCarrera])
     res.render('carrera/editcarrera', { link: links[0] });
 });
 
