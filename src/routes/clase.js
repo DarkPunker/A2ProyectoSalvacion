@@ -89,7 +89,7 @@ router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
 });
 
 router.get('/viewcarrera', isLoggedInUser, async (req, res) => {
-    const carrera = await pool.query('SELECT * FROM carrera');
+    const carrera = await pool.query('SELECT * FROM Carrera');
     res.render('clase/viewcarrera', { carrera: carrera });
 });
 

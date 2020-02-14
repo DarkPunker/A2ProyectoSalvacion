@@ -12,7 +12,7 @@ router.get('/gestionarUsuario', isLoggedInAdmin, async (req, res) => {
 router.get('/editUser/:nombre', isLoggedInAdmin, async (req, res) => {
     const { nombre } = req.params;
     const user = await pool.query('CALL seeUserRol (?)', [nombre]);
-    const rol = await pool.query('SELECT * FROM rol');
+    const rol = await pool.query('SELECT * FROM Rol');
     res.render('admin/editUser', { user: user[0][0], rol });
 });
 
