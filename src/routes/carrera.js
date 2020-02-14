@@ -20,17 +20,13 @@ router.get('/delete/:idCarrera', isLoggedIn, async (req, res) => {
 router.get('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     const links = await pool.query('CALL seeCarreraForId (?)', [idCarrera])
-    res.render('carrera/editcarrera', { link: links[0] });
+    res.render('carrera/editcarrera', { link: links[0][0] });
 });
 
 router.post('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     const { NombreCurso, DescripcionCurso } = req.body;
-    const newLink = {
-        NombreCurso,
-        DescripcionCurso
-    };
-    await pool.query('CALL modificarCarrera (?,?,?)', [idCarrera, newLink]);
+    await pool.query('CALL modificarCarrera (?,?,?)', [idCarrera, NombreCurso, DescripcionCurso]);
     req.flash('success', 'Carrera Modificada Correctamente');
     res.redirect('/carrera/gestionarcarrera');
 });

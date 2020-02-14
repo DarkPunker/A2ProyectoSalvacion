@@ -737,10 +737,10 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS `seeCarreraForId`;
 DELIMITER $$
 CREATE PROCEDURE `seeCarreraForId` (
-  IN idCarrera VARCHAR (45)
+  IN inidCarrera VARCHAR (45)
 )
 BEGIN
-SELECT * FROM carrera WHERE idCarrera = idCarrera
+SELECT * FROM Carrera WHERE idCarrera = inidCarrera;
 END $$
 DELIMITER ;
 
