@@ -820,14 +820,14 @@ ON rol.idRol = usuario.Rol_idRol
 -- -----------------------------------------------------
 -- Default data 
 -- -----------------------------------------------------
-/* INSERT INTO identificacion VALUE (1,"cedula");
+INSERT INTO identificacion VALUE (1,"cedula");
 INSERT INTO rol VALUE (1,"estudiante");
 INSERT INTO rol VALUE (2,"administrador");
 INSERT INTO rol VALUE (3,"docente");
 INSERT INTO TipoMultimedia VALUE (1,"video");
 INSERT INTO TipoMultimedia VALUE (2,"imagen");
 INSERT INTO TipoMultimedia VALUE (3,"texto");
-INSERT INTO TipoMultimedia VALUE (4,"audio"); */
+INSERT INTO TipoMultimedia VALUE (4,"audio");
 
 /* INSERT INTO pregunta VALUE (null,"prueba pregunta",3);
 INSERT INTO pregunta VALUE (null,"prueba pregunta tema 1",2);
