@@ -6,7 +6,7 @@ const {database} = require('./keys');
 
 const pool = mysql.createPool(database);
 
-mongoose.connect('mongodb+srv://admin:1234@softwareeducativojson-tzliv.mongodb.net/test?retryWrites=true&w=majority',{
+mongoose.connect("mongodb+srv://admin:1234@softwareeducativojson-tzliv.mongodb.net/test?retryWrites=true&w=majority",{
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
