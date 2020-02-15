@@ -1,7 +1,7 @@
 module.exports = {
 
     database:{
-        connectionLimint: 10,
+        connectionLimint: 5,
         host: 'bwrsrezgu3vrljz8hdvo-mysql.services.clever-cloud.com',
         user: 'unrkod59ajbpajtv',
         password: 'GlW9SZ4lCrIKswIbwbOe',

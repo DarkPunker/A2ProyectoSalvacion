@@ -29,15 +29,15 @@ router.get('/addcarrera', isLoggedIn, (req, res) => {
 });
 
 router.post('/addcarrera', isLoggedIn, async (req, res) => {
-    const { NombreCurso, DescripcionCurso, NombreSubCurso, Nombre, NombreUnidad } = req.body;
+    const { NombreCurso, DescripcionCurso} = req.body;
     const newCarrera = {
         NombreCurso,
-        DescripcionCurso,
-        NombreSubCurso,
-        Nombre,
-        NombreUnidad
+        DescripcionCurso
     };
-    await pool.query('CALL addCarreraCursoModuloUnidad (?,?,?,?,?)', [newCarrera.NombreCurso, newCarrera.DescripcionCurso, newCarrera.NombreSubCurso, newCarrera.Nombre, newCarrera.NombreUnidad])
+    
+    /* const check = await pool.query('CALL returnIfNotExistOrNotCarreraName (?,@output)', [NombreCurso]);
+    console.log(check); */
+    await pool.query('CALL addCarrera (?,?)', [newCarrera.NombreCurso, newCarrera.DescripcionCurso])
     req.flash('success', 'Carrera Guardada Correctamente');
     res.redirect('/carrera/gestionarcarrera');
 });

@@ -435,6 +435,34 @@ INSERT INTO Usuario (idUsuario, Persona_cedula, Correo, Contrasena )VALUE (inidU
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `returnIfNotExistOrNotCarreraName`;
+DELIMITER $$
+CREATE PROCEDURE `returnIfNotExistOrNotCarreraName` (
+  IN inNombreCarrera VARCHAR(60),
+  OUT exist INT
+)
+BEGIN
+DECLARE valor VARCHAR(60);
+SELECT LENGTH(Carrera.NombreCurso) INTO valor FROM Carrera WHERE NombreCurso = inNombreCarrera;
+IF valor > 0 THEN
+SET exist = 1;
+ELSE
+SET exist = 0;
+END IF;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `addCarrera`;
+DELIMITER $$
+CREATE PROCEDURE `addCarrera` (
+  IN inNombreCarrera VARCHAR(60),
+  IN inDescripcionCarrera VARCHAR(255)
+  )
+BEGIN
+INSERT INTO Carrera (NombreCurso, DescripcionCurso) VALUE ( inNombreCarrera, inDescripcionCarrera);
+END $$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS `addCarreraCursoModuloUnidad`;
 DELIMITER $$
 CREATE PROCEDURE `addCarreraCursoModuloUnidad` (
@@ -930,6 +958,20 @@ DELIMITER $$
 CREATE PROCEDURE `vacio` (
   
 )
+BEGIN
+
+END $$
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- Function
+-- -----------------------------------------------------
+DROP FUNCTION IF EXISTS `vacio`;
+DELIMITER $$
+CREATE FUNCTION `vacio` (
+  
+)
+RETURNS BOOLEAN
 BEGIN
 
 END $$
