@@ -387,13 +387,6 @@ CREATE TABLE IF NOT EXISTS `Curso_has_Examen` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-USE `SoftwareEducativo` ;
-
--- -----------------------------------------------------
--- Placeholder table for view `view1`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `view1` (`id` INT);
-
 -- -----------------------------------------------------
 -- Procedure
 -- -----------------------------------------------------
@@ -439,15 +432,15 @@ DROP PROCEDURE IF EXISTS `returnIfNotExistOrNotCarreraName`;
 DELIMITER $$
 CREATE PROCEDURE `returnIfNotExistOrNotCarreraName` (
   IN inNombreCarrera VARCHAR(60),
-  OUT exist INT
+  OUT exist BOOLEAN
 )
 BEGIN
 DECLARE valor VARCHAR(60);
 SELECT LENGTH(Carrera.NombreCurso) INTO valor FROM Carrera WHERE NombreCurso = inNombreCarrera;
 IF valor > 0 THEN
-SET exist = 1;
+SET exist = TRUE;
 ELSE
-SET exist = 0;
+SET exist = FALSE;
 END IF;
 END $$
 DELIMITER ;
@@ -462,31 +455,6 @@ BEGIN
 INSERT INTO Carrera (NombreCurso, DescripcionCurso) VALUE ( inNombreCarrera, inDescripcionCarrera);
 END $$
 DELIMITER ;
-
-DROP PROCEDURE IF EXISTS `addCarreraCursoModuloUnidad`;
-DELIMITER $$
-CREATE PROCEDURE `addCarreraCursoModuloUnidad` (
-  IN inNombreCarrera VARCHAR(60),
-  IN inDescripcionCarrera VARCHAR(255),
-  IN inNombreCurso VARCHAR(45),
-  IN inNombreModulo VARCHAR(45),
-  IN inNombreUnidad VARCHAR(60)
-  )
-BEGIN
-DECLARE varidCarrera INT;
-DECLARE varidCurso INT;
-DECLARE varidModulo INT;
-INSERT INTO Carrera (NombreCurso, DescripcionCurso) VALUE ( inNombreCarrera, inDescripcionCarrera);
-SELECT LAST_INSERT_ID() INTO varidCarrera;
-INSERT INTO Curso (NombreSubCurso, Curso_idCurso) VALUE ( inNombreCurso,  varidCarrera);
-SELECT LAST_INSERT_ID() INTO varidCurso;
-INSERT INTO Modulo (Nombre) VALUE ( inNombreModulo);
-SELECT LAST_INSERT_ID() INTO varidModulo;
-INSERT INTO Curso_has_Modulo VALUE (varidCurso, varidModulo, 1);
-INSERT INTO Unidad (NombreUnidad, Modulo_idModulo) VALUE ( inNombreUnidad, varidModulo);
-END $$
-DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS `addModulo`;
 DELIMITER $$
@@ -551,8 +519,6 @@ ON Modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
 WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
-
-
 
 DROP PROCEDURE IF EXISTS `seePreguntas`;
 DELIMITER $$
@@ -953,6 +919,31 @@ WHERE Curso_idCurso = inidCarrera;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `seeUsuarioForId`;
+DELIMITER $$
+CREATE PROCEDURE `seeUsuarioForId` (
+  IN inidUsuario VARCHAR(45)
+)
+BEGIN
+SELECT * 
+FROM Usuario 
+WHERE idUsuario = inidUsuario;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `seePersonaForId`;
+DELIMITER $$
+CREATE PROCEDURE `seePersonaForId` (
+  IN inidPersona VARCHAR(45)
+)
+BEGIN
+SELECT * 
+FROM Persona 
+WHERE idPersona = inidPersona;
+END $$
+DELIMITER ;
+
+/*
 DROP PROCEDURE IF EXISTS `vacio`;
 DELIMITER $$
 CREATE PROCEDURE `vacio` (
@@ -962,10 +953,11 @@ BEGIN
 
 END $$
 DELIMITER ;
-
+*/
 -- -----------------------------------------------------
 -- Function
 -- -----------------------------------------------------
+/*
 DROP FUNCTION IF EXISTS `vacio`;
 DELIMITER $$
 CREATE FUNCTION `vacio` (
@@ -976,7 +968,7 @@ BEGIN
 
 END $$
 DELIMITER ;
-
+*/
 -- -----------------------------------------------------
 -- View
 -- -----------------------------------------------------
