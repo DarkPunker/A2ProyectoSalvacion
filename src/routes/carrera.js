@@ -34,7 +34,6 @@ router.post('/addcarrera', isLoggedIn, async (req, res) => {
         NombreCurso,
         DescripcionCurso
     };
-    
     /* const check = await pool.query('CALL returnIfNotExistOrNotCarreraName (?,@output)', [NombreCurso]);
     console.log(check); */
     await pool.query('CALL addCarrera (?,?)', [newCarrera.NombreCurso, newCarrera.DescripcionCurso])
