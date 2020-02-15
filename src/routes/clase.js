@@ -6,15 +6,15 @@ const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
 router.get('/viewexamen', isLoggedInUser, async (req, res) => {
-    const examen = await pool.query('SELECT * FROM Examen INNER JOIN UsuarioPresentaExamen ON idExamen = Examen_idExamen WHERE UsuarioInscripcionCarrera_Usuario_idUsuario = ?', [req.user.idUsuario]);
+    const examen = await pool.query('CALL seeExamForUser (?)', [req.user.idUsuario]);
     console.log(examen);
-    
-    res.render('clase/viewexamen', {examen});
+
+    res.render('clase/viewexamen', { examen });
 });
 
 router.get('/exam/:idExamen', isLoggedInUser, async (req, res) => {
     const { idExamen } = req.params;
-    const Curso_idCurso = await pool.query('SELECT Curso.Curso_idCurso FROM Curso_has_Examen INNER JOIN Curso ON Curso_has_Examen.Curso_idCUrso = Curso.idCurso WHERE Examen_idExamen = ?', idExamen);
+    const Curso_idCurso = await pool.query('CALL getidCursoIsExam (?)', idExamen);
     const idCarrera = Curso_idCurso[0].Curso_idCurso;
     const pregunta = await pool.query('CALL ExamPreguntasOpciones (?)', idExamen);
     var resp = pregunta[0].map(function (item) {
@@ -29,7 +29,7 @@ router.get('/exam/:idExamen', isLoggedInUser, async (req, res) => {
 
         return { ...item, respuestas: jsonRes }
     })
-    const registro = await pool.query('INSERT INTO UsuarioPresentaExamen (Examen_idExamen, UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioInscripcionCarrera_Carrera_idCarrera) VALUE (?,?,?)', [idExamen, req.user.idUsuario, idCarrera]);
+    const registro = await pool.query('CALL addUsuarioPresentaExamen (?,?,?)', [idExamen, req.user.idUsuario, idCarrera]);
     const idExamenPresentado = registro.insertId;
 
     res.render('clase/exam', { pregunta: resp, idExamen, idExamenPresentado });
@@ -55,9 +55,9 @@ router.post('/exam/:idExamen/:idExamenPresentado', isLoggedInUser, async (req, r
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
-    
 
-    await pool.query('UPDATE UsuarioPresentaExamen SET Calificacion = ?, HoraFin = ? WHERE idExamenPresentado = ?', [notafinal ,dateTime, idExamenPresentado]);
+
+    await pool.query('CALL updateUsuarioPresentaExamen (?,?,?)', [notafinal, dateTime, idExamenPresentado]);
 
     res.redirect('/clase/viewexamen');
 
@@ -67,25 +67,23 @@ router.post('/exam/:idExamen/:idExamenPresentado', isLoggedInUser, async (req, r
 router.get('/viewclase/:idCurso', isLoggedInUser, async (req, res) => {
     const { idCurso } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
-    const evaluacion = await pool.query('SELECT * FROM examen INNER JOIN Curso_has_Examen ON idExamen = Examen_idExamen WHERE Curso_idCurso = ?', idCurso);
-    console.log(evaluacion);
-
+    const evaluacion = await pool.query('CALL getExamenidAndName (?)', idCurso);
     res.render('clase/viewclase', { data: data[0], evaluacion });
 });
 
 router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
     const { idCurso, idTema } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
-    const multimedia = await pool.query('SELECT * FROM tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
-    const curso = await pool.query('SELECT * FROM curso WHERE idCurso = ?', idCurso);
-    const evaluacion = await pool.query('SELECT * FROM examen INNER JOIN Curso_has_Examen ON idExamen = Examen_idExamen WHERE Curso_idCurso = ?', idCurso);
-    const registro = await pool.query('SELECT * FROM UsuarioVeTema WHERE Tema_idTema = ? AND UsuarioInscripcionCarrera_Usuario_idUsuario = ? AND UsuarioInscripcionCarrera_Carrera_idCarrera = ?', [idTema, req.user.idUsuario, curso[0].Curso_idCurso]);
+    const multimedia = await pool.query('CALL getMultimediaIsTema (?)', idTema);
+    const curso = await pool.query('CALL getCursoidCarrera (?)', idCurso);
+    const evaluacion = await pool.query('CALL getExamenidAndName (?)', idCurso);
+    const registro = await pool.query('CALL getUsuarioVeTema (?,?,?)', [idTema, req.user.idUsuario, curso[0].Curso_idCurso]);
 
     if (registro.length == 0) {
-        await pool.query('INSERT INTO UsuarioVeTema (Tema_idTema, UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioInscripcionCarrera_Carrera_idCarrera) VALUE (?,?,?)', [idTema, req.user.idUsuario, curso[0].Curso_idCurso])
+        await pool.query('CALL addUsuarioVeTema (?,?,?)', [idTema, req.user.idUsuario, curso[0].Curso_idCurso])
     }
 
-    res.render('clase/viewclase', { data: data[0], multimedia, curso: curso[0],  evaluacion });
+    res.render('clase/viewclase', { data: data[0], multimedia: multimedia[0], curso: curso[0], evaluacion });
 });
 
 router.get('/viewcarrera', isLoggedInUser, async (req, res) => {
@@ -99,12 +97,12 @@ router.get('/viewcarrera/:idCarrera', isLoggedInUser, async (req, res) => {
         Usuario_idUsuario: req.user.idUsuario,
         Carrera_idCarrera: idCarrera
     }
-    const registro = await pool.query('SELECT * FROM UsuarioInscripcionCarrera WHERE Usuario_idUsuario = ? AND Carrera_idCarrera = ?', [req.user.idUsuario, idCarrera]);
+    const registro = await pool.query('CALL getUsuarioInscripcionCarrera (?,?)', [req.user.idUsuario, idCarrera]);
     if (registro.length == 0) {
-        await pool.query('INSERT INTO UsuarioInscripcionCarrera (Usuario_idUsuario, Carrera_idCarrera) VALUE (?,?)', [newregistro.Usuario_idUsuario, newregistro.Carrera_idCarrera])
+        await pool.query('CALL UsuarioInscripcionCarrera (?,?)', [newregistro.Usuario_idUsuario, newregistro.Carrera_idCarrera])
     }
-    const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera);
-    res.render('clase/viewcarrera', { curso: curso });
+    const curso = await pool.query('CALL getCursoidAndName (?)', idCarrera);
+    res.render('clase/viewcarrera', { curso: curso[0] });
 });
 
 module.exports = router;

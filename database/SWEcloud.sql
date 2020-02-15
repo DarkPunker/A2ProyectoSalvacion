@@ -512,7 +512,7 @@ CREATE PROCEDURE `seeModuloUnidadTema` (
   IN inidCurso INT
 )
 BEGIN
-SELECT *
+SELECT Curso_idCurso, idTema, NombreTema
 FROM Tema
 INNER JOIN Unidad
 ON Unidad.idUnidad = Tema.Unidad_idUnidad
@@ -740,7 +740,9 @@ CREATE PROCEDURE `seeCarreraForId` (
   IN inidCarrera VARCHAR (45)
 )
 BEGIN
-SELECT * FROM Carrera WHERE idCarrera = inidCarrera;
+SELECT * 
+FROM Carrera 
+WHERE idCarrera = inidCarrera;
 END $$
 DELIMITER ;
 
@@ -752,7 +754,184 @@ CREATE PROCEDURE `modificarCarrera` (
   IN inDescripcionCurso VARCHAR(255)
 )
 BEGIN
-UPDATE Carrera SET NombreCurso = inNombreCurso, DescripcionCurso = inDescripcionCUrso WHERE idCarrera = inidCarrera;
+UPDATE Carrera 
+SET NombreCurso = inNombreCurso, DescripcionCurso = inDescripcionCUrso 
+WHERE idCarrera = inidCarrera;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `seeExamForUser`;
+DELIMITER $$
+CREATE PROCEDURE `seeExamForUser` (
+  IN inidUsuario VARCHAR(45)
+)
+BEGIN
+SELECT  Examen.NombreExamen, UsuarioPresentaExamen.Calificacion, UsuarioPresentaExamen.HoraInicio, 
+UsuarioPresentaExamen.HoraFin
+FROM Examen 
+INNER JOIN UsuarioPresentaExamen 
+ON Examen.idExamen = UsuarioPresentaExamen.Examen_idExamen 
+WHERE UsuarioInscripcionCarrera_Usuario_idUsuario = inidUsuario;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getidCursoIsExam`;
+DELIMITER $$
+CREATE PROCEDURE `getidCursoIsExam` (
+ IN inidExamen INT
+)
+BEGIN
+SELECT Curso.Curso_idCurso 
+FROM Curso_has_Examen 
+INNER JOIN Curso 
+ON Curso_has_Examen.Curso_idCUrso = Curso.idCurso 
+WHERE Examen_idExamen = inidExamen;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `addUsuarioPresentaExamen`;
+DELIMITER $$
+CREATE PROCEDURE `addUsuarioPresentaExamen` (
+  IN inidExamen INT,
+  IN inidUsuario VARCHAR(45),
+  IN inidCarrera INT
+  )
+BEGIN
+INSERT INTO UsuarioPresentaExamen 
+(UsuarioPresentaExamen.Examen_idExamen, UsuarioPresentaExamen.UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioPresentaExamen.UsuarioInscripcionCarrera_Carrera_idCarrera) 
+VALUE (inidExamen, inidUsuario, inidCarrera);
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `updateUsuarioPresentaExamen`;
+DELIMITER $$
+CREATE PROCEDURE `updateUsuarioPresentaExamen` (
+  IN inCalificacion double,
+  IN inHoraFin DATETIME,
+  IN inidExamenPresentado INT
+)
+BEGIN
+UPDATE UsuarioPresentaExamen 
+SET Calificacion = inCalificacion, HoraFin = inHoraFin 
+WHERE idExamenPresentado = inidExamenPresentado;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getExamenidAndName`;
+DELIMITER $$
+CREATE PROCEDURE `getExamenidAndName` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT Examen.idExamen, Examen.NombreExamen
+FROM Examen 
+INNER JOIN Curso_has_Examen 
+ON idExamen = Examen_idExamen 
+WHERE Curso_idCurso = inidCurso;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getMultimediaIsTema`;
+DELIMITER $$
+CREATE PROCEDURE `getMultimediaIsTema` (
+  IN inidTema INT
+)
+BEGIN
+SELECT * 
+FROM Tema 
+INNER JOIN Multimedia 
+ON idTema=Tema_idTema 
+WHERE idTema = inidTema;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getCursoidCarrera`;
+DELIMITER $$
+CREATE PROCEDURE `getCursoidCarrera` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT Curso.Curso_idCurso 
+FROM Curso 
+WHERE idCurso = inidCurso;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getUsuarioVeTema`;
+DELIMITER $$
+CREATE PROCEDURE `getUsuarioVeTema` (
+  IN inidTema INT,
+  IN inidUsuario VARCHAR(45),
+  IN inidCurso INT
+)
+BEGIN
+SELECT * 
+FROM UsuarioVeTema 
+WHERE Tema_idTema = inidTema
+AND UsuarioInscripcionCarrera_Usuario_idUsuario = inidUsuario 
+AND UsuarioInscripcionCarrera_Carrera_idCarrera = inidCurso;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `addUsuarioVeTema`;
+DELIMITER $$
+CREATE PROCEDURE `addUsuarioVeTema` (
+  IN inidTema INT,
+  IN inidUsuario VARCHAR(45),
+  IN inidCurso INT
+)
+BEGIN
+INSERT INTO UsuarioVeTema (Tema_idTema, UsuarioInscripcionCarrera_Usuario_idUsuario, 
+UsuarioInscripcionCarrera_Carrera_idCarrera) 
+VALUE (inidTema, inidUsuario, inidCurso);
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getUsuarioInscripcionCarrera`;
+DELIMITER $$
+CREATE PROCEDURE `getUsuarioInscripcionCarrera` (
+  IN inidCurso VARCHAR(45),
+  IN inidCarrera INT
+)
+BEGIN
+SELECT * 
+FROM UsuarioInscripcionCarrera 
+WHERE Usuario_idUsuario = inidCurso 
+AND Carrera_idCarrera = inidCarrera;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `UsuarioInscripcionCarrera`;
+DELIMITER $$
+CREATE PROCEDURE `UsuarioInscripcionCarrera` (
+  IN inidUsuario VARCHAR(45),
+  IN inidCarrera INT
+)
+BEGIN
+INSERT INTO UsuarioInscripcionCarrera (Usuario_idUsuario, Carrera_idCarrera) 
+VALUE (inidUsuario ,inidCarrera);
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getCursoidAndName`;
+DELIMITER $$
+CREATE PROCEDURE `getCursoidAndName` (
+  IN inidCarrera INT
+)
+BEGIN
+SELECT * 
+FROM Curso 
+WHERE Curso_idCurso = inidCarrera;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `vacio`;
+DELIMITER $$
+CREATE PROCEDURE `vacio` (
+  
+)
+BEGIN
+
 END $$
 DELIMITER ;
 
@@ -829,72 +1008,3 @@ INSERT INTO TipoMultimedia VALUE (2,"imagen");
 INSERT INTO TipoMultimedia VALUE (3,"texto");
 INSERT INTO TipoMultimedia VALUE (4,"audio");
 
-/* INSERT INTO pregunta VALUE (null,"prueba pregunta",3);
-INSERT INTO pregunta VALUE (null,"prueba pregunta Tema 1",2);
-INSERT INTO pregunta VALUE (null,"prueba pregunta Tema 2",1);
-
-INSERT INTO opcion VALUE (null,"esta no es",0,1);
-INSERT INTO opcion VALUE (null,"esta no es",0,1);
-INSERT INTO opcion VALUE (null,"esta si es",1,1);
-INSERT INTO opcion VALUE (null,"esta no es",0,1);
-
-INSERT INTO opcion VALUE (null,"esta no es",0,2);
-INSERT INTO opcion VALUE (null,"esta si es",1,2);
-INSERT INTO opcion VALUE (null,"esta no es",0,2);
-INSERT INTO opcion VALUE (null,"esta no es",0,2);
-
-INSERT INTO opcion VALUE (null,"esta si es",1,3);
-INSERT INTO opcion VALUE (null,"esta no es",0,3);
-INSERT INTO opcion VALUE (null,"esta no es",0,3);
-INSERT INTO opcion VALUE (null,"esta no es",0,3); */
-
-/* SELECT *
-FROM Tema
-INNER JOIN Unidad
-ON Unidad.idUnidad = Tema.Unidad_idUnidad
-INNER JOIN Modulo
-ON Modulo.idModulo = Unidad.Modulo_idModulo
-INNER JOIN Curso_has_Modulo
-ON Modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
-WHERE Curso_has_Modulo.Curso_idCurso = 3
-GROUP BY Unidad.idUnidad */
-
-/* SELECT *
-from Carrera
-inner join Curso
-on Carrera.idCarrera = Curso.Curso_idCurso
-inner join Curso_has_Modulo
-on Curso.idCurso = Curso_has_Modulo.Curso_idCurso
-INNER JOIN Modulo
-ON Modulo.idModulo = Curso_has_Modulo.Modulo_idModulo */
-/* call addCarreraCursoModuloUnidad ("a","a","a","a","a"); */
-
-/* 
-delete from opcion;
-delete from pregunta;
-delete from multimedia;
-delete from Tema;
-delete from Unidad;
-delete from Curso_has_Modulo;
-delete from Modulo;
-delete from Curso;
-delete from Carrera; 
-
-delete from Usuario;
-delete from Persona;*/
-
-/* ALTER TABLE multimedia
- ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia; */
- 
-/* UPDATE Usuario SET Rol_idRol=2 WHERE idUsuario = "default"; */
-
-/* INSERT INTO multimedia value (null,"prueba addTema","marcha 21","https://www.youtube.com/embed/in0Zd5eWJSE",1,1,3); */
-/* INSERT INTO multimedia value (null,"prueba Carrera","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/Contexto%20en%20la%20Constitucion.png",1,1,3);
-INSERT INTO multimedia value (null,"Carrera numero 2","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20DERECHOS%20PROTEGE.png",1,1,3);
-INSERT INTO multimedia value (null,"sfghjlñ","imagen",null,"https://raw.githubusercontent.com/DarkPunker/A2ProyectoSalvacion/designer/QUE%20ES%20ACCION%20DE%20TUTELA.png",1,1,3); */
-/* INSERT INTO Persona VALUE (1234,1,"default",null,"default",null,'2000-01-01',1,null);
-INSERT INTO Usuario (idUsuario,Persona_cedula,correo,contrasena) VALUE ("default",1234,"default@gmail.com","12345678"); */
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

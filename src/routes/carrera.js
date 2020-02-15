@@ -10,13 +10,6 @@ router.get('/gestionarcarrera', isLoggedIn, async (req, res) => {
     res.render('carrera/gestionarcarrera', { links: links });
 });
 
-router.get('/delete/:idCarrera', isLoggedIn, async (req, res) => {
-    const { idCarrera } = req.params;
-    await pool.query('DELETE FROM Carrera WHERE idCarrera = ?', [idCarrera]);
-    req.flash('success', 'Carrera Eliminada Correctamente');
-    res.redirect('/carrera/gestionarcarrera');
-});
-
 router.get('/editcarrera/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
     const links = await pool.query('CALL seeCarreraForId (?)', [idCarrera])
