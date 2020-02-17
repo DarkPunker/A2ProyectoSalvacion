@@ -58,7 +58,7 @@ router.post('/addmultimedia/:idTema', isLoggedIn, async (req, res) => {
 
 router.get('/vermultimedia/:idTema', isLoggedIn, async (req, res) => {
     const { idTema } = req.params;
-    const multimedia = await pool.query('SELECT * FROM Tema INNER JOIN multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
+    const multimedia = await pool.query('SELECT * FROM Tema INNER JOIN Multimedia ON idTema=Tema_idTema WHERE idTema = ?', idTema);
     console.log(multimedia[0]);
 
     res.render('multimedia/vermultimedia', { multimedia });
@@ -67,7 +67,7 @@ router.get('/vermultimedia/:idTema', isLoggedIn, async (req, res) => {
 router.get('/editmultimedia/:idMultimedia', isLoggedIn, async (req, res) => {
     const { idMultimedia } = req.params;
     const multimedia = await pool.query('SELECT * FROM Multimedia WHERE idMultimedia = ?', idMultimedia);
-    const tipomultimedia = await pool.query('SELECT * FROM Tipomultimedia');
+    const tipomultimedia = await pool.query('SELECT * FROM TipoMultimedia');
 
     res.render('multimedia/editmultimedia', { multimedia: multimedia[0], tipomultimedia });
 });

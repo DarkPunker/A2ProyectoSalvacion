@@ -117,9 +117,9 @@ router.get('/verpregunta/:idTema', isLoggedIn, async (req, res) => {
 
 router.get('/editpregunta/:idPregunta', isLoggedIn, async (req, res) => {
     const { idPregunta } = req.params;
-    const pregunta = await pool.query('SELECT * FROM Pregunta WHERE pregunta.idPregunta = ?', idPregunta);
+    const pregunta = await pool.query('SELECT * FROM Pregunta WHERE Pregunta.idPregunta = ?', idPregunta);
     const idpregunta = pregunta[0].idPregunta;
-    const opcion = await pool.query('SELECT * FROM Opcion WHERE opcion.Pregunta_idPregunta = ?', idpregunta);
+    const opcion = await pool.query('SELECT * FROM Opcion WHERE Opcion.Pregunta_idPregunta = ?', idpregunta);
     res.render('tema/editpregunta', { pregunta: pregunta[0], opcion });
 });
 
@@ -127,7 +127,7 @@ router.post('/editpregunta/:idPregunta', isLoggedIn, async (req, res) => {
     const { idPregunta } = req.params;
     const { Pregunta, Enunciado } = req.body;
     const preguntaold = await pool.query('SELECT * FROM Opcion WHERE Pregunta_idPregunta = ?', idPregunta);
-    await pool.query('UPDATE pregunta SET Pregunta = ? WHERE idPregunta = ?', [Pregunta, idPregunta]);
+    await pool.query('UPDATE Pregunta SET Pregunta = ? WHERE idPregunta = ?', [Pregunta, idPregunta]);
     for (var i = 0; i < preguntaold.length; i++) {
         await pool.query('UPDATE Opcion SET Enunciado = ? WHERE idOpcion = ?', [Enunciado[i], preguntaold[i].idOpcion])
     }

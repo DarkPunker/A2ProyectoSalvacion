@@ -630,7 +630,7 @@ CREATE PROCEDURE `seeTemaCountPreguntas` (
   IN inidCurso INT
 )
 BEGIN
-SELECT Tema.idTema, Tema.NombreTema, COUNT(pregunta.idPregunta)AS Cantidad
+SELECT Tema.idTema, Tema.NombreTema, COUNT(Pregunta.idPregunta) AS Cantidad
 FROM Curso_has_Modulo
 INNER JOIN Modulo
 ON Modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
@@ -638,8 +638,8 @@ INNER JOIN Unidad
 ON Modulo.idModulo = Unidad.Modulo_idModulo
 INNER JOIN Tema
 ON Unidad.idUnidad = Tema.Unidad_idUnidad
-LEFT JOIN pregunta
-ON Tema.idTema = pregunta.Tema_idTema
+LEFT JOIN Pregunta
+ON Tema.idTema = Pregunta.Tema_idTema
 WHERE Curso_has_Modulo.Curso_idCurso = inidCurso
 GROUP BY Tema.idTema
 ORDER BY Tema.idTema ASC;
@@ -670,11 +670,11 @@ CREATE PROCEDURE `seePreguntasRespuestasNuevo` (
 )
 BEGIN
 SELECT idPregunta, Pregunta, idOpcion, Correcta, GROUP_CONCAT(idOpcion, ':', Enunciado separator '-') as respuestas
-FROM pregunta
-INNER JOIN opcion
-ON pregunta.idPregunta = opcion.Pregunta_idPregunta
-WHERE pregunta.Tema_idTema = inidTema
-GROUP BY pregunta.idPregunta;
+FROM Pregunta
+INNER JOIN Opcion
+ON Pregunta.idPregunta = Opcion.Pregunta_idPregunta
+WHERE Pregunta.Tema_idTema = inidTema
+GROUP BY Pregunta.idPregunta;
 END $$
 DELIMITER ;
 
@@ -684,7 +684,7 @@ CREATE PROCEDURE `seeTemaCountMultimedia` (
   IN inidCurso INT
 )
 BEGIN
-SELECT Tema.idTema, Tema.NombreTema, COUNT(multimedia.idMultimedia)AS Cantidad
+SELECT Tema.idTema, Tema.NombreTema, COUNT(Multimedia.idMultimedia)AS Cantidad
 FROM Curso_has_Modulo
 INNER JOIN Modulo
 ON Modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
@@ -692,8 +692,8 @@ INNER JOIN Unidad
 ON Modulo.idModulo = Unidad.Modulo_idModulo
 INNER JOIN Tema
 ON Unidad.idUnidad = Tema.Unidad_idUnidad
-LEFT JOIN multimedia
-ON Tema.idTema = multimedia.Tema_idTema
+LEFT JOIN Multimedia
+ON Tema.idTema = Multimedia.Tema_idTema
 WHERE Curso_has_Modulo.Curso_idCurso = inidCurso
 GROUP BY Tema.idTema
 ORDER BY Tema.idTema ASC;
