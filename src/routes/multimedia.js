@@ -4,7 +4,7 @@ const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
 router.get('/gestionarmultimedia', isLoggedIn, async (req, res) => {
-    const carrera = await pool.query('SELECT * from Carrera');
+    const carrera = await pool.query('SELECT * FROM Carrera');
     res.render('multimedia/gestionarmultimedia', { carrera });
 });
 
