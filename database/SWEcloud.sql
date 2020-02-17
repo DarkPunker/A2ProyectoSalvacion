@@ -943,6 +943,76 @@ WHERE idPersona = inidPersona;
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `returnIfNotExistOrNotCursoName`;
+DELIMITER $$
+CREATE PROCEDURE `returnIfNotExistOrNotCursoName` (
+  IN inNombreSubCurso VARCHAR(60),
+  OUT exist BOOLEAN
+)
+BEGIN
+DECLARE valor VARCHAR(60);
+SELECT LENGTH(Curso.NombreSubCurso) INTO valor FROM Curso WHERE NombreSubCurso = inNombreSubCurso;
+IF valor > 0 THEN
+SET exist = TRUE;
+ELSE
+SET exist = FALSE;
+END IF;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getCursoForId`;
+DELIMITER $$
+CREATE PROCEDURE `getCursoForId` (
+  IN inidCurso INT
+)
+BEGIN
+SELECT Curso.idCurso, Curso.NombreSubCurso, Curso.FechaInicio,
+Curso.FechaFin, Curso.Curso_idCurso
+FROM Curso 
+WHERE idCurso = inidCurso;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `updateCursoName`;
+DELIMITER $$
+CREATE PROCEDURE `updateCursoName` (
+  IN inidCurso INT,
+  IN inNombreSubCurso VARCHAR(60)
+)
+BEGIN
+UPDATE Curso SET NombreSubCurso = inNombreSubCurso
+WHERE idCurso = inidCurso;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `returnIfNotExistOrNotModuloName`;
+DELIMITER $$
+CREATE PROCEDURE `returnIfNotExistOrNotModuloName` (
+  IN inNombre VARCHAR(60),
+  OUT exist BOOLEAN
+)
+BEGIN
+DECLARE valor VARCHAR(60);
+SELECT LENGTH(Modulo.Nombre) INTO valor FROM Modulo WHERE Nombre = inNombre;
+IF valor > 0 THEN
+SET exist = TRUE;
+ELSE
+SET exist = FALSE;
+END IF;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `getModuloForId`;
+DELIMITER $$
+CREATE PROCEDURE `getModuloForId` (
+  IN inidModulo INT
+)
+BEGIN
+SELECT Modulo.idModulo, Modulo.Nombre
+FROM Modulo
+WHERE Modulo.idModulo = inidModulo;
+END $$
+DELIMITER ;
 /*
 DROP PROCEDURE IF EXISTS `vacio`;
 DELIMITER $$
@@ -1028,6 +1098,21 @@ END AS estado
 FROM Usuario
 INNER JOIN Rol
 ON Rol.idRol = Usuario.Rol_idRol
+;
+
+DROP VIEW IF EXISTS `seeAllCarreraCurso`;
+CREATE VIEW `seeAllCarreraCurso` AS
+SELECT idCarrera ,NombreCurso, GROUP_CONCAT(idCurso, ':', NombreSubCurso separator '-') as Cursos
+FROM Carrera 
+INNER JOIN Curso 
+ON Carrera.idCarrera = Curso.Curso_idCurso
+GROUP BY Carrera.idCarrera
+;
+
+DROP VIEW IF EXISTS `seeAllCarrera`;
+CREATE VIEW `seeAllCarrera` AS
+SELECT idCarrera, NombreCurso, DescripcionCurso 
+FROM Carrera
 ;
 
 -- -----------------------------------------------------

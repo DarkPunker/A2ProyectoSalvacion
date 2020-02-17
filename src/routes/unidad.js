@@ -4,21 +4,21 @@ const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
 router.get('/addunidad', isLoggedIn, async (req, res) => {
-    const carrera = await pool.query('SELECT * FROM carrera');
+    const carrera = await pool.query('SELECT * FROM Carrera');
     res.render('unidad/addunidad', { carrera: carrera });
 });
 
 router.get('/addunidad/:idCarrera', isLoggedIn, async (req, res) => {
     const { idCarrera } = req.params;
-    const carrera = await pool.query('SELECT * FROM carrera');
-    const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', idCarrera)
+    const carrera = await pool.query('SELECT * FROM Carrera');
+    const curso = await pool.query('SELECT * FROM Curso WHERE Curso_idCurso = ?', idCarrera)
     res.render('unidad/addunidad', { carrera: carrera, curso: curso });
 });
 
 router.get('/addunidad/:Curso_idCurso/:idCurso', isLoggedIn, async (req, res) => {
     const { Curso_idCurso, idCurso } = req.params;
-    const carrera = await pool.query('SELECT * FROM carrera');
-    const curso = await pool.query('SELECT * FROM curso WHERE Curso_idCurso = ?', Curso_idCurso);
+    const carrera = await pool.query('SELECT * FROM Carrera');
+    const curso = await pool.query('SELECT * FROM Curso WHERE Curso_idCurso = ?', Curso_idCurso);
     const modulo = await pool.query('CALL seeModulo (?)', idCurso);
     res.render('unidad/addunidad', { carrera, curso, modulo: modulo[0] });
 });
@@ -30,7 +30,7 @@ router.post('/addunidad', isLoggedIn, async (req, res) => {
         NombreUnidad,
         Modulo_idModulo
     };
-    await pool.query('INSERT INTO unidad set ?', [newUnidad]);
+    await pool.query('INSERT INTO Unidad set ?', [newUnidad]);
     req.flash('success', 'Unidad Guardado Correctamente');
     res.redirect('/unidad/gestionarunidad');
 });
@@ -42,7 +42,7 @@ router.get('/gestionarunidad', isLoggedIn, async (req, res) => {
 
 router.get('/editunidad/:idUnidad', isLoggedIn, async (req, res) => {
     const { idUnidad } = req.params;
-    const links = await pool.query('SELECT * FROM unidad WHERE idUnidad = ?', [idUnidad])
+    const links = await pool.query('SELECT * FROM Unidad WHERE idUnidad = ?', [idUnidad])
     res.render('unidad/editunidad', { link: links[0] });
 });
 
@@ -52,7 +52,7 @@ router.post('/editunidad/:idUnidad', isLoggedIn, async (req, res) => {
     const newLink = {
         NombreUnidad,
     };
-    await pool.query('UPDATE unidad set ? WHERE idUnidad = ?', [newLink, idUnidad]);
+    await pool.query('UPDATE Unidad set ? WHERE idUnidad = ?', [newLink, idUnidad]);
     req.flash('success', 'Unidad Modificado Correctamente');
     res.redirect('/unidad/gestionarunidad');
 });

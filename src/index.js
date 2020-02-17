@@ -18,7 +18,6 @@ require('./lib/passport');
 //settings
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
-
 const hbs = exphbs.create({
     defaultLayout: 'main',
     layoutsDir: path.join(app.get('views'), 'layouts'),

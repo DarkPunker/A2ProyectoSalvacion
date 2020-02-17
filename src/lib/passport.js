@@ -9,20 +9,20 @@ passport.use('local.signin', new LocalStrategy({
     passReqToCallback: true
 }, async (req, idusuario, contrasena, done) => {
     const rows = await pool.query('CALL seeUsuarioForId (?)', idusuario);
-    if (rows[0][0].idUsuario == idusuario) {
+    if (rows[0].length > 0) {
         const user = rows[0][0];
         const valiPassword = await helpers.matchPassword(contrasena, user.Contrasena);
         if (valiPassword) {
             if (user.EstadoRol != 0) {
-                done(null, user, req.flash('success', 'Bienvenido ' + user.idUsuario));    
+                done(null, user, req.flash('success', 'Bienvenido ' + user.idUsuario));
             } else {
-                done(null, false, req.flash('message', 'Usuario inactivo'));    
+                done(null, false, req.flash('message', 'Usuario inactivo'));
             }
         } else {
             done(null, false, req.flash('message', 'Contraseña invalida'));
         }
     } else {
-         done(null, false, req.flash('message', 'Usuario invalido'));
+        done(null, false, req.flash('message', 'Usuario invalido'));
     }
 }));
 

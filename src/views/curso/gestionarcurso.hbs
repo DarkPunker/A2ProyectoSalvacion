@@ -8,22 +8,24 @@
                     </div>
                 </div>
                 <div class="container page text-center card-body">
-                    {{#each links}}
-                    <div class="row">
-                        <div class="card-body  mb-3 mx-auto">
-                            <h2 class="header">{{NombreCurso}}</h2>
-                            <div class="card horizontal">
-                                <img class="user-img" src="">
-                                <div class="card-stacked">
-                                    <div class="card-content">
-                                        <div class="card" style="width: 18rem;">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{NombreSubCurso}}</h5>
+                    {{#each Carrera}}
+                    <div class="card  mb-3 mx-auto">
+                        <div class="card-header">
+                            <p class="h3">{{NombreCurso}}</h2>
+                        </div>
+                        <div class="card">
+                            <img class="user-img" src="">
+                            <div class="container">
+                                <div class="row">
+                                    {{#each Cursos}}
+                                    <div class="card" style="width: 33.33%;">
+                                        <div class="card-body">
+                                            <p class="card-title h5">{{NombreSubCurso}}</h5>
                                                 <a href="/curso/editcurso/{{idCurso}}"
                                                     class="btn btn-secondary">Editar</a>
-                                            </div>
                                         </div>
                                     </div>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
@@ -37,9 +39,8 @@
                         </div>
                         {{/each}}
                     </div>
+                    <a href="/curso/addcurso" class="btn btn-success btn-lg  mb-3">Nuevo Curso</a>
                 </div>
-                <a href="/curso/addcurso" class="btn btn-success btn-lg  mb-3">Nuevo Curso</a>
             </div>
         </div>
     </div>
-</div>
