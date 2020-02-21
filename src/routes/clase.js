@@ -9,13 +9,13 @@ router.get('/viewexamen', isLoggedInUser, async (req, res) => {
     const examen = await pool.query('CALL seeExamForUser (?)', [req.user.idUsuario]);
     console.log(examen);
 
-    res.render('clase/viewexamen', { examen });
+    res.render('clase/viewexamen', { examen: examen[0] });
 });
 
 router.get('/exam/:idExamen', isLoggedInUser, async (req, res) => {
     const { idExamen } = req.params;
     const Curso_idCurso = await pool.query('CALL getidCursoIsExam (?)', idExamen);
-    const idCarrera = Curso_idCurso[0].Curso_idCurso;
+    const idCarrera = Curso_idCurso[0][0].Curso_idCurso;
     const pregunta = await pool.query('CALL ExamPreguntasOpciones (?)', idExamen);
     var resp = pregunta[0][0].map(function (item) {
 
