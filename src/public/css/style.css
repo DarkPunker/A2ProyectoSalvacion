@@ -44,6 +44,14 @@ body {
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
+.margen {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  /* align-items: stretch; */ }
+
 .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;

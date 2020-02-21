@@ -1,122 +1,54 @@
-<div class="" style="width:100%;">
-    <div id="chartdiv"
-        onmouseleave="document.getElementById('chartdiv').style.width = '1%';document.getElementById('chartdiv2').style.width = '99%';"
-        onmouseenter="document.getElementById('chartdiv').style.width = '30%';document.getElementById('chartdiv2').style.width = '60%';"
-        style="width:1%; float: left; margin: 0%; padding: 0%; text-align: center; ">
-
-        <div class="accordion" id="accordionExample">
-            <div class="card">
+<div class="margen">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar" class="nav-sidebar">
+        <ul class="list-unstyled components slimescroll-id" id="accordion">
+            <li class="active">
                 {{#each data}}
-                <div class="card-header" id="headingOne" style="background: #021f38; color: #E8EDF2;">
-                    <h2 class="mb-0">
-                        <a class="btn btn-link" href="/clase/viewclase/{{Curso_idCurso}}/{{idTema}}">{{NombreTema}}</a>
-                        {{!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
-                            aria-expanded="true" aria-controls="{{Nombre}}">
-                            {{Nombre}}
-                        </button> --}}
-                    </h2>
-                </div>
+                <a href="/clase/viewclase/{{Curso_idCurso}}/{{idTema}}" class="accordion-toggle wave-effect">
+                    <i class="ti-pencil m-r-10">{{NombreTema}}</i>
+                </a>
                 {{/each}}
                 {{#each evaluacion}}
-                <div class="card-header" id="headingOne" style="background: #021f38; color: #E8EDF2;">
-                    <h2 class="mb-0">
-                        <a class="btn btn-link" href="/clase/exam/{{idExamen}}">{{NombreExamen}}</a>
-                        {{!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{Nombre}}"
-                            aria-expanded="true" aria-controls="{{Nombre}}">
-                            {{Nombre}}
-                        </button> --}}
-                    </h2>
-                </div>
+                <a href="/clase/exam/{{idExamen}}" class="accordion-toggle wave-effect">
+                    <i class="ti-check-box m-r-10">{{NombreExamen}}</i>
+                </a>
                 {{/each}}
-                {{!-- <div id="{{Nombre}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-
-                    <div class="card-body">
-                        <ul class="collapse list-unstyled" id="pageSubmenu" data-parent="{{idTema }}"
-                            id="{{NombreUnidad}}">
-                            <li><a href="#">{{idTema}}</a>
-
-                            </li>
-                        </ul>
-
-                        <li>
-                            <a href="#pageSubmenu3" class="accordion-toggle wave-effect" data-toggle="collapse"
-                                aria-expanded="false"> {{NombreTema }}</a>
-                        </li>
-                        <li>
-                            <a href="#pageSubmenu4" class="accordion-toggle wave-effect" data-toggle="collapse"
-                                aria-expanded="false">{{idTema}} </a>
-                        </li>
-
-                    </div>
-
-                </div> --}}
+                {{!-- <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#accordion">
+                    {{#each data}}
+                    <li><a href="/clase/viewclase/{{Curso_idCurso}}/{{idTema}}"><i
+                                class="ti-pencil m-r-10"></i>{{NombreTema}}</a></li>
+                    {{/each}}
+                    {{#each evaluacion}}
+                    <a href="/clase/exam/{{idExamen}}" class="accordion-toggle wave-effect" data-toggle="collapse"
+                        aria-expanded="false">
+                        <i class="ti-pencil m-r-10">{{NombreExamen}}</i>
+                    </a>
+                    {{/each}}
+                </ul> --}}
+            </li>
+        </ul>
+    </nav>
+    <main class="mdl-layout__content">
+        <div class="page-content" style="margin: 1%; ">
+            <!-- Your content goes here -->
+            {{#if multimedia}}
+            {{else}}
+            {{/if}}
+            {{#each multimedia}}
+            <div class="card">
+                <div class="card-header">
+                    <p class="h4">{{NombreMultimedia}}</p>
+                </div>
+                <div class="card-body">
+                    <p> {{DireccionMultimedia}}
+                        {{#if DireccionVideo}}
+                        <iframe width="100%" height="315" src="{{DireccionVideo}}" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                        {{/if}}
+                </div>
             </div>
+            {{/each}}
         </div>
-
-
-
-    </div>
-
-
-
-    <div id="chartdiv2" style="width:90%; float: right;padding: 30px;">
-
-        <main class="mdl-layout__content">
-            <div class="page-content" style="margin: 1%; ">
-                <!-- Your content goes here -->
-                {{#if multimedia}}
-                {{else}}
-                <p class="h2"> <--- Seleccione el tema a ver </p>
-                {{/if}}
-                {{#each multimedia}}
-                <div class="card">
-                    <div class="card-header">
-                        <p class="h4">{{NombreMultimedia}}</p>
-                    </div>
-                    <div class="card-body">
-                        <p> {{DireccionMultimedia}}
-                            {{#if DireccionVideo}}
-                            <iframe width="100%" height="315" src="{{DireccionVideo}}" frameborder="0"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                            {{/if}}
-                    </div>
-                    <br>
-
-                </div>
-                {{/each}}
-
-
-                {{!-- 
-
-
-
-                <div style="margin: 2%; ">
-
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="background-color: #021f38; ">
-                        ANTERIOR
-                    </button>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="background-color: #021f38;">
-                        SIGUIENTE
-                    </button>
-
-                </div> --}}
-        </main>
-
-    </div>
+    </main>
 </div>
-
-{{!-- 
-<script>
-    cambiar = () => {
-        if (chartdiv = width: 30 %) {
-            chartdiv = width: 10 %
-  }else {
-        }
-    }
-</script> --}}
-
-{{!-- <button type="button" onClick = "document.getElementById('chartdiv').style.width = '30%';">Click Me!</button> --}}
-{{!--   <div id="chartdiv" style="width: 100%; height: 50px; background-color:#E8EDF2"></div> --}}
