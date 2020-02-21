@@ -68,7 +68,7 @@ router.get('/viewclase/:idCurso', isLoggedInUser, async (req, res) => {
     const { idCurso } = req.params;
     const data = await pool.query('CALL seeModuloUnidadTema (?)', idCurso);
     const evaluacion = await pool.query('CALL getExamenidAndName (?)', idCurso);
-    res.render('clase/viewclase', { data: data[0], evaluacion });
+    res.render('clase/viewclase', { data: data[0], evaluacion: evaluacion[0] });
 });
 
 router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
