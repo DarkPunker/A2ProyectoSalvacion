@@ -83,7 +83,7 @@ router.get('/viewclase/:idCurso/:idTema', isLoggedInUser, async (req, res) => {
         await pool.query('CALL addUsuarioVeTema (?,?,?)', [idTema, req.user.idUsuario, curso[0].Curso_idCurso])
     }
 
-    res.render('clase/viewclase', { data: data[0], multimedia: multimedia[0], curso: curso[0], evaluacion });
+    res.render('clase/viewclase', { data: data[0], multimedia: multimedia[0], curso: curso[0], evaluacion: evaluacion[0] });
 });
 
 router.get('/viewcarrera', isLoggedInUser, async (req, res) => {
