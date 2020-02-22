@@ -55,13 +55,10 @@ router.get('/edittema/:idTema', isLoggedIn, async (req, res) => {
     res.render('tema/edittema', { link: links[0] });
 });
 
-router.post('/edittema/:idUnidad', isLoggedIn, async (req, res) => {
+router.post('/edittema/:idTema', isLoggedIn, async (req, res) => {
     const { idTema } = req.params;
     const { NombreTema } = req.body;
-    const newLink = {
-        NombreTema,
-    };
-    await pool.query('UPDATE Tema set ? WHERE idTema = ?', [newLink, idTema]);
+    await pool.query('UPDATE Tema SET NombreTema = ? WHERE idTema = ?', [NombreTema, idTema]);
     req.flash('success', 'Tema Modificado Correctamente');
     res.redirect('/tema/gestionartema');
 });

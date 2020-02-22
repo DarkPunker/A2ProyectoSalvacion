@@ -24,6 +24,6 @@ module.exports = {
         if(!req.isAuthenticated()){
             return next();
         }
-        return res.redirect('/');
+        return res.redirect('/signin');
     }
 };

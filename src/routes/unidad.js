@@ -49,10 +49,7 @@ router.get('/editunidad/:idUnidad', isLoggedIn, async (req, res) => {
 router.post('/editunidad/:idUnidad', isLoggedIn, async (req, res) => {
     const { idUnidad } = req.params;
     const { NombreUnidad } = req.body;
-    const newLink = {
-        NombreUnidad,
-    };
-    await pool.query('UPDATE Unidad set ? WHERE idUnidad = ?', [newLink, idUnidad]);
+    await pool.query('UPDATE Unidad SET NombreUnidad = ? WHERE idUnidad = ?', [NombreUnidad, idUnidad]);
     req.flash('success', 'Unidad Modificado Correctamente');
     res.redirect('/unidad/gestionarunidad');
 });

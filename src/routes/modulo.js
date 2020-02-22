@@ -50,10 +50,7 @@ router.get('/editmodulo/:idModulo', isLoggedIn, async (req, res) => {
 router.post('/editmodulo/:idModulo', isLoggedIn, async (req, res) => {
     const { idModulo } = req.params;
     const { Nombre } = req.body;
-    const newLink = {
-        Nombre,
-    };
-    await pool.query('UPDATE Modulo set ? WHERE idModulo = ?', [newLink, idModulo]);
+    await pool.query('UPDATE Modulo SET Nombre = ? WHERE idModulo = ?', [Nombre, idModulo]);
     req.flash('success', 'Modulo Modificado Correctamente');
     res.redirect('/modulo/gestionarmodulo');
 });

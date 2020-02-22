@@ -13,7 +13,7 @@
                             <p class="h4">Descripcion del material multimedia</p>
                             <textarea class="form-control" rows="5" type="text"
                                 placeholder="DIGITE DESCRIPCION"
-                                name="DireccionMultimedia">{{multimedia.DireccionMultimedia}}</textarea>
+                                name="DescripcionMultimedia">{{multimedia.DescripcionMultimedia}}</textarea>
                         </fieldset>
                         <fieldset class="form-group">
                             <select class="form-control" id="selunidad" name="selmultimedia">
@@ -28,10 +28,10 @@
                         <fieldset>
                             <p class="h4">Direccion del Archivo Multimedia, en caso que el tipo no sea texto dejar en
                                 blanco</p>
-                            {{#if multimedia.DireccionVideo}}
+                            {{#if multimedia.Direccion}}
                             <input class="form-control form-control-lg" type="url"
                                 placeholder="DIGITE URL DEl MULTIMEDIA" name="Direccion"
-                                value="{{multimedia.DireccionVideo}}">
+                                value="{{multimedia.Direccion}}">
                             {{else}}
                             {{#if multimedia.DireccionImagen}}
                             <input class="form-control form-control-lg" type="url"

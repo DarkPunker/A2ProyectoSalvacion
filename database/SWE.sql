@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Usuario` (
   `idUsuario` VARCHAR(45) NOT NULL,
   `Rol_idRol` INT DEFAULT 1,
   `Persona_cedula` VARCHAR(45) NOT NULL,
-  `EstadoRol` TINYINT DEFAULT 1,
+  `EstadoUsuario` TINYINT DEFAULT 1,
   `Correo` VARCHAR(45) NOT NULL,
   `Contrasena` VARCHAR(255) NOT NULL,
   INDEX `fk_Tripulante_Rol1_idx` (`Rol_idRol` ASC) VISIBLE,
@@ -199,8 +199,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SoftwareEducativo`.`Multimedia` (
   `idMultimedia` INT NOT NULL AUTO_INCREMENT,
   `NombreMultimedia` VARCHAR(60) NOT NULL,
-  `DireccionMultimedia` TEXT NOT NULL,
-  `DireccionVideo` VARCHAR(255),
+  `DescripcionMultimedia` TEXT NOT NULL,
+  `Direccion` VARCHAR(255),
   `DireccionImagen` VARCHAR(255),
   `EstadoMultimedia` TINYINT NOT NULL DEFAULT 1,
   `Tema_idTema` INT NOT NULL,
@@ -733,7 +733,7 @@ CREATE PROCEDURE `seeUserRol` (
 )
 BEGIN
 SELECT usuario.idUsuario AS nombre, usuario.Rol_idRol AS rol, 
-usuario.Persona_cedula AS identificacion, usuario.EstadoRol AS estado, 
+usuario.Persona_cedula AS identificacion, usuario.EstadoUsuario AS estado, 
 usuario.Correo AS correo
 FROM usuario
 WHERE usuario.idUsuario = inidUsuario;
@@ -749,7 +749,7 @@ CREATE PROCEDURE `editUserAdmin` (
 )
 BEGIN
 UPDATE usuario 
-SET Rol_idRol = inrol, EstadoRol = inestado 
+SET Rol_idRol = inrol, EstadoUsuario = inestado 
 WHERE usuario.idUsuario = inidUser;
 END $$
 DELIMITER ;
@@ -809,7 +809,7 @@ CREATE VIEW `seeAllUsers` AS
 SELECT usuario.idUsuario AS nombre, usuario.Persona_cedula AS identificacion, 
 usuario.Correo AS correo, rol.NombreRol AS rol,
 CASE
-  WHEN usuario.EstadoRol != 0 THEN "Activo"
+  WHEN usuario.EstadoUsuario != 0 THEN "Activo"
   ELSE "Inactivo"
 END AS estado
 FROM usuario
@@ -884,7 +884,7 @@ delete from usuario;
 delete from persona;*/
 
 /* ALTER TABLE multimedia
- ADD DireccionVideo VARCHAR(255) AFTER DireccionMultimedia; */
+ ADD Direccion VARCHAR(255) AFTER DescripcionMultimedia; */
  
 /* UPDATE usuario SET Rol_idRol=2 WHERE idUsuario = "default"; */
 

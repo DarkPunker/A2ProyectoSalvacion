@@ -35,23 +35,10 @@ router.get('/addmultimedia/:idTema', isLoggedIn, async (req, res) => {
 });
 
 router.post('/addmultimedia/:idTema', isLoggedIn, async (req, res) => {
-    const { NombreMultimedia, DireccionMultimedia, Direccion } = req.body;
+    const { NombreMultimedia, DescripcionMultimedia, Direccion } = req.body;
     const TipoMultimedia_idTipoMultimedia = parseInt(req.body.selmultimedia);
     const { idTema } = req.params;
-    switch (TipoMultimedia_idTipoMultimedia) {
-        case 1:
-            await pool.query('INSERT INTO Multimedia (NombreMultimedia, DireccionMultimedia, DireccionVideo, Tema_idTema, TipoMultimedia_idTipoMultimedia) VALUE  (?,?,?,?,?)', [NombreMultimedia, DireccionMultimedia, Direccion, idTema, TipoMultimedia_idTipoMultimedia]);
-            break;
-        case 2:
-            await pool.query('INSERT INTO Multimedia (NombreMultimedia, DireccionMultimedia, DireccionImagen, Tema_idTema, TipoMultimedia_idTipoMultimedia) VALUE  (?,?,?,?,?)', [NombreMultimedia, DireccionMultimedia, Direccion, idTema, TipoMultimedia_idTipoMultimedia]);
-            break;
-        case 3:
-            await pool.query('INSERT INTO Multimedia (NombreMultimedia, DireccionMultimedia, Tema_idTema, TipoMultimedia_idTipoMultimedia) VALUE  (?,?,?,?)', [NombreMultimedia, DireccionMultimedia, idTema, TipoMultimedia_idTipoMultimedia]);
-            break;
-        case 4:
-            await pool.query('INSERT INTO Multimedia (NombreMultimedia, DireccionMultimedia, DireccionVIdeo, Tema_idTema, TipoMultimedia_idTipoMultimedia) VALUE  (?,?,?,?,?)', [NombreMultimedia, DireccionMultimedia, Direccion, idTema, TipoMultimedia_idTipoMultimedia]);
-            break;
-    }
+    await pool.query('INSERT INTO Multimedia (NombreMultimedia, DescripcionMultimedia, Direccion, Tema_idTema, TipoMultimedia_idTipoMultimedia) VALUE  (?,?,?,?,?)', [NombreMultimedia, DescripcionMultimedia, Direccion, idTema, TipoMultimedia_idTipoMultimedia]);
     req.flash('success', 'Multimedia Guardado Correctamente');
     res.redirect('/multimedia/gestionarmultimedia');
 });
@@ -73,24 +60,11 @@ router.get('/editmultimedia/:idMultimedia', isLoggedIn, async (req, res) => {
 });
 
 router.post('/editmultimedia/:idMultimedia', isLoggedIn, async (req, res) => {
-    const { NombreMultimedia, DireccionMultimedia, Direccion } = req.body;
+    const { NombreMultimedia, DescripcionMultimedia, Direccion } = req.body;
     const TipoMultimedia_idTipoMultimedia = parseInt(req.body.selmultimedia);
     const { idMultimedia } = req.params;
-    await pool.query('UPDATE Multimedia SET DireccionVideo = ?, DireccionImagen = ? WHERE idMultimedia = ?', [null, null, idMultimedia]);
-    switch (TipoMultimedia_idTipoMultimedia) {
-        case 1:
-            await pool.query('UPDATE Multimedia SET NombreMultimedia = ?, DireccionMultimedia = ?, DireccionVideo = ?, TipoMultimedia_idTipoMultimedia = ? WHERE idMultimedia = ?', [NombreMultimedia, DireccionMultimedia, Direccion, TipoMultimedia_idTipoMultimedia, idMultimedia]);
-            break;
-        case 2:
-            await pool.query('UPDATE Multimedia SET NombreMultimedia = ?, DireccionMultimedia = ?, DireccionImagen = ?, TipoMultimedia_idTipoMultimedia = ? WHERE idMultimedia = ?', [NombreMultimedia, DireccionMultimedia, Direccion, TipoMultimedia_idTipoMultimedia, idMultimedia]);
-            break;
-        case 3:
-            await pool.query('UPDATE Multimedia SET NombreMultimedia = ?, DireccionMultimedia = ?, TipoMultimedia_idTipoMultimedia = ? WHERE idMultimedia = ?', [NombreMultimedia, DireccionMultimedia, Direccion, TipoMultimedia_idTipoMultimedia, idMultimedia]);
-            break;
-        case 4:
-            await pool.query('UPDATE Multimedia SET NombreMultimedia = ?, DireccionMultimedia = ?, DireccionVideo = ?, TipoMultimedia_idTipoMultimedia = ? WHERE idMultimedia = ?', [NombreMultimedia, DireccionMultimedia, Direccion, TipoMultimedia_idTipoMultimedia, idMultimedia]);
-            break;
-    }
+    await pool.query('UPDATE Multimedia SET Direccion = ?, WHERE idMultimedia = ?', [null, idMultimedia]);
+    await pool.query('UPDATE Multimedia SET NombreMultimedia = ?, DescripcionMultimedia = ?, Direccion = ?, TipoMultimedia_idTipoMultimedia = ? WHERE idMultimedia = ?', [NombreMultimedia, DescripcionMultimedia, Direccion, TipoMultimedia_idTipoMultimedia, idMultimedia]);
     req.flash('success', 'Multimedia Editado Correctamente');
     res.redirect('/multimedia/gestionarmultimedia');
 });

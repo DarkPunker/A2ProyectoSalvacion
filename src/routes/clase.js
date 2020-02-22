@@ -7,8 +7,6 @@ const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
 
 router.get('/viewexamen', isLoggedInUser, async (req, res) => {
     const examen = await pool.query('CALL seeExamForUser (?)', [req.user.idUsuario]);
-    console.log(examen);
-
     res.render('clase/viewexamen', { examen: examen[0] });
 });
 
@@ -17,7 +15,9 @@ router.get('/exam/:idExamen', isLoggedInUser, async (req, res) => {
     const Curso_idCurso = await pool.query('CALL getidCursoIsExam (?)', idExamen);
     const idCarrera = Curso_idCurso[0][0].Curso_idCurso;
     const pregunta = await pool.query('CALL ExamPreguntasOpciones (?)', idExamen);
-    var resp = pregunta[0][0].map(function (item) {
+    console.log(pregunta[0]);
+    
+    var resp = pregunta[0].map(function (item) {
 
         var respuesta = item.respuestas.split("-");
 
@@ -39,12 +39,14 @@ router.post('/exam/:idExamen/:idExamenPresentado', isLoggedInUser, async (req, r
     const { idExamen, idExamenPresentado } = req.params;
     const pregunta = await pool.query('CALL seeOpcionesComparacion (?)', idExamen);
     const r = req.body;
-    var punto = 5 / pregunta[0][0].length;
+    console.log(pregunta);
+    
+    var punto = 5 / pregunta[0].length;
     var notafinal = 0;
 
-    for (var index = 0; index < pregunta[0][0].length; index++) {
-        var pre = pregunta[0][0][index].idPregunta
-        var correcta = pregunta[0][0][index].idOpcion
+    for (var index = 0; index < pregunta[0].length; index++) {
+        var pre = pregunta[0][index].idPregunta
+        var correcta = pregunta[0][index].idOpcion
 
         if (r[pre] == correcta) {
             notafinal += punto;
@@ -56,6 +58,8 @@ router.post('/exam/:idExamen/:idExamenPresentado', isLoggedInUser, async (req, r
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
+    console.log(dateTime);
+    
 
     await pool.query('CALL updateUsuarioPresentaExamen (?,?,?)', [notafinal, dateTime, idExamenPresentado]);
 

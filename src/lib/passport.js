@@ -13,7 +13,7 @@ passport.use('local.signin', new LocalStrategy({
         const user = rows[0][0];
         const valiPassword = await helpers.matchPassword(contrasena, user.Contrasena);
         if (valiPassword) {
-            if (user.EstadoRol != 0) {
+            if (user.EstadoUsuario != 0) {
                 done(null, user, req.flash('success', 'Bienvenido ' + user.idUsuario));
             } else {
                 done(null, false, req.flash('message', 'Usuario inactivo'));
@@ -60,7 +60,7 @@ passport.use('local.signup', new LocalStrategy({
         done(null, false, req.flash('message', 'Numero de identificacion ya esta en uso'));
     } else {
         newUser.contrasena = await helpers.encyptPassword(contrasena);
-        /* await pool.query('CALL addPersonaUsuario (?,?,?,?,?,?,?,?)', [newUser.idUsuario, newUser.correo, newUser.contrasena, newPerson.idpersona, newPerson.nombre1, newPerson.apellido1, newPerson.fechanacimiento, newPerson.sexo]); */
+        await pool.query('CALL addPersonaUsuario (?,?,?,?,?,?,?,?)', [newUser.idUsuario, newUser.correo, newUser.contrasena, newPerson.idpersona, newPerson.nombre1, newPerson.apellido1, newPerson.fechanacimiento, newPerson.sexo]);
         return done(null, newUser);
     }
 }));

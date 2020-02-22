@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `Usuario` (
   `idUsuario` VARCHAR(45) NOT NULL,
   `Rol_idRol` INT DEFAULT 1,
   `Persona_cedula` VARCHAR(45) NOT NULL,
-  `EstadoRol` TINYINT DEFAULT 1,
+  `EstadoUsuario` TINYINT DEFAULT 1,
   `Correo` VARCHAR(45) NOT NULL,
   `Contrasena` VARCHAR(255) NOT NULL,
   INDEX `fk_Tripulante_Rol1_idx` (`Rol_idRol` ASC) VISIBLE,
@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `Carrera` (
   `idCarrera` INT NOT NULL AUTO_INCREMENT,
   `NombreCurso` VARCHAR(60) NOT NULL,
   `DescripcionCurso` VARCHAR(255) NOT NULL,
+  `EstadoCarrera` TINYINT DEFAULT 1,
   UNIQUE INDEX `CarreraNombre_UNIQUE` (`NombreCurso` ASC) VISIBLE,
   PRIMARY KEY (`idCarrera`))
 ENGINE = InnoDB;
@@ -102,6 +103,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Modulo` (
   `idModulo` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NOT NULL,
+  `EstadoModulo` TINYINT DEFAULT 1,
   UNIQUE INDEX `ModuloNombre_UNIQUE` (`Nombre` ASC) VISIBLE,
   PRIMARY KEY (`idModulo`))
 ENGINE = InnoDB;
@@ -114,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `Unidad` (
   `idUnidad` INT NOT NULL AUTO_INCREMENT,
   `NombreUnidad` VARCHAR(45) NOT NULL,
   `Modulo_idModulo` INT NOT NULL,
+  `EstadoUnidad` TINYINT DEFAULT 1,
   PRIMARY KEY (`idUnidad`),
   UNIQUE INDEX `UnidadNombre_UNIQUE` (`NombreUnidad` ASC) VISIBLE,
   INDEX `fk_Unidad_Modulo1_idx` (`Modulo_idModulo` ASC) VISIBLE,
@@ -134,6 +137,7 @@ CREATE TABLE IF NOT EXISTS `Curso` (
   `FechaInicio` DATE NULL,
   `FechaFin` DATE NULL,
   `Curso_idCurso` INT NOT NULL,
+  `EstadoCurso` TINYINT DEFAULT 1,
   UNIQUE INDEX `CursoNombre_UNIQUE` (`NombreSubCurso` ASC) VISIBLE,
   PRIMARY KEY (`idCurso`),
   INDEX `fk_SubCurso_Curso1_idx` (`Curso_idCurso` ASC) VISIBLE,
@@ -152,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `Tema` (
   `idTema` INT NOT NULL AUTO_INCREMENT,
   `NombreTema` VARCHAR(60) NOT NULL,
   `Unidad_idUnidad` INT NOT NULL,
+  `EstadoTema` TINYINT DEFAULT 1,
   PRIMARY KEY (`idTema`),
   UNIQUE INDEX `TemaNombre_UNIQUE` (`NombreTema` ASC) VISIBLE,
   INDEX `fk_Tema_Unidad1_idx` (`Unidad_idUnidad` ASC) VISIBLE,
@@ -179,9 +184,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Multimedia` (
   `idMultimedia` INT NOT NULL AUTO_INCREMENT,
   `NombreMultimedia` VARCHAR(60) NOT NULL,
-  `DireccionMultimedia` TEXT NOT NULL,
-  `DireccionVideo` VARCHAR(255),
-  `DireccionImagen` VARCHAR(255),
+  `DescripcionMultimedia` TEXT NULL,
+  `Direccion` VARCHAR(255) NULL,
   `EstadoMultimedia` TINYINT NOT NULL DEFAULT 1,
   `Tema_idTema` INT NOT NULL,
   `TipoMultimedia_idTipoMultimedia` INT NOT NULL,
@@ -207,6 +211,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Examen` (
   `idExamen` INT NOT NULL AUTO_INCREMENT,
   `NombreExamen` VARCHAR(45) NOT NULL,
+  `EstadoExamen` TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (`idExamen`))
 ENGINE = InnoDB;
 
@@ -423,7 +428,7 @@ CREATE PROCEDURE `addPersonaUsuario` (
   IN insexo TINYINT
   )
 BEGIN
-INSERT INTO Persona VALUE (inidPersona, NULL, innombre1, NULL, inapellido1, NULL, infechaNacimiento, insexo, NULL);
+INSERT INTO Persona (idPersona, Nombre1, Apellido1, FechaNacimiento, Sexo) VALUE (inidPersona, innombre1, inapellido1, infechaNacimiento, insexo);
 INSERT INTO Usuario (idUsuario, Persona_cedula, Correo, Contrasena )VALUE (inidUsuario, inidPersona, incorreo, incontrasena);
 END $$
 DELIMITER ;
@@ -534,8 +539,8 @@ INNER JOIN Unidad
 ON Modulo.idModulo = Unidad.Modulo_idModulo
 INNER JOIN Tema
 ON Unidad.idUnidad = Tema.Unidad_idUnidad
-INNER JOIN pregunta
-ON Tema.idTema = pregunta.Tema_idTema
+INNER JOIN Pregunta
+ON Tema.idTema = Pregunta.Tema_idTema
 WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
@@ -554,12 +559,12 @@ INNER JOIN Unidad
 ON Modulo.idModulo = Unidad.Modulo_idModulo
 INNER JOIN Tema
 ON Unidad.idUnidad = Tema.Unidad_idUnidad
-INNER JOIN pregunta
-ON Tema.idTema = pregunta.Tema_idTema
-INNER JOIN opcion
-ON pregunta.idPregunta = opcion.Pregunta_idPregunta
+INNER JOIN Pregunta
+ON Tema.idTema = Pregunta.Tema_idTema
+INNER JOIN Opcion
+ON Pregunta.idPregunta = Opcion.Pregunta_idPregunta
 WHERE Curso_has_Modulo.Curso_idCurso = inidCurso
-GROUP BY pregunta.idPregunta;
+GROUP BY Pregunta.idPregunta;
 END $$
 DELIMITER ;
 
@@ -569,7 +574,7 @@ CREATE PROCEDURE `ExamPreguntasOpciones` (
   IN inidExamen INT
 )
 BEGIN
-SELECT idPregunta, Pregunta, Correcta, GROUP_CONCAT(idOpcion, ':', Enunciado separator '-') as respuestas
+SELECT idPregunta, Pregunta, GROUP_CONCAT(idOpcion, ':', Enunciado separator '-') as respuestas
 FROM Curso_has_Examen 
 INNER JOIN Examen
 ON Examen.idExamen = Curso_has_Examen.Examen_idExamen
@@ -600,7 +605,7 @@ INNER JOIN Pregunta
 ON Pregunta.idPregunta = Examen_has_Pregunta.Pregunta_idPregunta
 INNER JOIN Opcion
 ON Pregunta.idPregunta = Opcion.Pregunta_idPregunta
-WHERE Examen.idExamen = inidExamen AND opcion.Correcta = 1;
+WHERE Examen.idExamen = inidExamen AND Opcion.Correcta = 1;
 END $$
 DELIMITER ;
 
@@ -654,10 +659,10 @@ CREATE PROCEDURE `seeTemaPreguntasRespuestas` (
 BEGIN
 SELECT * 
 FROM Tema
-INNER JOIN pregunta
-ON Tema.idTema = pregunta.Tema_idTema
-INNER JOIN opcion
-ON pregunta.idPregunta = opcion.Pregunta_idPregunta
+INNER JOIN Pregunta
+ON Tema.idTema = Pregunta.Tema_idTema
+INNER JOIN Opcion
+ON Pregunta.idPregunta = Opcion.Pregunta_idPregunta
 WHERE Tema.idTema = inidTema
 ORDER BY Tema.idTema ASC;
 END $$
@@ -706,8 +711,8 @@ CREATE PROCEDURE `seeUserRol` (
   IN inidUsuario VARCHAR(45)
 )
 BEGIN
-SELECT Usuario.idUsuario AS nombre, Usuario.Rol_idRol AS rol, 
-Usuario.Persona_cedula AS identificacion, Usuario.EstadoRol AS estado, 
+SELECT Usuario.idUsuario AS nombre, Usuario.Rol_idRol AS Rol, 
+Usuario.Persona_cedula AS identificacion, Usuario.EstadoUsuario AS estado, 
 Usuario.Correo AS correo
 FROM Usuario
 WHERE Usuario.idUsuario = inidUsuario;
@@ -723,7 +728,7 @@ CREATE PROCEDURE `editUserAdmin` (
 )
 BEGIN
 UPDATE Usuario 
-SET Rol_idRol = inRol, EstadoRol = inestado 
+SET Rol_idRol = inRol, EstadoUsuario = inestado 
 WHERE Usuario.idUsuario = inidUser;
 END $$
 DELIMITER ;
@@ -749,7 +754,7 @@ CREATE PROCEDURE `modificarCarrera` (
 )
 BEGIN
 UPDATE Carrera 
-SET NombreCurso = inNombreCurso, DescripcionCurso = inDescripcionCUrso 
+SET NombreCurso = inNombreCurso, DescripcionCurso = inDescripcionCurso 
 WHERE idCarrera = inidCarrera;
 END $$
 DELIMITER ;
@@ -765,7 +770,7 @@ UsuarioPresentaExamen.HoraFin
 FROM Examen 
 INNER JOIN UsuarioPresentaExamen 
 ON Examen.idExamen = UsuarioPresentaExamen.Examen_idExamen 
-WHERE UsuarioInscripcionCarrera_Usuario_idUsuario = inidUsuario;
+WHERE UsuarioInscripcionCarrera_Usuario_idUsuario = inidUsuario AND HoraFin  IS NOT NULL;
 END $$
 DELIMITER ;
 
@@ -778,7 +783,7 @@ BEGIN
 SELECT Curso.Curso_idCurso 
 FROM Curso_has_Examen 
 INNER JOIN Curso 
-ON Curso_has_Examen.Curso_idCUrso = Curso.idCurso 
+ON Curso_has_Examen.Curso_idCurso = Curso.idCurso 
 WHERE Examen_idExamen = inidExamen;
 END $$
 DELIMITER ;
@@ -1090,9 +1095,9 @@ ON Unidad.idUnidad = Tema.Unidad_idUnidad
 DROP VIEW IF EXISTS `seeAllUsers`;
 CREATE VIEW `seeAllUsers` AS
 SELECT Usuario.idUsuario AS nombre, Usuario.Persona_cedula AS identificacion, 
-Usuario.Correo AS correo, Rol.NombreRol AS rol,
+Usuario.Correo AS correo, Rol.NombreRol AS Rol,
 CASE
-  WHEN Usuario.EstadoRol != 0 THEN "Activo"
+  WHEN Usuario.EstadoUsuario != 0 THEN "Activo"
   ELSE "Inactivo"
 END AS estado
 FROM Usuario
