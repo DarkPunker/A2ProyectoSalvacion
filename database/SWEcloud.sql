@@ -393,11 +393,143 @@ CREATE TABLE IF NOT EXISTS `Curso_has_Examen` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `Registro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Registro` (
+  `idRegistro` INT NOT NULL AUTO_INCREMENT,
+  `NombreTabla` VARCHAR(45) NOT NULL,
+  `Usuario` VARCHAR(45) NOT NULL,
+  `idTablaRegistro` VARCHAR(45) NOT NULL,
+  `Accion` VARCHAR(45) NOT NULL,
+  `Descripcion` TEXT NOT NULL,
+  `FechaRegistro` timestamp NOT NULL DEFAULT current_timestamp,
+  PRIMARY KEY (`idRegistro`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Trigger
+-- -----------------------------------------------------
+DROP TRIGGER IF EXISTS `trAITema`;
+DELIMITER $$
+CREATE TRIGGER `trAITema` 
+AFTER INSERT
+ON `Tema` FOR EACH ROW
+BEGIN
+DECLARE Descripcion TEXT;
+SET Descripcion = CONCAT('Nombre: ',NEW.NombreTema,' Estado: ',NEW.EstadoTema);   
+CALL insertInRegistro ("Tema","",NEW.idTema,"INSERT", Descripcion);
+END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `trAUTema`;
+DELIMITER $$
+CREATE TRIGGER `trAUTema` 
+AFTER UPDATE
+ON `Tema` FOR EACH ROW
+BEGIN
+DECLARE Descripcion TEXT;
+SET Descripcion = CONCAT('Nombre: ',OLD.NombreTema,'=>',NEW.NombreTema,' Estado: ',OLD.EstadoTema,'=>',NEW.EstadoTema);   
+CALL insertInRegistro ("Tema","",NEW.idTema,"UPDATE", Descripcion);
+END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `trAUCarrera`;
+DELIMITER $$
+CREATE TRIGGER `trAUCarrera` 
+AFTER UPDATE
+ON `Carrera` FOR EACH ROW
+BEGIN
+DECLARE verificar TINYINT;
+IF NEW.EstadoCarrera = 0 THEN
+UPDATE Curso SET EstadoCurso = 0 WHERE Curso.EstadoCurso = 1 AND Curso.Curso_idCurso = NEW.idCarrera;
+END IF;
+IF NEW.EstadoCarrera = 1 THEN
+UPDATE Curso SET EstadoCurso = 1 WHERE Curso.EstadoCurso = 0 AND Curso.Curso_idCurso = NEW.idCarrera;
+END IF;
+END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `trAUCurso`;
+DELIMITER $$
+CREATE TRIGGER `trAUCurso` 
+AFTER UPDATE
+ON `Curso` FOR EACH ROW
+BEGIN
+IF NEW.EstadoCurso = 0 THEN
+UPDATE Curso_has_Modulo SET Estado = 0 WHERE Curso_has_Modulo.Estado = 1 AND Curso_has_Modulo.Curso_idCurso = NEW.idCurso;
+END IF;
+IF NEW.EstadoCurso = 1 THEN
+UPDATE Curso_has_Modulo SET Estado = 1 WHERE Curso_has_Modulo.Estado = 0 AND Curso_has_Modulo.Curso_idCurso = NEW.idCurso;
+END IF;
+END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `trAUCurso_has_Modulo`;
+DELIMITER $$
+CREATE TRIGGER `trAUCurso_has_Modulo` 
+AFTER UPDATE
+ON `Curso_has_Modulo` FOR EACH ROW
+BEGIN
+IF NEW.Estado = 0 THEN
+UPDATE Modulo SET EstadoModulo = 0 WHERE Modulo.EstadoModulo = 1 AND Modulo.idModulo = NEW.Modulo_idModulo;
+END IF;
+IF NEW.Estado = 1 THEN
+UPDATE Modulo SET EstadoModulo = 1 WHERE Modulo.EstadoModulo = 0 AND Modulo.idModulo = NEW.Modulo_idModulo;
+END IF;
+END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `trAUModulo`;
+DELIMITER $$
+CREATE TRIGGER `trAUModulo` 
+AFTER UPDATE
+ON `Modulo` FOR EACH ROW
+BEGIN
+IF NEW.EstadoModulo = 0 THEN
+UPDATE Unidad SET EstadoUnidad = 0 WHERE Unidad.EstadoUnidad = 1 AND Unidad.Modulo_idModulo = NEW.idModulo;
+END IF;
+IF NEW.EstadoModulo = 1 THEN
+UPDATE Unidad SET EstadoUnidad = 1 WHERE Unidad.EstadoUnidad = 0 AND Unidad.Modulo_idModulo = NEW.idModulo;
+END IF;
+END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS `trAUUnidad`;
+DELIMITER $$
+CREATE TRIGGER `trAUUnidad` 
+AFTER UPDATE
+ON `Unidad` FOR EACH ROW
+BEGIN
+IF NEW.EstadoUnidad = 0 THEN
+UPDATE Tema SET EstadoTema = 0 WHERE Tema.EstadoTema = 1 AND Tema.Unidad_idUnidad = NEW.idUnidad;
+END IF;
+IF NEW.EstadoUnidad = 1 THEN
+UPDATE Tema SET EstadoTema = 1 WHERE Tema.EstadoTema = 0 AND Tema.Unidad_idUnidad = NEW.idUnidad;
+END IF;
+END $$
+DELIMITER ;
+-- -----------------------------------------------------
 -- Procedure
 -- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS `insertInRegistro`;
+DELIMITER $$
+CREATE PROCEDURE `insertInRegistro` (
+  IN inNombreTabla VARCHAR(45),
+  IN inUsuario VARCHAR(45),
+  IN inidTablaRegistro VARCHAR(45),
+  IN inAccion VARCHAR(45),
+  IN inDescripcion TEXT
+)
+BEGIN
+INSERT INTO Registro (NombreTabla, Usuario, idTablaRegistro, Accion, Descripcion) 
+VALUE (inNombreTabla, inUsuario, inidTablaRegistro, inAccion, inDescripcion);
+END $$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS `UsuarioPersonaTelefono`;
 DELIMITER $$
-CREATE PROCEDURE `UsuarioPersonaTelefono` (IN inidUsuario VARCHAR(45))
+CREATE PROCEDURE `UsuarioPersonaTelefono` (
+  IN inidUsuario VARCHAR(45))
 BEGIN
 SELECT Usuario.idUsuario, Usuario.Correo, Persona.idPersona, 
 Persona.Nombre1, Persona.Nombre2, Persona.Apellido1, Persona.Apellido2,

@@ -132,22 +132,25 @@ INSERT INTO `Examen_has_Pregunta` (`Examen_idExamen`, `Pregunta_idPregunta`) VAL
 
 INSERT INTO `Curso_has_Examen` (`Curso_idCurso`, `Examen_idExamen`, `Estado`) VALUES (1,10,1);
 
-SELECT * FROM Curso_has_Examen;
+SELECT * FROM Carrera;
+SELECT * FROM Curso;
 SELECT * FROM Curso_has_Modulo;
-SELECT * FROM Examen;
-SELECT * FROM Examen_has_Pregunta;
-SELECT * FROM Identificacion;
 SELECT * FROM Modulo;
+SELECT * FROM Unidad;
+SELECT * FROM Tema;
+SELECT * FROM Identificacion;
 SELECT * FROM Multimedia;
 SELECT * FROM Opcion;
 SELECT * FROM Persona;
 SELECT * FROM Pregunta;
 SELECT * FROM Rol;
 SELECT * FROM Telefono;
-SELECT * FROM Tema;
 SELECT * FROM TipoMultimedia;
-SELECT * FROM Unidad;
 SELECT * FROM Usuario;
 SELECT * FROM UsuarioInscripcionCarrera;
 SELECT * FROM UsuarioPresentaExamen;
 SELECT * FROM UsuarioVeTema;
+SELECT * FROM Curso_has_Examen;
+SELECT * FROM Examen;
+SELECT * FROM Examen_has_Pregunta;
+SELECT * FROM Registro;
