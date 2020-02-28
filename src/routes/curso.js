@@ -2,20 +2,11 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
+const {recortar} = require('../lib/slipt');
 
 router.get('/gestionarcurso', isLoggedIn, async (req, res) => {
     const links = await pool.query('SELECT * FROM seeAllCarreraCurso');
-    var resp = links.map(function (item) {
-        var curso = item.Cursos.split("-");
-        var jsonRes = []
-        for (var index = 0; index < curso.length; index++) {
-            var datos = curso[index].split(":")
-            jsonRes.push({ idCarrera: item.idCarrera, idCurso: datos[0], NombreSubCurso: datos[1] })
-        }
-
-        return { ...item, Cursos: jsonRes }
-
-    })
+    const resp = recortar(links);
     res.render('curso/gestionarcurso', { Carrera: resp });
 });
 

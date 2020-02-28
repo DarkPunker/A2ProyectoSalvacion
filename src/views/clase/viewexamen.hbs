@@ -11,17 +11,23 @@
                     <div class="row h-100">
                         {{#each examen}}
                         <div class="card card-block col-sm-12 my-auto p-4">
-                                <h2 class="header">{{NombreExamen}}</h2>
-                                <div class="card">
-                                    <div class="card-stacked">
-                                        <div class="card-content">
-                                            <p class="card-text mb-3">Calificacion: {{Calificacion}} </p>
-                                            <p class="card-text mb-3">Hora de Inicio: {{HoraInicio}} </p>
-                                            <p class="card-text mb-3">Hora de Fin: {{HoraFin}} </p>
-                                        </div>
+                            <h2 class="header">{{NombreExamen}}</h2>
+                            <div class="card">
+                                <div class="card-stacked">
+                                    <div class="card-content">
+                                        <p class="card-text mb-3">Calificacion: {{Calificacion}} </p>
+                                        <p class="card-text mb-3">Hora de Inicio: {{HoraInicio}} </p>
+                                        <p class="card-text mb-3">Hora de Fin: {{HoraFin}} </p>
                                     </div>
                                 </div>
+                            </div>
                             </a>
+                        </div>
+                        {{else}}
+                        <div class="col-md-4 mx-auto">
+                            <div class="card card-body text-center">
+                                Aun no ha presentado Examenes
+                            </div>
                         </div>
                         {{/each}}
                     </div>

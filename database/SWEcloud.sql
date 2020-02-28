@@ -639,21 +639,18 @@ WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
 END $$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `seeModuloUnidadTema`;
+DROP PROCEDURE IF EXISTS `seeUnidadTema`;
 DELIMITER $$
-CREATE PROCEDURE `seeModuloUnidadTema` (
-  IN inidCurso INT
+CREATE PROCEDURE `seeUnidadTema` (
+  IN inidModulo INT
 )
 BEGIN
-SELECT Curso_idCurso, idTema, NombreTema
+SELECT idUnidad, NombreUnidad, GROUP_CONCAT(Modulo_idModulo,':',idTema, ':', NombreTema separator '-') as respuestas
 FROM Tema
 INNER JOIN Unidad
 ON Unidad.idUnidad = Tema.Unidad_idUnidad
-INNER JOIN Modulo
-ON Modulo.idModulo = Unidad.Modulo_idModulo
-INNER JOIN Curso_has_Modulo
-ON Modulo.idModulo = Curso_has_Modulo.Modulo_idModulo
-WHERE Curso_has_Modulo.Curso_idCurso = inidCurso;
+WHERE Unidad.Modulo_idModulo = inidModulo
+GROUP BY Unidad.idUnidad;
 END $$
 DELIMITER ;
 
@@ -706,7 +703,7 @@ CREATE PROCEDURE `ExamPreguntasOpciones` (
   IN inidExamen INT
 )
 BEGIN
-SELECT idPregunta, Pregunta, GROUP_CONCAT(idOpcion, ':', Enunciado separator '-') as respuestas
+SELECT idPregunta, Pregunta, GROUP_CONCAT(idPregunta, ':',idOpcion, ':', Enunciado separator '-') as respuestas
 FROM Curso_has_Examen 
 INNER JOIN Examen
 ON Examen.idExamen = Curso_has_Examen.Examen_idExamen
@@ -912,8 +909,10 @@ CREATE PROCEDURE `getidCursoIsExam` (
  IN inidExamen INT
 )
 BEGIN
-SELECT Curso.Curso_idCurso 
-FROM Curso_has_Examen 
+SELECT Curso.Curso_idCurso, NombreExamen
+FROM Examen
+INNER JOIN Curso_has_Examen 
+ON Curso_has_Examen.Examen_idExamen = Examen.idExamen 
 INNER JOIN Curso 
 ON Curso_has_Examen.Curso_idCurso = Curso.idCurso 
 WHERE Examen_idExamen = inidExamen;
@@ -931,6 +930,7 @@ BEGIN
 INSERT INTO UsuarioPresentaExamen 
 (UsuarioPresentaExamen.Examen_idExamen, UsuarioPresentaExamen.UsuarioInscripcionCarrera_Usuario_idUsuario, UsuarioPresentaExamen.UsuarioInscripcionCarrera_Carrera_idCarrera) 
 VALUE (inidExamen, inidUsuario, inidCarrera);
+SELECT LAST_INSERT_ID() AS insertId;
 END $$
 DELIMITER ;
 
@@ -1051,8 +1051,12 @@ CREATE PROCEDURE `getCursoidAndName` (
 )
 BEGIN
 SELECT * 
-FROM Curso 
-WHERE Curso_idCurso = inidCarrera;
+FROM Carrera
+INNER JOIN Curso
+ON Curso.Curso_idCurso = Carrera.idCarrera
+INNER JOIN Curso_has_Modulo
+ON Curso_has_Modulo.Curso_idCurso = Curso.idCurso
+WHERE Carrera.idCarrera = inidCarrera;
 END $$
 DELIMITER ;
 
@@ -1239,7 +1243,7 @@ ON Rol.idRol = Usuario.Rol_idRol
 
 DROP VIEW IF EXISTS `seeAllCarreraCurso`;
 CREATE VIEW `seeAllCarreraCurso` AS
-SELECT idCarrera ,NombreCurso, GROUP_CONCAT(idCurso, ':', NombreSubCurso separator '-') as Cursos
+SELECT idCarrera ,NombreCurso, GROUP_CONCAT(idCurso, ':', NombreSubCurso separator '-') as respuestas
 FROM Carrera 
 INNER JOIN Curso 
 ON Carrera.idCarrera = Curso.Curso_idCurso

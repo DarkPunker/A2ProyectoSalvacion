@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../database');
 const { isLoggedIn, isLoggedInUser } = require('../lib/auth');
+const {recortar} = require('../lib/slipt');
 
 router.get('/addtema', isLoggedIn, async (req, res) => {
     const carrera = await pool.query('SELECT * FROM Carrera');
@@ -96,19 +97,7 @@ router.get('/addpregunta/:idTema', isLoggedIn, async (req, res) => {
 router.get('/verpregunta/:idTema', isLoggedIn, async (req, res) => {
     const { idTema } = req.params;
     const pregunta = await pool.query('CALL seePreguntasRespuestasNuevo (?)', idTema);
-
-    var resp = pregunta[0].map(function (item) {
-
-        var respuesta = item.respuestas.split("-");
-
-        var jsonRes = []
-        for (var index = 0; index < respuesta.length; index++) {
-            var datos = respuesta[index].split(":")
-            jsonRes.push({ id: datos[0], respuesta: datos[1] })
-        }
-
-        return { ...item, respuestas: jsonRes }
-    })
+    var resp = recortar(pregunta[0]);
     res.render('tema/verpregunta', { pregunta: resp });
 });
 
@@ -203,20 +192,7 @@ router.get('/addpreguntaexamen/:idExamen', isLoggedIn, async (req, res) => {
     const { idExamen } = req.params;
     const idCurso = await pool.query('SELECT Curso_idCurso FROM Curso_has_Examen WHERE Examen_idExamen = ?', idExamen);
     const pregunta = await pool.query('CALL seeOpciones (?)', idCurso[0].Curso_idCurso);
-    var resp = pregunta[0].map(function (item) {
-
-        var respuesta = item.respuestas.split("-");
-
-        var jsonRes = []
-        for (var index = 0; index < respuesta.length; index++) {
-            var datos = respuesta[index].split(":")
-            jsonRes.push({ idPregunta: item.idPregunta, id: datos[0], respuesta: datos[1] })
-        }
-
-        return { ...item, respuestas: jsonRes }
-    })
-    console.log(resp);
-
+    const resp = recortar(pregunta[0]);
     res.render('tema/addpreguntaexamen', { pregunta: resp, idExamen });
 });
 

@@ -1,5 +1,5 @@
 <main class="mdl-layout__content" style="padding: 5%">
-    <h2>Evaluacion de </h2>
+    <h2>{{NombreExamen}}</h2>
     <form action="/clase/exam/{{idExamen}}/{{idExamenPresentado}}" method="post" class="form-group">
         <div id="contenido">
             <div class="pregunta">
@@ -10,10 +10,9 @@
                         <h4 class="form-group" type="text" placeholder="Pregunta">
                             {{Pregunta}}</h4>
                         {{#each respuestas}}
-                        <div style="margin: 30px">
-                            <p class="form-group" type="radio" value="a" name="175"></p>
-                            <input type="radio" value="{{id}}" name="{{idPregunta}}" /> <span>{{respuesta}}</span>
-                        </div>
+                        <fieldset class="form-group" style="margin: 30px">
+                            <input type="radio" value="{{id}}" name="{{idSup}}"> <span>{{respuesta}}</span>
+                        </fieldset>
                         {{/each}}
                     </div>
                     {{/each}}
