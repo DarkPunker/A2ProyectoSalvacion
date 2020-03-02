@@ -1,0 +1,37 @@
+<div class="container content-area">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                {{!--  --}}
+                <form action="/admin/addCarousel" method="POST">
+                    <fieldset>
+                        <div class="card">
+                            <div class="card-body">
+                                <fieldset>
+                                    <p>Digite aqui la URL del Carousel*</p>
+                                    <input class="form-control form-control-lg" type="url" placeholder="DIGITE DIRECCION"
+                                        name="direccion">
+                                </fieldset>
+                                <fieldset>
+                                    <p>Digiete aqui el Nombre</p>
+                                    <input class="form-control form-control-lg" type="text" placeholder="DIGITE NOMBRE"
+                                        name="nombre">
+                                </fieldset>
+                                <fieldset>
+                                    <p>Digite aqui la Descripcion</p>
+                                    <textarea class="form-control" rows="5" type="text" placeholder="DIGITE DESCRIPCION"
+                                        name="descripcion">
+                                    </textarea>
+                                </fieldset>
+                                <button class="btn btn-success">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                {{!--  --}}
+            </div>
+        </div>
+    </div>
+</div>

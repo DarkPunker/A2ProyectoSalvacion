@@ -36,4 +36,19 @@ router.get('/editCarousel/:id', isLoggedInAdmin, async (req, res) => {
     res.render('admin/editCarousel', { carousel: carousel[0] })
 })
 
+router.get('/addCarousel', isLoggedInAdmin, (req, res)=>{
+    res.render('admin/addCarousel')
+});
+
+router.post('/editCarousel', async (req, res)=>{
+
+})
+
+router.post('/addCarousel', isLoggedInAdmin, async(req, res)=>{
+    const {direccion, nombre, descripcion} = req.body;
+    const newCarousel = new Carousel({direccion, nombre, descripcion});
+    await Carousel.save(newCarousel);
+    res.redirect('/admin/gestionarCarousel')
+})
+
 module.exports = router;
